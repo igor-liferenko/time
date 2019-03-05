@@ -10,4 +10,4 @@ http://videooko.net/?p=854
 
 https://arduino.stackexchange.com/questions/58240/vary-voltage-using-relay-is-this-possible
 
-After you do it, rm "echo minute-second ..." from tel.w and rebuild and reflash raspberry (build-clock.sh)
+After you do it, rm "echo minute-second ..." from tel.w and rebuild and reflash raspberry (build-clock.sh) and rm "case '0'" from "Main menu" in tel.w

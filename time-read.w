@@ -12,10 +12,11 @@
 @<Type \null definitions@>@;
 @<Global variables@>@;
 
+@<Create ISR for connecting to USB host@>@;
 void main(void)
 {
   @<Disable WDT@>@;
-  @<Connect to USB host@>@;
+  @<Connect to USB host (by calling |sei|)@>@;
   @#
   UBRR1 = 34; /* UART is the simplest testing method, use `\.{cu -l /dev/ttyUSB0 -s 57600}' */
   UCSR1A |= 1 << U2X1;
@@ -118,24 +119,6 @@ if (WDTCSR & 1 << WDE) { /* takes 2 instructions: \.{in} (1 cycle),
     this must not exceed 4 cycles, whereas with `=' at most the
     following instructions are used: \.{ldi} (1 cycle) and \.{sts} (2 cycles),
     which is within 4 cycles.} */
-}
-
-@ @d EP0 0 /* selected by default */
-@d EP0_SIZE 32 /* 32 bytes\footnote\dag{Must correspond to |UECFG1X| of |EP0|.}
-                  (max for atmega32u4) */
-
-@c
-ISR(USB_GEN_vect)
-{
-  UDINT &= ~(1 << EORSTI); /* for the interrupt handler to be called for next USB\_RESET */
-  if (!connected) {
-    UECONX |= 1 << EPEN;
-    UECFG1X = 1 << EPSIZE1; /* 32 bytes\footnote\ddag{Must correspond to |EP0_SIZE|.} */
-    UECFG1X |= 1 << ALLOC;
-  }
-  else {
-    @<Reset MCU@>@;
-  }
 }
 
 @i ../usb/establishing-usb-connection.w

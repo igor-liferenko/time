@@ -23,7 +23,7 @@ void main(void)
   UCSR1A |= 1 << U2X1;
   UCSR1B |= 1 << TXEN1;
   while (1) {
-    @<If there is a request on control endpoint, discard it@>@;
+    @<If there is a request on |EP0|, handle it@>@;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
       int rx_counter = UEBCLX;
@@ -37,9 +37,10 @@ void main(void)
 }
 
 @ No other requests except {\caps set control line state} come
-after connection is established. Just discard the data.
+after connection is established. These are from \\{open} and implicit \\{close}
+in \.{time-write.w}. Just discard the data.
 
-@<Handle control endpoint@>=
+@<If there is a request on |EP0|, handle it@>=
 UENUM = EP0;
 if (UEINTX & 1 << RXSTPI) {
   UEINTX &= ~(1 << RXSTPI);

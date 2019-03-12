@@ -16,21 +16,21 @@ void main(void)
 {
   @<Disable WDT@>@;
   @<Connect to USB host@>@;
-
-  UENUM = EP2;
-
-  UBRR1 = 34; /* this is the simplest testing method, use `\.{cu -l /dev/ttyUSB0 -s 57600}' */
+  @#
+  UBRR1 = 34; /* UART is the simplest testing method, use `\.{cu -l /dev/ttyUSB0 -s 57600}' */
   UCSR1A |= 1 << U2X1;
   UCSR1B |= 1 << TXEN1;
+  @#
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
+    UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
       int rx_counter = UEBCLX;
       while (rx_counter--) {
-        UDR1 = UEDATX; while (!(UCSR1A & 1 << UDRE1)) ; /* write, then wait */
+        UDR1 = UEDATX; @+ while (!(UCSR1A & 1 << UDRE1)) ; /* write, then wait */
       }
-      UDR1 = '\r'; while (!(UCSR1A & 1 << UDRE1)) ; /* `\.{\\r}' is output only with UART */
+      UDR1 = '\r'; @+ while (!(UCSR1A & 1 << UDRE1)) ; /* `\.{\\r}' is output only with UART */
       UEINTX &= ~(1 << FIFOCON);
     }
   }
@@ -46,7 +46,6 @@ if (UEINTX & 1 << RXSTPI) {
   UEINTX &= ~(1 << RXSTPI);
   UEINTX &= ~(1 << TXINI); /* STATUS stage */
 }
-UENUM = EP2; /* restore */
 
 @ Used in USB\_RESET interrupt handler.
 Reset is used to go to beginning of connection loop (because we cannot

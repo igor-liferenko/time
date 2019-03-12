@@ -38,7 +38,7 @@ void main(void)
 
 @ No other requests except {\caps set control line state} come
 after connection is established. These are from \\{open} and implicit \\{close}
-in \.{time-write.w}. Just discard the data.
+in \.{time-write}. Just discard the data.
 
 @<If there is a request on |EP0|, handle it@>=
 UENUM = EP0;

@@ -1,7 +1,3 @@
-%TODO: change line_status.DTR to line_status.all
-%TODO: change DTR to DTR/RTS
-%TODO: rm note about TLP281
-
 \let\lheader\rheader
 %\datethis
 \secpagedepth=2 % begin new page only on *
@@ -11,21 +7,10 @@
 
 @* Program.
 
-@d EP0 0
-@d EP1 1
-@d EP2 2
-@d EP3 3
-
-@d EP0_SIZE 32 /* 32 bytes\footnote\dag{Must correspond to |UECFG1X| of |EP0|.}
-                  (max for atmega32u4) */
-
 @c
 @<Header files@>@;
-typedef unsigned char U8;
-typedef unsigned short U16;
 @<Type \null definitions@>@;
 @<Global variables@>@;
-
 
 volatile int connected = 0;
 void main(void)
@@ -55,7 +40,7 @@ void main(void)
   UCSR1A |= 1 << U2X1;
   UCSR1B |= 1 << TXEN1;
   while (1) {
-    @<Get |line_status|@>@;
+    @<Get |dtr_rts|@>@;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
       int rx_counter = UEBCLX;
@@ -72,7 +57,7 @@ void main(void)
 @ No other requests except {\caps set control line state} come
 after connection is established (speed is not set in \.{tel}).
 
-@<Get |line_status|@>=
+@<Get |dtr_rts|@>=
 UENUM = EP0;
 if (UEINTX & 1 << RXSTPI) {
   (void) UEDATX; @+ (void) UEDATX;
@@ -80,18 +65,8 @@ if (UEINTX & 1 << RXSTPI) {
 }
 UENUM = EP2; /* restore */
 
-@ @<Type \null definitions@>=
-typedef union {
-  U16 all;
-  struct {
-    U16 DTR:1;
-    U16 RTS:1;
-    U16 unused:14;
-  };
-} S_line_status;
-
 @ @<Global variables@>=
-S_line_status line_status;
+U16 dtr_rts = 0;
 
 @ This request generates RS-232/V.24 style control signals.
 
@@ -112,7 +87,7 @@ Here DTR is used by host to say the device not to send when DTR is not active.
 wValue = UEDATX | UEDATX << 8;
 UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << TXINI); /* STATUS stage */
-line_status.all = wValue;
+dtr_rts = wValue;
 
 @ Used in USB\_RESET interrupt handler.
 Reset is used to go to beginning of connection loop (because we cannot
@@ -187,7 +162,11 @@ if (WDTCSR & 1 << WDE) { /* takes 2 instructions: \.{in} (1 cycle),
     which is within 4 cycles.} */
 }
 
-@ @c
+@ @d EP0 0 /* selected by default */
+@d EP0_SIZE 32 /* 32 bytes\footnote\dag{Must correspond to |UECFG1X| of |EP0|.}
+                  (max for atmega32u4) */
+
+@c
 ISR(USB_GEN_vect)
 {
   UDINT &= ~(1 << EORSTI); /* for the interrupt handler to be called for next USB\_RESET */

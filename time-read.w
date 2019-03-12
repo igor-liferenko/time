@@ -39,7 +39,7 @@ void main(void)
   UCSR1A |= 1 << U2X1;
   UCSR1B |= 1 << TXEN1;
   while (1) {
-    @<Get |dtr_rts|@>@;
+    @<Handle control endpoint@>@;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
       int rx_counter = UEBCLX;
@@ -53,13 +53,13 @@ void main(void)
 }
 
 @ No other requests except {\caps set control line state} come
-after connection is established (speed is not set in \.{tel}).
+after connection is established. Just discard the data.
 
-@<Get |dtr_rts|@>=
+@<Handle control endpoint@>=
 UENUM = EP0;
 if (UEINTX & 1 << RXSTPI) {
-  (void) UEDATX; @+ (void) UEDATX;
-  @<Handle {\caps set control line state}@>@;
+  UEINTX &= ~(1 << RXSTPI);
+  UEINTX &= ~(1 << TXINI); /* STATUS stage */
 }
 UENUM = EP2; /* restore */
 

@@ -3,8 +3,6 @@
 \secpagedepth=2 % begin new page only on *
 \font\caps=cmcsc10 at 9pt
 
-%\let\maybe=\iffalse
-
 @* Program.
 
 @c

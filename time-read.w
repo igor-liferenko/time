@@ -15,8 +15,7 @@
 @<Create ISR for connecting to USB host@>@;
 void main(void)
 {
-  @<Disable WDT@>@;
-  @<Connect to USB host (by calling |sei|)@>@;
+  @<Connect to USB host (must be called first; |sei| is called here)@>@;
   @#
   UBRR1 = 34; /* UART is the simplest testing method, use `\.{cu -l /dev/ttyUSB0 -s 57600}' */
   UCSR1A |= 1 << U2X1;

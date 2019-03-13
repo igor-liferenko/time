@@ -7,7 +7,7 @@
 
 @c
 @<Header files@>@;
-@<Type \null definitions@>@;
+@<Type definitions@>@;
 @<Global variables@>@;
 
 @<Create ISR for connecting to USB host@>@;

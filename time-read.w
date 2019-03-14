@@ -9,16 +9,14 @@
 @<Header files@>@;
 @<Type definitions@>@;
 @<Global variables@>@;
-
 @<Create ISR for connecting to USB host@>@;
+
 void main(void)
 {
   @<Connect to USB host (must be called first; |sei| is called here)@>@;
-  @#
   UBRR1 = 34; /* UART is the simplest testing method, use `\.{cu -l /dev/ttyUSB0 -s 57600}' */
   UCSR1A |= 1 << U2X1;
   UCSR1B |= 1 << TXEN1;
-  @#
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
     UENUM = EP2;

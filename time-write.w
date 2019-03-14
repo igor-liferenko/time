@@ -12,7 +12,7 @@ syscall is without |O_CREAT|.
 @d serial_port_opened() comfd != -1
 
 @c
-@<Header files@>@/ /* FIXME: see @/ vs @; in cwebman */
+@<Header files@>@;
 
 void main(void)
 {

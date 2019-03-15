@@ -11,3 +11,11 @@ http://videooko.net/?p=854
 https://arduino.stackexchange.com/questions/58240/vary-voltage-using-relay-is-this-possible
 
 After you do it, rm "echo minute-second ..." from tel.w and rebuild and reflash raspberry (build-clock.sh) and rm "case '0'" from "Main menu" in tel.w
+
+---------MAX7219+SPI--------------
+http://narodstream.ru/avr-urok-28-spi-drajver-led-max7219/
+https://gist.github.com/adnbr/2352797
+
+SPI (master and slave example): http://ce.sharif.edu/courses/93-94/2/ce513-1/resources/root/Slides/Micro-L7-SPI.pdf
+Use new quadrat arduino + arduino uno (on arduino uno: 13=SCK,12=MISO,11=MOSI,10=SS)
+SS and SCK must be wired directly, MISO and MOSI must be crossed-over

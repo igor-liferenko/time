@@ -28,7 +28,7 @@ void main(void)
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
       int rx_counter = UEBCLX;
-      DDRE = 1 << PE6; LCD_Command(0x01); DDRE = 0;
+      LCD_Command(0x01);
       while (rx_counter--) {
         unsigned char x = UEDATX;
         LCD_Char(x == '0' ? 'O' : x);

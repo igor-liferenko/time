@@ -7,6 +7,10 @@ https://www.electronicwings.com/avr-atmega/interfacing-lcd-16x2-in-4-bit-mode-wi
 shortening contrast pin (aka V0 aka VEE aka pin #3) to ground gives highest contrast
 */
 
+/*
+TODO: try to add PORTF=0; in the end of LCD_Command and LCD_Char
+*/
+
 #define F_CPU 16000000UL
 #include <avr/io.h>			/* Include AVR std. library file */
 #include <util/delay.h>			/* Include Delay header file */

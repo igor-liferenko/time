@@ -1,12 +1,12 @@
-@ There is a gotcha: if character is '0' or '@' or 'P' - it does not work - change
+/* There is a gotcha: if character is '0' or '@' or 'P' - it does not work - change
 it before outputting!
 
 This program is based on this
 https://www.electronicwings.com/avr-atmega/interfacing-lcd-16x2-in-4-bit-mode-with-atmega-16-32-
 
 shortening contrast pin (aka V0 aka VEE aka pin #3) to ground gives highest contrast
+*/
 
-@c
 #define F_CPU 16000000UL
 #include <avr/io.h>			/* Include AVR std. library file */
 #include <util/delay.h>			/* Include Delay header file */

@@ -3,8 +3,6 @@
 \secpagedepth=2 % begin new page only on *
 \font\caps=cmcsc10 at 9pt
 
-@i LCD.w
-
 @* Program.
 
 @c
@@ -13,7 +11,7 @@
 @<Global variables@>@;
 @<Create ISR for connecting to USB host@>@;
 
-#include "lcd.h";
+#include "lcd.h"
 
 void main(void)
 {

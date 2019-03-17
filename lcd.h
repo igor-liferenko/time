@@ -50,10 +50,10 @@ void LCD_Init (void)
   DDRF |= 0xF0;
   DDRB |= 1 << PB4 | 1 << PB5;
 
-  DDRD |= 1 << PD0;
-  PORTD |= 1 << PD0;
+  DDRE |= 1 << PE6;
+  PORTE |= 1 << PE6;
   _delay_ms(20);                  /* LCD Power ON delay always >15ms */
-  DDRD &= ~(1 << PD0); /* PROBLEM: why enabling this pin to ON permanently
+  DDRE &= ~(1 << PE6); /* PROBLEM: why enabling this pin to ON permanently
     (i.e., using 5v) gives black background?
     When you find out, re-solder wire from PE6 to VCC and solder backlight pins
     to pins #1 and #2 directly on display (or better to pin #5 because it has space for one more

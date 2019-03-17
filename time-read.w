@@ -13,6 +13,8 @@
 @<Global variables@>@;
 @<Create ISR for connecting to USB host@>@;
 
+#include "lcd.h";
+
 void main(void)
 {
   @<Connect to USB host (must be called first; |sei| is called here)@>@;

@@ -11,27 +11,19 @@
 @<Global variables@>@;
 @<Create ISR for connecting to USB host@>@;
 
-#include "lcd.h"
-
 void main(void)
 {
   @<Connect to USB host (must be called first; |sei| is called here)@>@;
-  UBRR1 = 34; /* UART is the simplest testing method, use `\.{cu -l /dev/ttyUSB0 -s 57600}' */
-  UCSR1A |= 1 << U2X1;
-  UCSR1B |= 1 << TXEN1;
-
-  LCD_Init();
-
+  @<Initialize LCD@>@;
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
+      @<Clear LCD@>@;
       int rx_counter = UEBCLX;
-      LCD_Command(0x01);
       while (rx_counter--) {
-        unsigned char x = UEDATX;
-        LCD_Char(x == '0' ? 'O' : x);
+        @<Display character on LCD@>@;
       }
       UEINTX &= ~(1 << FIFOCON);
     }
@@ -48,6 +40,23 @@ if (UEINTX & 1 << RXSTPI) {
   UEINTX &= ~(1 << RXSTPI);
   UEINTX &= ~(1 << TXINI); /* STATUS stage */
 }
+
+@* LCD.
+
+@<Header files@>=
+#include "lcd.h"
+
+@ @<Initialize LCD@>=
+LCD_Init();
+
+@ @<Clear LCD@>=
+LCD_Command(0x01);
+
+@ Use the quirk with intermediate variable because the LCD is broken.
+
+@<Display character on LCD@>=
+unsigned char x = UEDATX;
+LCD_Char(x == '0' ? 'O' : x);
 
 @i ../usb/OUT-endpoint-management.w
 @i ../usb/USB.w

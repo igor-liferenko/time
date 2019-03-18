@@ -15,7 +15,6 @@
      to 0 - we just need to control EN and RS pins to send data
      (FIXME: is connecting it to ground a valid way to set it to 0? maybe try digital pin
       maybe this is the reason that it works badly)
-   VEE to ground - ??? what is it? mozhet iz-za etogo glyuchit - poprob. posadit na cifrovoj pin
 */
 
 /*

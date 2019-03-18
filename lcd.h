@@ -12,9 +12,7 @@
    EN (Enable) pin: after you configure RS, set to 1 to enable operation and wait for the minimum
      amount of time required by the LCD and set to 0 again
    R/W (Read/Write) pin: 1 - read from LCD, 0 - write to LCD; we permanently set it
-     to 0 - we just need to control EN and RS pins to send data
-     (FIXME: is connecting it to ground a valid way to set it to 0? maybe try digital pin
-      maybe this is the reason that it works badly)
+     to 0 by shortening it to ground - we just need to control EN and RS pins to write data
 */
 
 /*

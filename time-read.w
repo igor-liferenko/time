@@ -66,9 +66,5 @@ LCD_Char(x == '0' ? 'O' : x);
 
 @<Header files@>=
 #include <avr/io.h>
-//TODO: move these to USB.w (in matrix and avrtel too):
-#include <avr/interrupt.h>
-#include <avr/pgmspace.h>
-#include <avr/boot.h> /* |boot_signature_byte_get| */
 
 @* Index.

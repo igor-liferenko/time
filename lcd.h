@@ -8,6 +8,17 @@
 */
 
 /*
+   RS (Register Select) pin: 1 - data is sent, 0 - command is sent
+   EN (Enable) pin: after you configure RS, set to 1 to enable operation and wait for the minimum
+     amount of time required by the LCD and set to 0 again
+   R/W (Read/Write) pin: 1 - read from LCD, 0 - write to LCD; we permanently set it
+     to 0 - we just need to control EN and RS pins to send data
+     (FIXME: is connecting it to ground a valid way to set it to 0? maybe try digital pin
+      maybe this is the reason that it works badly)
+   VEE to ground - ??? what is it? mozhet iz-za etogo glyuchit - poprob. posadit na cifrovoj pin
+*/
+
+/*
 TODO: try to add PORTF=0; in the end of LCD_Command and LCD_Char
 */
 

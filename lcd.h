@@ -11,11 +11,11 @@ shortening contrast pin (aka V0 aka VEE aka pin #3) to ground gives highest cont
 TODO: try to add PORTF=0; in the end of LCD_Command and LCD_Char
 */
 
+#include <avr/io.h>
 #define F_CPU 16000000UL
-#include <avr/io.h>			/* Include AVR std. library file */
-#include <util/delay.h>			/* Include Delay header file */
+#include <util/delay.h>
 
-void LCD_Command( unsigned char cmnd )
+void LCD_Command(unsigned char cmnd)
 {
         PORTF = cmnd & 0xF0; /* sending upper nibble */
 
@@ -25,7 +25,7 @@ void LCD_Command( unsigned char cmnd )
 
         PORTF = cmnd << 4;  /* sending lower nibble */
 
-        PORTB |= 1 << PB5; // E(1) 
+        PORTB |= 1 << PB5; // E(1)
         _delay_us(1);
         PORTB &= ~(1 << PB5); // E(0)
 
@@ -49,7 +49,7 @@ void LCD_Char(unsigned char data)
   _delay_us(100); // empirical
 }
 
-void LCD_Init (void)
+void LCD_Init(void)
 {
   DDRF |= 0xF0;
   DDRB |= 1 << PB4 | 1 << PB5;

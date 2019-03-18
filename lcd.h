@@ -1,10 +1,10 @@
-/* There is a gotcha: if character is '0' or '@' or 'P' - it does not work - change
-it before outputting!
+/* Note, that characters '0', '@' and 'P' (maybe others) do not work
+   correctly on this display - change them before outputting!
 
-This program is based on this
-https://www.electronicwings.com/avr-atmega/interfacing-lcd-16x2-in-4-bit-mode-with-atmega-16-32-
+   This program is based on this
+   https://www.electronicwings.com/avr-atmega/interfacing-lcd-16x2-in-4-bit-mode-with-atmega-16-32-
 
-shortening contrast pin (aka V0 aka VEE aka pin #3) to ground gives highest contrast
+   Shortening contrast pin (aka V0 aka VEE aka pin #3) to ground gives highest contrast.
 */
 
 /*

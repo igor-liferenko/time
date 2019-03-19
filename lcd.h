@@ -1,4 +1,7 @@
-/* Note, that characters '0', '@' and 'P' (maybe others) do not work
+/* See https://www.instructables.com/id/I2C-Backlight-Control-of-an-LCD-Display-1602-or-20/ for
+I2C backlight
+
+Note, that characters '0', '@' and 'P' (maybe others) do not work
    correctly on this display - change them before outputting!
 
    This program is based on this

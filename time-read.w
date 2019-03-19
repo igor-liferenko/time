@@ -43,7 +43,7 @@ if (UEINTX & 1 << RXSTPI) {
 
 @* LCD.
 
-@<Header files@>=
+@ @<Header files@>=
 #include "lcd.h"
 
 @ @<Initialize LCD@>=

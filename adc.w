@@ -1,6 +1,6 @@
 @ To test, continuously write samples to UART.
 
-From photoresistor link: please do not forget to connect 3.3V to ARef which gives a better ready is my experience. = ???
+From ttps://piandmore.wordpress.com/2016/10/14/photo-resistors-in-depth/: please do not forget to connect 3.3V to ARef which gives a better ready is my experience. = ???
 
 see on youtube avr measure analog voltage
 

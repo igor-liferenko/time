@@ -28,42 +28,42 @@ TODO: try to add PORTF=0; in the end of LCD_Command and LCD_Char
 
 void LCD_Command(unsigned char cmnd)
 {
-        PORTF = cmnd & 0xF0; /* sending upper nibble */
+        PORTD = cmnd >> 4; /* sending upper nibble */
 
-        PORTB |= 1 << PB5; // E(1)
+        PORTB |= 1 << PB6; // E(1)
         _delay_us(1);
-        PORTB &= ~(1 << PB5); // E(0)
+        PORTB &= ~(1 << PB6); // E(0)
 
-        PORTF = cmnd << 4;  /* sending lower nibble */
+        PORTD = cmnd & 0x0F;  /* sending lower nibble */
 
-        PORTB |= 1 << PB5; // E(1)
+        PORTB |= 1 << PB6; // E(1)
         _delay_us(1);
-        PORTB &= ~(1 << PB5); // E(0)
+        PORTB &= ~(1 << PB6); // E(0)
 
   _delay_ms(2); // empirical
 }
 
 void LCD_Char(unsigned char data)
 {
-        PORTF = data & 0xF0; /* sending upper nibble */
+        PORTD = data >> 4; /* sending upper nibble */
 
-        PORTB |= 1 << PB4 | 1 << PB5; // RS(1) E(1)
+        PORTB |= 1 << PB4 | 1 << PB6; // RS(1) E(1)
         _delay_us(1);
-        PORTB &= ~(1 << PB4 | 1 << PB5); // RS(0) E(0)
+        PORTB &= ~(1 << PB4 | 1 << PB6); // RS(0) E(0)
 
-        PORTF = data << 4; /* sending lower nibble */
+        PORTD = data & 0x0F; /* sending lower nibble */
 
-        PORTB |= 1 << PB4 | 1 << PB5; // RS(1) E(1)
+        PORTB |= 1 << PB4 | 1 << PB6; // RS(1) E(1)
         _delay_us(1);
-        PORTB &= ~(1 << PB4 | 1 << PB5); // RS(0) E(0)
+        PORTB &= ~(1 << PB4 | 1 << PB6); // RS(0) E(0)
 
   _delay_us(100); // empirical
 }
 
 void LCD_Init(void)
 {
-  DDRF |= 0xF0;
-  DDRB |= 1 << PB4 | 1 << PB5;
+  DDRD |= 0x0F;
+  DDRB |= 1 << PB4 | 1 << PB6;
 
   DDRE |= 1 << PE6;
   PORTE |= 1 << PE6;

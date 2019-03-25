@@ -20,7 +20,7 @@ void main(void)
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
-      LCD_Command(0x01);
+      LCD_Command(0x80);
       int rx_counter = UEBCLX;
       while (rx_counter--)
         LCD_Char(UEDATX);

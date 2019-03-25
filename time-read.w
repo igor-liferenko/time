@@ -14,17 +14,16 @@
 void main(void)
 {
   @<Connect to USB host (must be called first; |sei| is called here)@>@;
-  @<Initialize LCD@>@;
+  LCD_Init();
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
-      @<Clear LCD@>@;
+      LCD_Command(0x01);
       int rx_counter = UEBCLX;
-      while (rx_counter--) {
-        @<Display character on LCD@>@;
-      }
+      while (rx_counter--)
+        LCD_Char(UEDATX);
       UEINTX &= ~(1 << FIFOCON);
     }
   }
@@ -41,23 +40,6 @@ if (UEINTX & 1 << RXSTPI) {
   UEINTX &= ~(1 << TXINI); /* STATUS stage */
 }
 
-@* LCD.
-
-@ @<Header files@>=
-#include "lcd.h"
-
-@ @<Initialize LCD@>=
-LCD_Init();
-
-@ @<Clear LCD@>=
-LCD_Command(0x01);
-
-@ Use the quirk with intermediate variable because the LCD is broken.
-
-@<Display character on LCD@>=
-unsigned char x = UEDATX;
-LCD_Char(x == '0' ? 'O' : x);
-
 @i ../usb/OUT-endpoint-management.w
 @i ../usb/USB.w
 
@@ -65,5 +47,6 @@ LCD_Char(x == '0' ? 'O' : x);
 
 @<Header files@>=
 #include <avr/io.h>
+#include "lcd.h"
 
 @* Index.

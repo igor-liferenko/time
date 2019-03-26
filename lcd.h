@@ -4,6 +4,11 @@ I2C backlight
    This program is based on this
    https://www.electronicwings.com/avr-atmega/interfacing-lcd-16x2-in-4-bit-mode-with-atmega-16-32-
 
+   Description of commands is here:
+   http://mainloop.ru/avr-atmega/lcd.html
+   (avr-lcd.zip referenced in the article is in current dir)
+
+
    Never short contrast pin (aka V0 aka VEE aka pin #3) to ground!!! Always use variable
    10k resistor to create voltage divider for contrast pin and adjust it.
 */

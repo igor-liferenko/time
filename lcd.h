@@ -8,6 +8,8 @@ I2C backlight
    http://mainloop.ru/avr-atmega/lcd.html
    (avr-lcd.zip referenced in the article is in current dir)
 
+   Here is said how to read status bit:
+   http://www.avrbeginners.net/interfacing/44780_lcd/8bit_c.html
 
    Never short contrast pin (aka V0 aka VEE aka pin #3) to ground!!! Always use variable
    10k resistor to create voltage divider for contrast pin and adjust it.

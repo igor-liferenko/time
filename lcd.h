@@ -1,13 +1,11 @@
 /* See https://www.instructables.com/id/I2C-Backlight-Control-of-an-LCD-Display-1602-or-20/ for
 I2C backlight
 
-Note, that characters '0', '@' and 'P' (maybe others) do not work
-   correctly on this display - change them before outputting!
-
    This program is based on this
    https://www.electronicwings.com/avr-atmega/interfacing-lcd-16x2-in-4-bit-mode-with-atmega-16-32-
 
-   Shortening contrast pin (aka V0 aka VEE aka pin #3) to ground gives highest contrast.
+   Never short contrast pin (aka V0 aka VEE aka pin #3) to ground!!! Always use variable
+   10k resistor to create voltage divider for contrast pin and adjust it.
 */
 
 /*
@@ -19,7 +17,7 @@ Note, that characters '0', '@' and 'P' (maybe others) do not work
 */
 
 /*
-TODO: try to add PORTF=0; in the end of LCD_Command and LCD_Char
+  TODO: try to add PORTD=0; in the end of LCD_Command and LCD_Char
 */
 
 #include <avr/io.h>
@@ -65,14 +63,7 @@ void LCD_Init(void)
   DDRD |= 0x0F;
   DDRB |= 1 << PB4 | 1 << PB6;
 
-  DDRE |= 1 << PE6;
-  PORTE |= 1 << PE6;
-  _delay_ms(20);                  /* LCD Power ON delay always >15ms */
-  DDRE &= ~(1 << PE6); /* PROBLEM: why enabling this pin to ON permanently
-    (i.e., using 5v) gives black background?
-    When you find out, re-solder wire from PE6 to VCC and solder backlight pins
-    to pins #1 and #2 directly on display (or better to pin #5 because it has space for one more
-    wire - otnesti v 105k. k Andreyu) */
+  _delay_ms(20);                  /* LCD Power ON delay always >15ms TODO: test this to ensure */
 
   LCD_Command(0x02);              /* send for 4 bit initialization of LCD  */
   LCD_Command(0x28);              /* 2 line, 5*7 matrix in 4-bit mode */

@@ -1,5 +1,6 @@
 \noinx
-@ Serial port is done via USB, so it appears and disappears dynamically;
+@* Intro.
+Serial port is done via USB, so it appears and disappears dynamically;
 to cope with this, |open| is attempted in a loop and |write| status
 is checked and if it failed, |close| is called.
 

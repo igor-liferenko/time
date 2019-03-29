@@ -5,30 +5,27 @@
 
 @* Program.
 
-@d F_CPU 16000000UL
-
 @c
 @<Header files@>@;
 @<Type definitions@>@;
 @<Global variables@>@;
 @<Create ISR for connecting to USB host@>@;
-#include <util/delay.h>
+
 void main(void)
 {
   @<Connect to USB host (must be called first; |sei| is called here)@>@;
   init_MAX();
-  char s[10];
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
       int rx_counter = UEBCLX;
+      char s[10];
       int i = 0;
       while (rx_counter--)
         s[i++] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
-      PORTB|=1<<PB0;
       s[5]='\0';
       display_MAX(s);
     }

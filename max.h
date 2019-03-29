@@ -12,7 +12,6 @@ to configuration of this pacrticular hardware that I have. */
 #define SLAVE_DESELECT  SS_PORT |= (1 << SS_PIN)
 
 #include <avr/io.h>
-#include <util/delay.h>
 #include <avr/pgmspace.h>
 #include <string.h>
 

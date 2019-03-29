@@ -211,7 +211,7 @@ for (int i = 0; i < 8; i++) {
   for (int c = 0; c < strlen(s); c++) {
     switch (*(s+c))
     {
-    case '0': @/
+    case '0':
       CYC(d0);
       break;
     case '1':
@@ -241,7 +241,7 @@ for (int i = 0; i < 8; i++) {
     case '9':
       CYC(d9);
       break;
-    case ':': @/
+    case ':':
       CYC(colon);
       break;
     }

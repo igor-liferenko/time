@@ -3,7 +3,7 @@ to configuration of this pacrticular hardware that I have. */
 
 #define NUM_DEVICES 4
 
-#define SS_PIN PB5 /* can be any digital pin (on micro pin labelled with `SS' will not work
+#define SS_PIN PB0 /* can be any digital pin (on micro pin labelled with `SS' will not work
   because it has led on it) */
 #define SS_DDR DDRB
 #define SS_PORT PORTB
@@ -194,7 +194,7 @@ void display_buffer(void)
     for (int j = NUM_DEVICES-1; j>=0; j--) {
       data = 0x00;
       for (int k = 0; k < 8; k++) {
-        if (buffer[i][j*8+k]) data |= 1 << 7-k;
+        if (buffer[i][j*8+k]) data |= 1 << k;
       }
       writeWord(i+1, data);
     }
@@ -205,48 +205,48 @@ void display_buffer(void)
 #define CYC(b) for (int j = 0; j < 5; j++) buffer[i][k--] = pgm_read_byte(&b[i][j]);
 void fill_buffer(char *s)
 {
-for (int i = 0; i < 8; i++) {
-  int k = NUM_DEVICES*8-1-2;
-  for (int c = 0; c < strlen(s); c++) {
-    switch (*(s+c))
-    {
-    case '0':
-      CYC(d0);
-      break;
-    case '1':
-      CYC(d1);
-      break;
-    case '2':
-      CYC(d2);
-      break;
-    case '3':
-      CYC(d3);
-      break;
-    case '4':
-      CYC(d4);
-      break;
-    case '5':
-      CYC(d5);
-      break;
-    case '6':
-      CYC(d6);
-      break;
-    case '7':
-      CYC(d7);
-      break;
-    case '8':
-      CYC(d8);
-      break;
-    case '9':
-      CYC(d9);
-      break;
-    case ':':
-      CYC(colon);
-      break;
-    }
-    buffer[i][k--] = 0x00; // empty space
-  }
-}
+  for (int i = 0; i < 8; i++) {
+    int k = NUM_DEVICES*8-1-2;
+    for (int c = 0; c < strlen(s); c++) {
+      switch (*(s+c))
+      {
+      case '0':
+        CYC(d0);
+        break;
+      case '1':
+        CYC(d1);
+        break;
+      case '2':
+        CYC(d2);
+        break;
+      case '3':
+        CYC(d3);
+        break;
+      case '4':
+        CYC(d4);
+        break;
+      case '5':
+        CYC(d5);
+        break;
+      case '6':
+        CYC(d6);
+        break;
+      case '7':
+        CYC(d7);
+        break;
+      case '8':
+        CYC(d8);
+        break;
+      case '9':
+        CYC(d9);
+        break;
+      case ':':
+        CYC(colon);
+        break;
+      }
+      buffer[i][k--] = 0x00; // empty space
+    } // end char
+  } // end row
 }
 
 void init_MAX(void)

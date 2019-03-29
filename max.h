@@ -248,3 +248,15 @@ for (int i = 0; i < 8; i++) {
   }
 }
 }
+
+void init_MAX(void)
+{
+  init_SPI();
+  init_displays();
+}
+
+void display_MAX(char *s)
+{
+  fill_buffer(s);
+  display_buffer();
+}

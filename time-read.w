@@ -5,26 +5,32 @@
 
 @* Program.
 
+@d F_CPU 16000000UL
+
 @c
 @<Header files@>@;
 @<Type definitions@>@;
 @<Global variables@>@;
 @<Create ISR for connecting to USB host@>@;
-
+#include <util/delay.h>
 void main(void)
 {
   @<Connect to USB host (must be called first; |sei| is called here)@>@;
-  LCD_Init();
+  init_MAX();
+  char s[10];
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
-      LCD_Command(0x80);
       int rx_counter = UEBCLX;
+      int i = 0;
       while (rx_counter--)
-        LCD_Char(UEDATX);
+        s[i++] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
+      PORTB|=1<<PB0;
+      s[5]='\0';
+      display_MAX(s);
     }
   }
 }
@@ -47,6 +53,6 @@ if (UEINTX & 1 << RXSTPI) {
 
 @<Header files@>=
 #include <avr/io.h>
-#include "lcd.h"
+#include "max.h"
 
 @* Index.

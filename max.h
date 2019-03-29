@@ -3,13 +3,8 @@ to configuration of this pacrticular hardware that I have. */
 
 #define NUM_DEVICES 4
 
-#define SS_PIN PB0 /* can be any digital pin (on micro pin labelled with `SS' will not work
-  because it has led on it) */
-#define SS_DDR DDRB
-#define SS_PORT PORTB
-
-#define SLAVE_SELECT    SS_PORT &= ~(1 << SS_PIN)
-#define SLAVE_DESELECT  SS_PORT |= (1 << SS_PIN)
+#define SLAVE_SELECT    PORTB &= ~(1 << PB0)
+#define SLAVE_DESELECT  PORTB |= 1 << PB0
 
 #include <avr/io.h>
 #include <avr/pgmspace.h>
@@ -140,8 +135,8 @@ uint8_t buffer[8][NUM_DEVICES*8];
 
 void init_SPI(void) 
 {
-  SS_PORT |= (1 << SS_PIN);      // begin high (unselected)
-  SS_DDR |= (1 << SS_PIN);
+  PORTB |= 1 << PB0;      // begin high (unselected)
+  DDRB |= 1 << PB0;
 
   DDRB |= (1 << PB2);       // Output on MOSI 
   DDRB |= (1 << PB1);       // Output on SCK 

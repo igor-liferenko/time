@@ -168,6 +168,12 @@ void init_displays(void)
   for (int i = 0; i < NUM_DEVICES; i++)
     writeWord(0x0B, 0x07);
   SLAVE_DESELECT;
+
+  // FIXME: try without it:
+  SLAVE_SELECT;
+  for (int i = 0; i < NUM_DEVICES; i++)  
+    writeWord(0x0F, 0x00);
+  SLAVE_DESELECT;
 	 
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)

@@ -249,13 +249,3 @@ for (int i = 0; i < 8; i++) {
   }
 }
 }
-
-void main(void)
-{
-  init_SPI();
-  init_displays();
-  fill_buffer("12:34");
-  display_buffer();
-
-  while (1) ;
-}

@@ -13,9 +13,9 @@ to configuration of this pacrticular hardware that I have. */
 const uint8_t d0[8][5] PROGMEM = { 
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
-  { 1, 0, 0, 1, 1 },
-  { 1, 0, 1, 0, 1 },
-  { 1, 1, 0, 0, 1 },
+  { 1, 0, 0, 0, 1 },
+  { 1, 0, 0, 0, 1 },
+  { 1, 0, 0, 0, 1 },
   { 1, 0, 0, 0, 1 },
   { 0, 1, 1, 1, 0 },
   { 0, 0, 0, 0, 0 }
@@ -161,20 +161,14 @@ void init_displays(void)
 {
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)
-    writeWord(0x0A, 0x07); // set brightness (FIXME: try |0x0F|)
+    writeWord(0x0A, 0x0F);
   SLAVE_DESELECT;
 	
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)
-    writeWord(0x0B, 0x07); // select columns 0-7
+    writeWord(0x0B, 0x07);
   SLAVE_DESELECT;
 	 
-  // FIXME: try without it:
-  SLAVE_SELECT;
-  for (int i = 0; i < NUM_DEVICES; i++)  
-    writeWord(0x0F, 0x00);
-  SLAVE_DESELECT;
-
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)
     writeWord(0x0C, 0x01);

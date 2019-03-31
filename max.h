@@ -3,8 +3,8 @@ to configuration of this pacrticular hardware that I have. */
 
 #define NUM_DEVICES 4
 
-#define SLAVE_SELECT    PORTB &= ~(1 << PB0)
-#define SLAVE_DESELECT  PORTB |= 1 << PB0
+#define SLAVE_SELECT    PORTB &= ~(1 << PB6)
+#define SLAVE_DESELECT  PORTB |= 1 << PB6
 
 #include <avr/io.h>
 #include <avr/pgmspace.h>
@@ -135,8 +135,10 @@ uint8_t buffer[8][NUM_DEVICES*8];
 
 void init_SPI(void) 
 {
-  PORTB |= 1 << PB0;      // begin high (unselected)
-  DDRB |= 1 << PB0;
+  DDRB |= 1 << PB0; // this pin is not used for SS because it is not available on promicro,
+    but it must be set for OUTPUT anyway, otherwise MCU will be used as SPI slave
+  DDRB |= 1 << PB6;
+  PORTB |= 1 << PB6;      // begin high (unselected)
 
   DDRB |= (1 << PB2);       // Output on MOSI 
   DDRB |= (1 << PB1);       // Output on SCK 

@@ -29,12 +29,12 @@ void main(void)
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
       int rx_counter = UEBCLX;
-      char s[10];
+      char s[9];
       int i = 0;
       while (rx_counter--)
         s[i++] = UEDATX;
+      s[5] = '\0';
       UEINTX &= ~(1 << FIFOCON);
-      s[5]='\0';
       if (strcmp(s,"06:00")==0) {
         SLAVE_SELECT;
         for (int i = 0; i < NUM_DEVICES; i++)

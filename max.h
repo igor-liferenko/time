@@ -136,7 +136,10 @@ uint8_t buffer[8][NUM_DEVICES*8];
 void init_SPI(void) 
 {
   DDRB |= 1 << PB0; /* this pin is not used for SS because it is not available on promicro,
-    but it must be set for OUTPUT anyway, otherwise MCU will be used as SPI slave */
+    but it must be set for OUTPUT anyway, otherwise MCU will be used as SPI slave;
+    and on micro board which has SS pin it should not be used anyway because LED is
+    attached to it, which means it will be almost constantly ON (i.e., when SPI is
+    inactive) */
   DDRB |= 1 << PB6;
   PORTB |= 1 << PB6;      // begin high (unselected)
 

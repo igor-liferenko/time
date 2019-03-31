@@ -1,7 +1,7 @@
 
 
 
-% TODO: move this to separate file time-read-max.w and implement max.h in it and rm max.h,
+% TODO: move this to separate file time-read-max4.w and implement max.h in it and rm max.h,
 % because contrary to lcd.h it is not generally useful
 
 

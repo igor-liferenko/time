@@ -1,3 +1,11 @@
+
+
+
+% TODO: move this to separate file time-read-max.w and implement max.h in it and rm max.h,
+% because contrary to lcd.h it is not generally useful
+
+
+
 \let\lheader\rheader
 %\datethis
 \secpagedepth=2 % begin new page only on *

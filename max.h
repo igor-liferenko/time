@@ -1,6 +1,9 @@
 /* Displaying for each display is done by writing to its row address (not column) due
 to configuration of this pacrticular hardware that I have. */
 
+/* displaying is done in rows, from top row to bottom row, from left display to right display,
+   from right to left on each display TODO: draw figure via boxes.mp */
+
 #define NUM_DEVICES 4
 
 #define SLAVE_SELECT    PORTB &= ~(1 << PB6)

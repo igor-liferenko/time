@@ -27,6 +27,18 @@ void main(void)
         s[i++] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
       s[5]='\0';
+      if (strcmp(s,"06:00")==0) {
+        SLAVE_SELECT;
+        for (int i = 0; i < NUM_DEVICES; i++)
+          writeWord(0x0A, 0x0F);
+        SLAVE_DESELECT;
+      }
+      if (strcmp(s,"21:00")==0) {
+        SLAVE_SELECT;
+        for (int i = 0; i < NUM_DEVICES; i++)
+          writeWord(0x0A, 0x05);
+        SLAVE_DESELECT;
+      }
       display_MAX(s);
     }
   }

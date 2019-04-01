@@ -1,11 +1,3 @@
-
-
-
-% TODO: move this to separate file time-read-max4.w and move all code from max.h to it and rm max.h,
-% because contrary to lcd.h it is not generally useful
-
-
-
 \let\lheader\rheader
 %\datethis
 \secpagedepth=2 % begin new page only on *
@@ -22,32 +14,17 @@
 void main(void)
 {
   @<Connect to USB host (must be called first; |sei| is called here)@>@;
-  init_MAX();
+  LCD_Init();
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
+      LCD_Command(0x80);
       int rx_counter = UEBCLX;
-      char s[9];
-      int i = 0;
       while (rx_counter--)
-        s[i++] = UEDATX;
-      s[5] = '\0';
+        LCD_Char(UEDATX);
       UEINTX &= ~(1 << FIFOCON);
-      if (strcmp(s,"06:00")==0) {
-        SLAVE_SELECT;
-        for (int i = 0; i < NUM_DEVICES; i++)
-          writeWord(0x0A, 0x0F);
-        SLAVE_DESELECT;
-      }
-      if (strcmp(s,"21:00")==0) {
-        SLAVE_SELECT;
-        for (int i = 0; i < NUM_DEVICES; i++)
-          writeWord(0x0A, 0x05);
-        SLAVE_DESELECT;
-      }
-      display_MAX(s);
     }
   }
 }
@@ -70,6 +47,6 @@ if (UEINTX & 1 << RXSTPI) {
 
 @<Header files@>=
 #include <avr/io.h>
-#include "max.h"
+#include "lcd.h"
 
 @* Index.

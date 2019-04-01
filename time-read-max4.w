@@ -1,11 +1,3 @@
-
-
-
-% TODO: move this to separate file time-read-max4.w and move all code from max.h to it and rm max.h,
-% because contrary to lcd.h it is not generally useful
-
-
-
 \let\lheader\rheader
 %\datethis
 \secpagedepth=2 % begin new page only on *
@@ -336,6 +328,5 @@ if (UEINTX & 1 << RXSTPI) {
 
 @<Header files@>=
 #include <avr/io.h>
-#include "max.h"
 
 @* Index.

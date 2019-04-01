@@ -26,6 +26,12 @@ to configuration of this pacrticular hardware that I have. */
 #include <avr/pgmspace.h>
 #include <string.h>
 
+/* we do font non-transposed for easier editing */
+
+/* TODO: create characters of maximum height and width via metafont;
+   to save space, do colon via single dots, not four dots, and maybe use less
+   padding for them */
+
 const uint8_t d0[8][5] PROGMEM = { 
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
@@ -192,7 +198,7 @@ void init_displays(void)
   SLAVE_DESELECT;
 
   SLAVE_SELECT;
-  for (int i = 0; i < NUM_DEVICES; i++)  
+  for (int i = 0; i < NUM_DEVICES; i++)
     writeWord(0x0F, 0x00); /* without it it does not work after plug (but works after flash)
       FIXME: see datasheet for explanation of this command */
   SLAVE_DESELECT;

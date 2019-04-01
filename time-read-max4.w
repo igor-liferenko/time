@@ -193,7 +193,8 @@ void init_displays(void)
 
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)  
-    writeWord(0x0F, 0x00); // without it it does not work after plug (but works after flash)
+    writeWord(0x0F, 0x00); /* without it it does not work after plug (but works after flash)
+      FIXME: see datasheet for explanation of this command */
   SLAVE_DESELECT;
 	 
   SLAVE_SELECT;

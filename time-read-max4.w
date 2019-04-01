@@ -182,18 +182,18 @@ void init_displays(void)
 {
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)
-    writeWord(0x0A, 0x0F);
+    writeWord(0x0A, 0x0F); // brightness
   SLAVE_DESELECT;
 	
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)
-    writeWord(0x0B, 0x07);
+    writeWord(0x0B, 0x07); /* bits in byte corresponding to each of 8 addresses for each display
+      govern the 8 leds corresponding to address */
   SLAVE_DESELECT;
 
-  // FIXME: try without it:
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)  
-    writeWord(0x0F, 0x00);
+    writeWord(0x0F, 0x00); // without it it does not work after plug (but works after flash)
   SLAVE_DESELECT;
 	 
   SLAVE_SELECT;

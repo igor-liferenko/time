@@ -26,12 +26,6 @@ to configuration of this pacrticular hardware that I have. */
 #include <avr/pgmspace.h>
 #include <string.h>
 
-/* we do font non-transposed for easier editing */
-
-/* TODO: create characters of maximum height and width via metafont;
-   to save space, do colon via single dots, not four dots, and maybe use less
-   padding for them */
-
 const uint8_t d0[8][5] PROGMEM = { 
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },

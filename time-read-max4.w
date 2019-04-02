@@ -190,6 +190,9 @@ void init_displays(void)
   for (int i = 0; i < NUM_DEVICES; i++)
     writeWord(0x0A, 0x0F); // brightness
   SLAVE_DESELECT;
+
+/* FIXME: how much time is needed for the latch to take effect?
+  Try to remove SLAVE_DESELECT/SLAVE_SELECT pair here and compare */
 	
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)

@@ -6,14 +6,12 @@ https://electronics.stackexchange.com/questions/24146/arduino-max7221-common-ano
 http://videooko.net/?p=895
 http://videooko.net/?p=854
 
-+79659187270
-
 https://arduino.stackexchange.com/questions/58240/vary-voltage-using-relay-is-this-possible
 
-After you do it, rm "echo minute-second ..." from tel.w and rebuild and reflash raspberry (build-clock.sh) and rm "case '0'" from "Main menu" in tel.w
+--------------------
 
 MAX7219:
 http://narodstream.ru/avr-urok-28-spi-drajver-led-max7219/
 https://gist.github.com/adnbr/2352797
 
-See avr/SPI
+After you connect 7-segment MAX7219, rm "echo minute-second ..." from tel.w and rebuild and reflash raspberry (build-clock.sh) and rm "case '0'" from "Main menu" in tel.w

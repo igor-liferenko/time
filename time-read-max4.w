@@ -22,8 +22,8 @@ to configuration of this pacrticular hardware that I have. */
 
 #define NUM_DEVICES 4
 
-#define SLAVE_SELECT    PORTB &= ~(1 << PB6)
-#define SLAVE_DESELECT  PORTB |= 1 << PB6
+#define SLAVE_SELECT    PORTB &= ~(1 << PB3)
+#define SLAVE_DESELECT  PORTB |= 1 << PB3
 
 #include <avr/io.h>
 #include <avr/pgmspace.h>
@@ -159,8 +159,8 @@ void init_SPI(void)
     and on micro board which has SS pin it should not be used anyway because LED is
     attached to it, which means it will be almost constantly ON (i.e., when SPI is
     inactive) */
-  DDRB |= 1 << PB6;
-  PORTB |= 1 << PB6;      // begin high (unselected)
+  DDRB |= 1 << PB3;
+  PORTB |= 1 << PB3;      // begin high (unselected)
 
   DDRB |= (1 << PB2);       // Output on MOSI 
   DDRB |= (1 << PB1);       // Output on SCK 

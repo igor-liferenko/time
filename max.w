@@ -3,28 +3,19 @@
 $$\hbox to10.26cm{\vbox to5.46805555555556cm{\vfil\special{psfile=MAX.1
   clip llx=-85 lly=-38 urx=206 ury=117 rwi=2910}}\hfil}$$
 
+{\tt http://www.adnbr.co.uk/articles/max7219-and-7-segment-displays}
+
+@d F_CPU 16000000UL
+
 @c
-/* MAX7219 Interaction Code
- * ---------------------------
- * For more information see
- * http://www.adnbr.co.uk/articles/max7219-and-7-segment-displays
- *
- * 668 bytes - ATmega168 - 16MHz
- */
-
-// 16MHz clock
-#define F_CPU 16000000UL
-
-// Outputs, pin definitions
-#define PIN_SCK                   PORTB5
-#define PIN_MOSI                  PORTB3
-#define PIN_SS                    PORTB2
+#include <avr/io.h>
+#include <util/delay.h>
 
 #define ON                        1
 #define OFF                       0
 
-#define MAX7219_LOAD1             PORTB |= (1<<PIN_SS)
-#define MAX7219_LOAD0             PORTB &= ~(1<<PIN_SS)
+#define MAX7219_LOAD1             PORTB |= 1 << PB3
+#define MAX7219_LOAD0             PORTB &= ~(1 << PB3)
 
 #define MAX7219_MODE_DECODE       0x09
 #define MAX7219_MODE_INTENSITY    0x0A
@@ -41,11 +32,6 @@ $$\hbox to10.26cm{\vbox to5.46805555555556cm{\vfil\special{psfile=MAX.1
 
 #define MAX7219_CHAR_BLANK        0xF 
 #define MAX7219_CHAR_NEGATIVE     0xA 
-
-#include <avr/io.h>
-#include <util/delay.h>
-
-
 
 char digitsInUse = 3;
 
@@ -119,11 +105,19 @@ void MAX7219_displayNumber(volatile long number)
 
 int main(void)
 {
-    // SCK MOSI CS/LOAD/SS
-    DDRB |= (1 << PIN_SCK) | (1 << PIN_MOSI) | (1 << PIN_SS);
+  DDRB |= 1 << PB0; /* this pin is not used for SS because it is not available on promicro,
+    but it must be set for OUTPUT anyway, otherwise MCU will be used as SPI slave;
+    and on micro board which has SS pin it should not be used anyway because LED is
+    attached to it, which means it will be almost constantly ON (i.e., when SPI is
+    inactive) */
+  DDRB |= 1 << PB3;
+//  PORTB |= 1 << PB3;      // begin high (unselected)
+
+  DDRB |= 1 << PB2;       // Output on MOSI
+  DDRB |= 1 << PB1;       // Output on SCK
 
     // SPI Enable, Master mode
-    SPCR |= (1 << SPE) | (1 << MSTR)| (1<<SPR1);
+    SPCR |= (1 << SPE) | (1 << MSTR)| (1 << SPR1);
 
     // Decode mode to "Font Code-B"
     MAX7219_writeData(MAX7219_MODE_DECODE, 0xFF);
@@ -137,7 +131,7 @@ int main(void)
     while(1)
     {
         MAX7219_displayNumber(--i);
-        _delay_ms(10);
+        _delay_ms(10); // this may be it!!! - read the article
 
         if (i == 0) {
             i = 999;

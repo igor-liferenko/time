@@ -6,3 +6,6 @@ time-read time-read-max time-read-max4:
 
 flash:
 	@avrdude -qq -c usbasp -p $(MCU) -U flash:w:fw.hex
+
+imgs:
+	@mp MAX

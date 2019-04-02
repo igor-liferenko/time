@@ -5,6 +5,9 @@
 
 @* Program.
 
+$$\hbox to10.26cm{\vbox to5.46805555555556cm{\vfil\special{psfile=time-read-max.1
+  clip llx=-85 lly=-38 urx=206 ury=117 rwi=2910}}\hfil}$$
+
 @c
 @<Header files@>@;
 @<Type definitions@>@;

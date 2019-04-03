@@ -36,6 +36,7 @@ to configuration of this pacrticular hardware that I have. */
 #include <avr/pgmspace.h>
 #include <string.h>
 
+@ @c
 const uint8_t d0[8][5] PROGMEM = { 
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
@@ -47,6 +48,7 @@ const uint8_t d0[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
+@ @c
 const uint8_t d1[8][5] PROGMEM = {
   { 0, 0, 1, 0, 0 },
   { 0, 1, 1, 0, 0 },
@@ -58,6 +60,7 @@ const uint8_t d1[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
+@ @c
 const uint8_t d2[8][5] PROGMEM = {
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
@@ -69,6 +72,7 @@ const uint8_t d2[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
+@ @c
 const uint8_t d3[8][5] PROGMEM = {
   { 1, 1, 1, 1, 1 },
   { 0, 0, 0, 1, 0 },
@@ -80,6 +84,7 @@ const uint8_t d3[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
+@ @c
 const uint8_t d4[8][5] PROGMEM = {
   { 0, 0, 0, 1, 0 },
   { 0, 0, 1, 1, 0 },
@@ -91,6 +96,7 @@ const uint8_t d4[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
+@ @c
 const uint8_t d5[8][5] PROGMEM = {
   { 1, 1, 1, 1, 1 },
   { 1, 0, 0, 0, 0 },
@@ -102,6 +108,7 @@ const uint8_t d5[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
+@ @c
 const uint8_t d6[8][5] PROGMEM = {
   { 0, 0, 1, 1, 0 },
   { 0, 1, 0, 0, 0 },
@@ -113,6 +120,7 @@ const uint8_t d6[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
+@ @c
 const uint8_t d7[8][5] PROGMEM = {
   { 1, 1, 1, 1, 1 },
   { 1, 0, 0, 0, 1 },
@@ -124,6 +132,7 @@ const uint8_t d7[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
+@ @c
 const uint8_t d8[8][5] PROGMEM = {
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
@@ -135,6 +144,7 @@ const uint8_t d8[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
+@ @c
 const uint8_t d9[8][5] PROGMEM = {
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
@@ -146,6 +156,7 @@ const uint8_t d9[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
+@ @c
 const uint8_t colon[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 },
   { 0, 0, 0, 0, 0 },
@@ -157,6 +168,7 @@ const uint8_t colon[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
+@ @c
 uint8_t buffer[8][NUM_DEVICES*8];
 
 void init_SPI(void) 

@@ -5,7 +5,12 @@
 
 @* Program.
 
-TODO: add here picture of the module
+$$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4-1.eps
+  clip llx=0 lly=0 urx=179 ury=149 rwi=1984}}\hfil}$$
+$$\hbox to7cm{\vbox to5.96cm{\vfil\special{psfile=max4-2.eps
+  clip llx=0 lly=0 urx=175 ury=149 rwi=1984}}\hfil}$$
+$$\hbox to7cm{\vbox to6.53cm{\vfil\special{psfile=max4-3.eps
+  clip llx=0 lly=0 urx=181 ury=169 rwi=1984}}\hfil}$$
 
 $$\hbox to10.26cm{\vbox to5.46805555555556cm{\vfil\special{psfile=MAX.1
   clip llx=-85 lly=-38 urx=206 ury=117 rwi=2910}}\hfil}$$

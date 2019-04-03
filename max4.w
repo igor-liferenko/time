@@ -184,6 +184,11 @@ void writeWord(uint8_t address, uint8_t data)
   writeByte(data);
 }
 
+/* TODO: put delay between |SLAVE_DESELECT| and |SLAVE_SELECT| here and
+at the end of |init_MAX| and after setting brightness in main cycle - see
+https://electronics.stackexchange.com/questions/430442/how-to-interpret-max7219-timing-diagram
+*/
+
 void init_displays(void)
 {
   SLAVE_SELECT;

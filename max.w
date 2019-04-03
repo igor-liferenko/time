@@ -105,13 +105,14 @@ void MAX7219_displayNumber(volatile long number)
 
 int main(void)
 {
+  PORTB |= 1 << PB0; /* this is for pro-micro (inverted) */
   DDRB |= 1 << PB0; /* this pin is not used for SS because it is not available on promicro,
     but it must be set for OUTPUT anyway, otherwise MCU will be used as SPI slave;
     and on micro board which has SS pin it should not be used anyway because LED is
     attached to it, which means it will be almost constantly ON (i.e., when SPI is
     inactive) */
   DDRB |= 1 << PB3;
-#if 0 /* this is used in max4.w */
+#if 1 /* this is used in max4.w */
   PORTB |= 1 << PB3;      // begin high (unselected)
 #endif
   DDRB |= 1 << PB2;       // Output on MOSI

@@ -13,8 +13,6 @@ verbatimtex
 \font\eighttt=cmtt8
 etex
 
-% TODO: do boxes with 4 corners via "boxit", like "phone" (use "drawboxes(box4); draw pic(box4) shifted (0,-1cm);" to position label not in center)
-
 beginfig(1);
 
 boxit.arduino(btex \eightss Arduino ProMicro etex);

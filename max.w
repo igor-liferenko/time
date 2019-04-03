@@ -131,7 +131,7 @@ int main(void)
     while(1)
     {
         MAX7219_displayNumber(--i);
-        _delay_ms(10); // this may be it!!! - read the article
+        _delay_ms(10);
 
         if (i == 0) {
             i = 999;

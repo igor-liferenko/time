@@ -15,6 +15,8 @@ $$\hbox to7cm{\vbox to6.53cm{\vfil\special{psfile=max4-3.eps
 $$\hbox to10.26cm{\vbox to5.46805555555556cm{\vfil\special{psfile=MAX.1
   clip llx=-85 lly=-38 urx=206 ury=117 rwi=2910}}\hfil}$$
 
+@d F_CPU 16000000UL
+
 @c
 @<Header files@>@;
 @<Type definitions@>@;
@@ -201,11 +203,6 @@ void writeWord(uint8_t address, uint8_t data)
   writeByte(data);
 }
 
-/* TODO: put delay between |SLAVE_DESELECT| and |SLAVE_SELECT| here and
-at the end of |init_MAX| and after setting brightness in main cycle - see
-https://electronics.stackexchange.com/questions/430442/how-to-interpret-max7219-timing-diagram
-*/
-
 void init_displays(void)
 {
   SLAVE_SELECT;
@@ -213,22 +210,29 @@ void init_displays(void)
     writeWord(0x0A, 0x0F); // brightness
   SLAVE_DESELECT;
 
+  _delay_us(1); /* t${}_CSW$ in datasheet */
+
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)
     writeWord(0x0B, 0x07); /* bits in byte corresponding to each of 8 addresses for each display
       govern the 8 leds corresponding to address */
   SLAVE_DESELECT;
 
+  _delay_us(1); /* t${}_CSW$ in datasheet */
+
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)
-    writeWord(0x0F, 0x00); /* without it it does not work after plug (but works after flash)
-      FIXME: see datasheet for explanation of this command */
+    writeWord(0x0F, 0x00); /* FIXME: check if it will work without it after plug and after flash */
   SLAVE_DESELECT;
 	 
+  _delay_us(1); /* t${}_CSW$ in datasheet */
+
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)
     writeWord(0x0C, 0x01);
   SLAVE_DESELECT;
+
+  _delay_us(1); /* t${}_CSW$ in datasheet */
 }
 
 void display_buffer(void)
@@ -334,6 +338,7 @@ void main(void)
           writeWord(0x0A, 0x05);
         SLAVE_DESELECT;
       }
+      _delay_us(1); /* t${}_CSW$ in datasheet */
       display_MAX(s);
     }
   }
@@ -357,5 +362,6 @@ if (UEINTX & 1 << RXSTPI) {
 
 @<Header files@>=
 #include <avr/io.h>
+#include <util/delay.h>
 
 @* Index.

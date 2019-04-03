@@ -111,8 +111,9 @@ int main(void)
     attached to it, which means it will be almost constantly ON (i.e., when SPI is
     inactive) */
   DDRB |= 1 << PB3;
-//  PORTB |= 1 << PB3;      // begin high (unselected)
-
+#if 0 /* this is used in max4.w */
+  PORTB |= 1 << PB3;      // begin high (unselected)
+#endif
   DDRB |= 1 << PB2;       // Output on MOSI
   DDRB |= 1 << PB1;       // Output on SCK
 

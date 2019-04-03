@@ -54,6 +54,9 @@ draw arduino.B1 -- arduino.B1+down*5mm withpen pencircle scaled .4pt;
 label.top(btex \smallss VCC etex, arduino.VCC);
 label.top(btex \smallss RST etex, arduino.RST);
 label.top(btex \smallss GND etex, arduino.GND);
+label.bot(btex \smallss DIN etex, arduino.B2+down*5mm);
+label.bot(btex \smallss CS etex, arduino.B3+down*5mm);
+label.bot(btex \smallss CLK etex, arduino.B1+down*5mm);
 pickup A;
 endgroup;
 

@@ -117,7 +117,7 @@ int main(void)
   DDRB |= 1 << PB1;       // Output on SCK
 
     // SPI Enable, Master mode
-    SPCR |= (1 << SPE) | (1 << MSTR)| (1 << SPR1);
+    SPCR |= (1 << SPE) | (1 << MSTR)| (1 << SPR1); // SCK frequency is clk/64, i.e., 0.25 MHz
 
     // Decode mode to "Font Code-B"
     MAX7219_writeData(MAX7219_MODE_DECODE, 0xFF);

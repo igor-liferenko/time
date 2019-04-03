@@ -9,3 +9,18 @@ flash:
 
 imgs:
 	@mp MAX
+	@perl -ne 'if (/^(.*\.eps): (.*)/) { system "convert $$2 $$1" }' Makefile
+
+.PHONY: $(wildcard *.eps)
+
+max4-1.eps: max4-1.png
+	@convert $< $@
+	@imgsize $@ 7 -
+
+max4-2.eps: max4-2.png
+	@convert $< $@
+	@imgsize $@ 7 -
+
+max4-3.eps: max4-3.png
+	@convert $< $@
+	@imgsize $@ 7 -

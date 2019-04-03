@@ -169,6 +169,7 @@ void init_SPI(void)
 
   SPCR |= (1 << MSTR);      // Clockmaster 
   SPCR |= (1 << SPE);       // Enable SPI
+  // this means that SCK frequency is default clk/4, i.e., 4MHz
 }
 
 void writeByte(uint8_t byte)

@@ -112,7 +112,7 @@ int main(void)
     attached to it, which means it will be almost constantly ON (i.e., when SPI is
     inactive) */
   DDRB |= 1 << PB3;
-#if 1 /* this is used in max4.w */
+#if 0 /* this is used in max4.w */
   PORTB |= 1 << PB3;      // begin high (unselected)
 #endif
   DDRB |= 1 << PB2;       // Output on MOSI
@@ -123,12 +123,14 @@ int main(void)
 
     // Decode mode to "Font Code-B"
     MAX7219_writeData(MAX7219_MODE_DECODE, 0xFF);
-
+_delay_us(1);
     // Scan limit runs from 0.
     MAX7219_writeData(MAX7219_MODE_SCAN_LIMIT, digitsInUse - 1);
+_delay_us(1);
     MAX7219_writeData(MAX7219_MODE_INTENSITY, 8);
+_delay_us(1);
     MAX7219_writeData(MAX7219_MODE_POWER, ON);
-
+_delay_us(1);
     int i = 999;
     while(1)
     {

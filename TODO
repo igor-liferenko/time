@@ -22,3 +22,7 @@ After you connect 7-segment MAX7219, rm "echo minute-second ..." from tel.w and 
 
 MAX7221:
 https://electronics.stackexchange.com/questions/412986/
+
+------------------------
+
+Determine if display is common anode or common cathode: http://www.circuitbasics.com/arduino-7-segment-display-tutorial/

@@ -17,3 +17,8 @@ http://narodstream.ru/avr-urok-28-spi-drajver-led-max7219/
 https://gist.github.com/adnbr/2352797
 
 After you connect 7-segment MAX7219, rm "echo minute-second ..." from tel.w and rebuild and reflash raspberry (build-clock.sh) and rm "case '0'" from "Main menu" in tel.w
+
+-------------------------
+
+MAX7221:
+https://electronics.stackexchange.com/questions/412986/

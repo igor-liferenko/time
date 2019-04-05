@@ -1,4 +1,5 @@
-%see https://electronics.stackexchange.com/questions/430442/
+%see see initialization steps here (and in other for tag "max7219" of the same user) https://electronics.stackexchange.com/questions/430442/
+%write here this: https://pro-diod.ru/electronica/max7219-max7221-drajver-dlya-svetodiodnoj-indikacii.html
 
 \let\lheader\rheader
 %\datethis

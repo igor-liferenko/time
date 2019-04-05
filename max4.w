@@ -1,3 +1,5 @@
+%see https://electronics.stackexchange.com/questions/430442/
+
 \let\lheader\rheader
 %\datethis
 \secpagedepth=2 % begin new page only on *

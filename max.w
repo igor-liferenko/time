@@ -1,3 +1,4 @@
+%see https://electronics.stackexchange.com/questions/430442/
 @ TODO: add here picture of the module
 
 $$\hbox to10.26cm{\vbox to5.46805555555556cm{\vfil\special{psfile=MAX.1

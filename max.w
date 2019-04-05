@@ -1,4 +1,38 @@
 %see https://electronics.stackexchange.com/questions/430442/
+
+A simple shift routine for the MAX7219:
+
+// Hardware Definitions
+
+#define MAX7219_DDR     DDRB
+#define MAX7219_PORT    PORTB
+#define MAX7219_SCK     PB2
+#define MAX7219_DO      PB1
+#define MAX7219_STB     PB3
+
+void display_write( unsigned int dc )
+{
+  unsigned char i;
+
+  MAX7219_DDR |= 1<<MAX7219_DO;         // set all outputs
+  MAX7219_DDR |= 1<<MAX7219_SCK;
+  MAX7219_DDR |= 1<<MAX7219_STB;
+  MAX7219_PORT &= ~(1<<MAX7219_STB);    // strobe = 0
+
+  for( i = 12; i; i-- ){                // shift 12 bits out, msb first
+
+    MAX7219_PORT &= ~(1<<MAX7219_SCK);  // clk = 0
+    MAX7219_PORT |= 1<<MAX7219_DO;
+    if( (dc & (1<<11)) == 0 )
+      MAX7219_PORT &= ~(1<<MAX7219_DO); // data out = bit 11
+    dc <<= 1;                           // prepare next bit
+    MAX7219_PORT |= 1<<MAX7219_SCK;     // clk = 1
+  }
+
+  MAX7219_PORT |= 1<<MAX7219_STB;       // strobe = 1: latch data
+}
+You must only change two numbers to adapt it for 8 or 16 bit.
+
 @ TODO: add here picture of the module
 
 $$\hbox to10.26cm{\vbox to5.46805555555556cm{\vfil\special{psfile=MAX.1

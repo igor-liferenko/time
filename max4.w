@@ -260,7 +260,8 @@ void display_buffer(void)
 void fill_buffer(char *s)
 {
   for (int i = 0; i < 8; i++) {
-    int k = NUM_DEVICES*8-1-2;
+    int k = NUM_DEVICES*8-1-2; /* `|-2|' is the number of padding columns from left edge of the
+      whole display */
     for (int c = 0; c < strlen(s); c++) {
       switch (*(s+c))
       {
@@ -298,7 +299,8 @@ void fill_buffer(char *s)
         CYC(colon);
         break;
       }
-      buffer[i][k--] = 0x00; // empty space
+      buffer[i][k--] = 0x00; /* empty space; note, that no check for right edge of the whole display
+        is done, because due to size of the characters we have one free column there */
     } // end char
   } // end row
 }

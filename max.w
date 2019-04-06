@@ -37,7 +37,7 @@ void main(void)
   DDRB |= 1 << PB1 | 1 << PB2 | 1 << PB3;
   display_write(0x0B << 8 | 0x07); /* number of displayed characters */
   display_write(0x09 << 8 | 0xFF); /* decode mode */
-  display_write(0x0A << 8 | 0x05); /* brightness */
+  display_write(0x0A << 8 | 0xFF); /* brightness */
   display_write(0x0C << 8 | 0x01); /* enable */
 
   while (1) {
@@ -46,11 +46,18 @@ void main(void)
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
       int rx_counter = UEBCLX;
-      while (rx_counter--) {
-        unsigned char c = UEDATX;
-        display_write((rx_counter+1)<<8|(c==':'?0x0F:c-48));
-      }
+      char s[9];
+      int i = 0;
+      while (rx_counter--)
+        s[i++] = UEDATX;
+      s[8] = '\0';
       UEINTX &= ~(1 << FIFOCON);
+      if (strcmp(s,"06:00")==0)
+        display_write(0x0A << 8 | 0xFF);
+      if (strcmp(s,"21:00")==0)
+        display_write(0x0A << 8 | 0x01);
+      for (i = 0; i < 8; i++)
+        display_write((8-i)<<8|(s[i]==':'?0x0F:s[i]-48));
     }
   }
 }
@@ -73,5 +80,6 @@ if (UEINTX & 1 << RXSTPI) {
 
 @<Header files@>=
 #include <avr/io.h>
+#include <string.h>
 
 @* Index.

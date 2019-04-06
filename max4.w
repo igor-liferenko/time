@@ -1,11 +1,11 @@
-%NOTE: working is last commit on 2019-03-31; TODO: do via bitbang like in max.w
-
 \let\lheader\rheader
 %\datethis
 \secpagedepth=2 % begin new page only on *
 \font\caps=cmcsc10 at 9pt
 
 @* Program.
+
+NOTE: working is last commit on 2019-03-31; TODO: do via bitbang like in max.w
 
 $$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4.eps
   clip llx=0 lly=0 urx=179 ury=149 rwi=1984}}\hfil}$$

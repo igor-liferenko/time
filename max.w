@@ -28,6 +28,10 @@ void main(void)
 }
 
 @ @<Initialize@>=
+#if 0
+display_write(0x0F << 8 | 0x00); /* to be safe --- may be occasionally enabled
+  while programming, because the same pins are used */
+#endif
 display_write(0x0B << 8 | 0x07); /* number of displayed characters */
 display_write(0x09 << 8 | 0xFF); /* decode mode */
 display_write(0x0A << 8 | 0x05); /* brightness */

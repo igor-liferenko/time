@@ -8,23 +8,21 @@ $$\hbox to8.35cm{\vbox to2.2225cm{\vfil\special{psfile=MAX.1
 
 @c
 #include <avr/io.h>
-#include <util/delay.h>
+
 void display_write(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
 {
   for (int i = 16; i > 0; i--) { // shift 16 bits out, msb first
-    if (dc & (1 << 15))
-      PORTB |= 1 << PB5;
-    else
-      PORTB &= ~(1 << PB5);
-    PORTB &= ~(1 << PB4); @+ PORTB |= 1 << PB4;
+    if (dc & 1 << 15) @+ PORTB |= 1 << PB2;
+    else @+ PORTB &= ~(1 << PB2);
+    PORTB &= ~(1 << PB1); @+ PORTB |= 1 << PB1;
     dc <<= 1;
   }
-  PORTB |= 1 << PB6; @+ PORTB &= ~(1 << PB6);
+  PORTB |= 1 << PB3; @+ PORTB &= ~(1 << PB3);
 }
 
 void main(void)
 {
-  DDRB |= 1 << PB4 | 1 << PB5 | 1 << PB6;
+  DDRB |= 1 << PB1 | 1 << PB2 | 1 << PB3;
   @<Initialize@>@;
   @<Clear@>@;
 }

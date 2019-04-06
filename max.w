@@ -12,22 +12,14 @@ $$\hbox to8.35cm{\vbox to2.2225cm{\vfil\special{psfile=MAX.1
 void display_write(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
 {
   for (int i = 16; i > 0; i--) { // shift 16 bits out, msb first
-    PORTB &= ~(1 << PB4); // clk = 0
-    PORTB |= 1 << PB5;
-    if ((dc & (1 << 15)) == 0)
-      PORTB &= ~(1 << PB5); // data out = bit 15
-//    __asm__ __volatile__ ("nop");
-//    __asm__ __volatile__ ("nop");
-//    __asm__ __volatile__ ("nop");
-    PORTB |= 1 << PB4; // clk = 1
-    dc <<= 1;                           // prepare next bit
+    if (dc & (1 << 15))
+      PORTB |= 1 << PB5;
+    else
+      PORTB &= ~(1 << PB5);
+    PORTB &= ~(1 << PB4); @+ PORTB |= 1 << PB4;
+    dc <<= 1;
   }
-
-  PORTB |= 1 << PB6; // strobe = 1: latch data
-  __asm__ __volatile__ ("nop");
-  __asm__ __volatile__ ("nop");
-  __asm__ __volatile__ ("nop");
-  PORTB &= ~(1 << PB6); // strobe = 0
+  PORTB |= 1 << PB6; @+ PORTB &= ~(1 << PB6);
 }
 
 void main(void)
@@ -44,11 +36,11 @@ display_write(0x0A << 8 | 0x05); /* brightness */
 display_write(0x0C << 8 | 0x01); /* enable */
 
 @ @<Clear@>=
-display_write(0x01 << 8 | 0x0F);
-display_write(0x02 << 8 | 0x0F);
+display_write(0x01 << 8 | 4);
+display_write(0x02 << 8 | 0);
 display_write(0x03 << 8 | 0x0F);
-display_write(0x04 << 8 | 0x0F);
-display_write(0x05 << 8 | 0x0F);
+display_write(0x04 << 8 | 2);
+display_write(0x05 << 8 | 3);
 display_write(0x06 << 8 | 0x0F);
-display_write(0x07 << 8 | 0x0F);
-display_write(0x08 << 8 | 0x0F);
+display_write(0x07 << 8 | 5);
+display_write(0x08 << 8 | 3);

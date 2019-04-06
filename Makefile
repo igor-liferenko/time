@@ -13,14 +13,10 @@ imgs:
 
 .PHONY: $(wildcard *.eps)
 
-max4-1.eps: max4-1.png
+max4.eps: max4.png
 	@convert $< $@
 	@imgsize $@ 7 -
 
-max4-2.eps: max4-2.png
-	@convert $< $@
-	@imgsize $@ 7 -
-
-max4-3.eps: max4-3.png
+max.eps: max.png
 	@convert $< $@
 	@imgsize $@ 7 -

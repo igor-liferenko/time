@@ -1,8 +1,5 @@
 %NOTE: working is last commit on 2019-03-31; TODO: do via bitbang like in max.w
 
-%see see initialization steps here (and in other for tag "max7219" of the same user) https://electronics.stackexchange.com/questions/430442/
-%write here this: https://pro-diod.ru/electronica/max7219-max7221-drajver-dlya-svetodiodnoj-indikacii.html
-
 \let\lheader\rheader
 %\datethis
 \secpagedepth=2 % begin new page only on *
@@ -10,17 +7,11 @@
 
 @* Program.
 
-$$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4-1.eps
+$$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4.eps
   clip llx=0 lly=0 urx=179 ury=149 rwi=1984}}\hfil}$$
-$$\hbox to7cm{\vbox to5.96cm{\vfil\special{psfile=max4-2.eps
-  clip llx=0 lly=0 urx=175 ury=149 rwi=1984}}\hfil}$$
-$$\hbox to7cm{\vbox to6.53cm{\vfil\special{psfile=max4-3.eps
-  clip llx=0 lly=0 urx=181 ury=169 rwi=1984}}\hfil}$$
 
 $$\hbox to10.26cm{\vbox to5.46805555555556cm{\vfil\special{psfile=MAX.1
   clip llx=-85 lly=-38 urx=206 ury=117 rwi=2910}}\hfil}$$
-
-@d F_CPU 16000000UL
 
 @c
 @<Header files@>@;
@@ -215,29 +206,15 @@ void init_displays(void)
     writeWord(0x0A, 0x0F); // brightness
   SLAVE_DESELECT;
 
-  _delay_us(1); /* t${}_CSW$ in datasheet */
-
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)
-    writeWord(0x0B, 0x07); /* bits in byte corresponding to each of 8 addresses for each display
-      govern the 8 leds corresponding to address */
+    writeWord(0x0B, 0x07); /* all rows are used */
   SLAVE_DESELECT;
-
-  _delay_us(1); /* t${}_CSW$ in datasheet */
-
-  SLAVE_SELECT;
-  for (int i = 0; i < NUM_DEVICES; i++)
-    writeWord(0x0F, 0x00); /* FIXME: check if it will work without it after plug and after flash */
-  SLAVE_DESELECT;
-	 
-  _delay_us(1); /* t${}_CSW$ in datasheet */
 
   SLAVE_SELECT;
   for (int i = 0; i < NUM_DEVICES; i++)
     writeWord(0x0C, 0x01);
   SLAVE_DESELECT;
-
-  _delay_us(1); /* t${}_CSW$ in datasheet */
 }
 
 void display_buffer(void)
@@ -345,7 +322,6 @@ void main(void)
           writeWord(0x0A, 0x05);
         SLAVE_DESELECT;
       }
-      _delay_us(1); /* t${}_CSW$ in datasheet */
       display_MAX(s);
     }
   }

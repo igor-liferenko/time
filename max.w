@@ -35,7 +35,7 @@ void main(void)
   @<Connect to USB host (must be called first; |sei| is called here)@>@;
 
   DDRB |= 1 << PB1 | 1 << PB2 | 1 << PB3;
-  display_write(0x0B << 8 | 0x07); /* number of displayed characters */
+  display_write(0x0B << 8 | 0x07); /* all characters are used */
   display_write(0x09 << 8 | 0xFF); /* decode mode */
   display_write(0x0A << 8 | 0xFF); /* brightness */
   display_write(0x0C << 8 | 0x01); /* enable */

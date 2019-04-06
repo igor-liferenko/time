@@ -1,179 +1,54 @@
-%see https://electronics.stackexchange.com/questions/430442/
+@ $$\hbox to7cm{\vbox to4.21cm{\vfil\special{psfile=max.eps
+  clip llx=0 lly=0 urx=490 ury=295 rwi=1984}}\hfil}$$
 
-A simple shift routine for the MAX7219:
-
-// Hardware Definitions
-
-#define MAX7219_DDR     DDRB
-#define MAX7219_PORT    PORTB
-#define MAX7219_SCK     PB2
-#define MAX7219_DO      PB1
-#define MAX7219_STB     PB3
-
-void display_write( unsigned int dc )
-{
-  unsigned char i;
-
-  MAX7219_DDR |= 1<<MAX7219_DO;         // set all outputs
-  MAX7219_DDR |= 1<<MAX7219_SCK;
-  MAX7219_DDR |= 1<<MAX7219_STB;
-  MAX7219_PORT &= ~(1<<MAX7219_STB);    // strobe = 0
-
-  for( i = 12; i; i-- ){                // shift 12 bits out, msb first
-
-    MAX7219_PORT &= ~(1<<MAX7219_SCK);  // clk = 0
-    MAX7219_PORT |= 1<<MAX7219_DO;
-    if( (dc & (1<<11)) == 0 )
-      MAX7219_PORT &= ~(1<<MAX7219_DO); // data out = bit 11
-    dc <<= 1;                           // prepare next bit
-    MAX7219_PORT |= 1<<MAX7219_SCK;     // clk = 1
-  }
-
-  MAX7219_PORT |= 1<<MAX7219_STB;       // strobe = 1: latch data
-}
-You must only change two numbers to adapt it for 8 or 16 bit.
-
-@ TODO: add here picture of the module
-
-$$\hbox to10.26cm{\vbox to5.46805555555556cm{\vfil\special{psfile=MAX.1
-  clip llx=-85 lly=-38 urx=206 ury=117 rwi=2910}}\hfil}$$
-
-{\tt http://www.adnbr.co.uk/articles/max7219-and-7-segment-displays}
-
-@d F_CPU 16000000UL
+$$\hbox to8.35cm{\vbox to2.2225cm{\vfil\special{psfile=MAX.1
+  clip llx=-38 lly=37 urx=57 ury=100 rwi=950}}\kern5cm
+  \vbox to1.48166666666667cm{\vfil\special{psfile=MAX.2
+  clip llx=-142 lly=-21 urx=-28 ury=21 rwi=1140}}\hfil}$$
 
 @c
 #include <avr/io.h>
 #include <util/delay.h>
-
-#define ON                        1
-#define OFF                       0
-
-#define MAX7219_LOAD1             PORTB |= 1 << PB3
-#define MAX7219_LOAD0             PORTB &= ~(1 << PB3)
-
-#define MAX7219_MODE_DECODE       0x09
-#define MAX7219_MODE_INTENSITY    0x0A
-#define MAX7219_MODE_SCAN_LIMIT   0x0B
-#define MAX7219_MODE_POWER        0x0C
-#define MAX7219_MODE_TEST         0x0F
-#define MAX7219_MODE_NOOP         0x00
-
-// I only have 3 digits, no point having the
-// rest. You could use more though.
-#define MAX7219_DIGIT0            0x01
-#define MAX7219_DIGIT1            0x02
-#define MAX7219_DIGIT2            0x03
-
-#define MAX7219_CHAR_BLANK        0xF 
-#define MAX7219_CHAR_NEGATIVE     0xA 
-
-char digitsInUse = 3;
-
-void spiSendByte (char databyte)
+void display_write(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
 {
-    // Copy data into the SPI data register
-    SPDR = databyte;
-    // Wait until transfer is complete
-    while (!(SPSR & (1 << SPIF)));
+  for (int i = 16; i > 0; i--) { // shift 16 bits out, msb first
+    PORTB &= ~(1 << PB4); // clk = 0
+    PORTB |= 1 << PB5;
+    if ((dc & (1 << 15)) == 0)
+      PORTB &= ~(1 << PB5); // data out = bit 15
+//    __asm__ __volatile__ ("nop");
+//    __asm__ __volatile__ ("nop");
+//    __asm__ __volatile__ ("nop");
+    PORTB |= 1 << PB4; // clk = 1
+    dc <<= 1;                           // prepare next bit
+  }
+
+  PORTB |= 1 << PB6; // strobe = 1: latch data
+  __asm__ __volatile__ ("nop");
+  __asm__ __volatile__ ("nop");
+  __asm__ __volatile__ ("nop");
+  PORTB &= ~(1 << PB6); // strobe = 0
 }
 
-void MAX7219_writeData(char data_register, char data)
+void main(void)
 {
-    MAX7219_LOAD0;
-        // Send the register where the data will be stored
-        spiSendByte(data_register);
-        // Send the data to be stored
-        spiSendByte(data);
-    MAX7219_LOAD1;
+  DDRB |= 1 << PB4 | 1 << PB5 | 1 << PB6;
+  @<Initialize@>@;
+  @<Clear@>@;
 }
 
-void MAX7219_clearDisplay() 
-{
-    char i = digitsInUse;
-    // Loop until 0, but don't run for zero
-    do {
-        // Set each display in use to blank
-        MAX7219_writeData(i, MAX7219_CHAR_BLANK);
-    } while (--i);
-}
+@ @<Initialize@>=
+display_write(0x0B << 8 | 0x07); /* number of displayed characters */
+display_write(0x09 << 8 | 0xFF); /* decode mode */
+display_write(0x0A << 8 | 0x05); /* brightness */
+display_write(0x0C << 8 | 0x01); /* enable */
 
-void MAX7219_displayNumber(volatile long number) 
-{
-    char negative = 0;
-
-    // Convert negative to positive.
-    // Keep a record that it was negative so we can
-    // sign it again on the display.
-    if (number < 0) {
-        negative = 1;
-        number *= -1;
-    }
-
-    MAX7219_clearDisplay();
-
-    // If number = 0, only show one zero then exit
-    if (number == 0) {
-        MAX7219_writeData(MAX7219_DIGIT0, 0);
-        return;
-    }
-    
-    // Initialization to 0 required in this case,
-    // does not work without it. Not sure why.
-    char i = 0; 
-    
-    // Loop until number is 0.
-    do {
-        MAX7219_writeData(++i, number % 10);
-        // Actually divide by 10 now.
-        number /= 10;
-    } while (number);
-
-    // Bear in mind that if you only have three digits, and
-    // try to display something like "-256" all that will display
-    // will be "256" because it needs an extra fourth digit to
-    // display the sign.
-    if (negative) {
-        MAX7219_writeData(i, MAX7219_CHAR_NEGATIVE);
-    }
-}
-
-int main(void)
-{
-  PORTB |= 1 << PB0; /* this is for pro-micro (inverted) */
-  DDRB |= 1 << PB0; /* this pin is not used for SS because it is not available on promicro,
-    but it must be set for OUTPUT anyway, otherwise MCU will be used as SPI slave;
-    and on micro board which has SS pin it should not be used anyway because LED is
-    attached to it, which means it will be almost constantly ON (i.e., when SPI is
-    inactive) */
-  DDRB |= 1 << PB3;
-#if 0 /* this is used in max4.w */
-  PORTB |= 1 << PB3;      // begin high (unselected)
-#endif
-  DDRB |= 1 << PB2;       // Output on MOSI
-  DDRB |= 1 << PB1;       // Output on SCK
-
-    // SPI Enable, Master mode
-    SPCR |= (1 << SPE) | (1 << MSTR)| (1 << SPR1); // SCK frequency is clk/64, i.e., 0.25 MHz
-
-    // Decode mode to "Font Code-B"
-    MAX7219_writeData(MAX7219_MODE_DECODE, 0xFF);
-_delay_us(1);
-    // Scan limit runs from 0.
-    MAX7219_writeData(MAX7219_MODE_SCAN_LIMIT, digitsInUse - 1);
-_delay_us(1);
-    MAX7219_writeData(MAX7219_MODE_INTENSITY, 8);
-_delay_us(1);
-    MAX7219_writeData(MAX7219_MODE_POWER, ON);
-_delay_us(1);
-    int i = 999;
-    while(1)
-    {
-        MAX7219_displayNumber(--i);
-        _delay_ms(10);
-
-        if (i == 0) {
-            i = 999;
-        }
-    }
-}
+@ @<Clear@>=
+display_write(0x01 << 8 | 0x0F);
+display_write(0x02 << 8 | 0x0F);
+display_write(0x03 << 8 | 0x0F);
+display_write(0x04 << 8 | 0x0F);
+display_write(0x05 << 8 | 0x0F);
+display_write(0x06 << 8 | 0x0F);
+display_write(0x07 << 8 | 0x0F);
+display_write(0x08 << 8 | 0x0F);

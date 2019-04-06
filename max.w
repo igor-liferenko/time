@@ -35,23 +35,10 @@ void main(void)
   @<Connect to USB host (must be called first; |sei| is called here)@>@;
 
   DDRB |= 1 << PB1 | 1 << PB2 | 1 << PB3;
-#if 0
-  display_write(0x0F << 8 | 0x00); /* to be safe --- may be occasionally enabled
-    while programming, because the same pins are used */
-#endif
   display_write(0x0B << 8 | 0x07); /* number of displayed characters */
   display_write(0x09 << 8 | 0xFF); /* decode mode */
   display_write(0x0A << 8 | 0x05); /* brightness */
   display_write(0x0C << 8 | 0x01); /* enable */
-
-display_write(0x01 << 8 | 0x0F);
-display_write(0x02 << 8 | 0x0F);
-display_write(0x03 << 8 | 0x0F);
-display_write(0x04 << 8 | 0x0F);
-display_write(0x05 << 8 | 0x0F);
-display_write(0x06 << 8 | 0x0F);
-display_write(0x07 << 8 | 0x0F);
-display_write(0x08 << 8 | 0x0F);
 
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
@@ -61,7 +48,7 @@ display_write(0x08 << 8 | 0x0F);
       int rx_counter = UEBCLX;
       while (rx_counter--) {
         unsigned char c = UEDATX;
-        display_write((rx_counter+1)<<8|(c==':'?0xFF:c-48));
+        display_write((rx_counter+1)<<8|(c==':'?0x0F:c-48));
       }
       UEINTX &= ~(1 << FIFOCON);
     }

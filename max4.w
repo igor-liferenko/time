@@ -34,7 +34,6 @@ to configuration of this pacrticular hardware that I have. */
 #include <avr/pgmspace.h>
 #include <string.h>
 
-@ @c
 const uint8_t d0[8][5] PROGMEM = { 
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
@@ -46,7 +45,6 @@ const uint8_t d0[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-@ @c
 const uint8_t d1[8][5] PROGMEM = {
   { 0, 0, 1, 0, 0 },
   { 0, 1, 1, 0, 0 },
@@ -58,7 +56,6 @@ const uint8_t d1[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-@ @c
 const uint8_t d2[8][5] PROGMEM = {
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
@@ -70,7 +67,6 @@ const uint8_t d2[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-@ @c
 const uint8_t d3[8][5] PROGMEM = {
   { 1, 1, 1, 1, 1 },
   { 0, 0, 0, 1, 0 },
@@ -82,7 +78,6 @@ const uint8_t d3[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-@ @c
 const uint8_t d4[8][5] PROGMEM = {
   { 0, 0, 0, 1, 0 },
   { 0, 0, 1, 1, 0 },
@@ -94,7 +89,6 @@ const uint8_t d4[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-@ @c
 const uint8_t d5[8][5] PROGMEM = {
   { 1, 1, 1, 1, 1 },
   { 1, 0, 0, 0, 0 },
@@ -106,7 +100,6 @@ const uint8_t d5[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-@ @c
 const uint8_t d6[8][5] PROGMEM = {
   { 0, 0, 1, 1, 0 },
   { 0, 1, 0, 0, 0 },
@@ -118,7 +111,6 @@ const uint8_t d6[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-@ @c
 const uint8_t d7[8][5] PROGMEM = {
   { 1, 1, 1, 1, 1 },
   { 1, 0, 0, 0, 1 },
@@ -130,7 +122,6 @@ const uint8_t d7[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-@ @c
 const uint8_t d8[8][5] PROGMEM = {
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
@@ -142,7 +133,6 @@ const uint8_t d8[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-@ @c
 const uint8_t d9[8][5] PROGMEM = {
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
@@ -154,7 +144,6 @@ const uint8_t d9[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-@ @c
 const uint8_t colon[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 },
   { 0, 0, 0, 0, 0 },
@@ -276,8 +265,9 @@ void fill_buffer(char *s)
         CYC(colon);
         break;
       }
-      buffer[i][k--] = 0x00; /* empty space; note, that no check for right edge of the whole display
-        is done, because due to size of the characters we have one free column there */
+      buffer[i][k--] = 0x00; /* empty space; note, that no check for right
+        edge of the whole display is done, because due to size of the characters
+        we have one free column there */
     } // end char
   } // end row
 }

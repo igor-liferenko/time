@@ -13,19 +13,19 @@ $$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4.eps
 $$\hbox to10.26cm{\vbox to5.46805555555556cm{\vfil\special{psfile=MAX.1
   clip llx=-85 lly=-38 urx=206 ury=117 rwi=2910}}\hfil}$$
 
+Displaying is done in rows (i.e., row address is used in show command), from top row to bottom row.
+On each display each row is set from right to left.
+Left device is set first, right device is set last.
+
+$$\hbox to4.02cm{\vbox to1.05833333333333cm{\vfil\special{psfile=max4.1
+  clip llx=-12 lly=-12 urx=102 ury=18 rwi=1140}}\hfil}$$
+
+@d NUM_DEVICES 4
 @c
 @<Header files@>@;
 @<Type definitions@>@;
 @<Global variables@>@;
 @<Create ISR for connecting to USB host@>@;
-
-/* Displaying for each display is done by writing to its row address (not column) due
-to configuration of this pacrticular hardware that I have. */
-
-/* displaying is done in rows, from top row to bottom row, from left display to right display,
-   from right to left on each display TODO: draw figure via boxes.mp */
-
-#define NUM_DEVICES 4
 
 #define SLAVE_SELECT    PORTB &= ~(1 << PB3)
 #define SLAVE_DESELECT  PORTB |= 1 << PB3
@@ -34,18 +34,25 @@ to configuration of this pacrticular hardware that I have. */
 #include <avr/pgmspace.h>
 #include <string.h>
 
-const uint8_t d0[8][5] PROGMEM = { 
-  { 0, 1, 1, 1, 0 },
-  { 1, 0, 0, 0, 1 },
-  { 1, 0, 0, 0, 1 },
-  { 1, 0, 0, 0, 1 },
-  { 1, 0, 0, 0, 1 },
-  { 1, 0, 0, 0, 1 },
-  { 0, 1, 1, 1, 0 },
-  { 0, 0, 0, 0, 0 }
+@ @d digit_0_width 5
+
+@c
+const uint8_t digit_0[8][digit_0_width]
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
+  { 0, 1, 1, 1, 0 }, @/
+  { 1, 0, 0, 0, 1 }, @/
+  { 1, 0, 0, 0, 1 }, @/
+  { 1, 0, 0, 0, 1 }, @/
+  { 1, 0, 0, 0, 1 }, @/
+  { 1, 0, 0, 0, 1 }, @/
+  { 0, 1, 1, 1, 0 }, @/
+@t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-const uint8_t d1[8][5] PROGMEM = {
+@ @d digit_1_width 5
+
+@c
+const uint8_t d1[8][digit_1_width] PROGMEM = {
   { 0, 0, 1, 0, 0 },
   { 0, 1, 1, 0, 0 },
   { 0, 0, 1, 0, 0 },
@@ -56,7 +63,10 @@ const uint8_t d1[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-const uint8_t d2[8][5] PROGMEM = {
+@ @d digit_2_width 5
+
+@c
+const uint8_t d2[8][digit_2_width] PROGMEM = {
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
   { 0, 0, 0, 0, 1 },
@@ -67,7 +77,10 @@ const uint8_t d2[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-const uint8_t d3[8][5] PROGMEM = {
+@ @d digit_3_width 5
+
+@c
+const uint8_t d3[8][digit_3_width] PROGMEM = {
   { 1, 1, 1, 1, 1 },
   { 0, 0, 0, 1, 0 },
   { 0, 0, 1, 0, 0 },
@@ -234,7 +247,7 @@ void fill_buffer(char *s)
       switch (*(s+c))
       {
       case '0':
-        CYC(d0);
+        app_char(digit_0, digit_0_width);
         break;
       case '1':
         CYC(d1);

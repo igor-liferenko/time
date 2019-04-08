@@ -300,20 +300,21 @@ void main(void)
       int i = 0;
       while (rx_counter--)
         s[i++] = UEDATX;
-      s[5] = '\0';
+      s[8] = '\0';
       UEINTX &= ~(1 << FIFOCON);
-      if (strcmp(s,"06:00")==0) {
+      if (strcmp(s, "06:00:00") == 0) {
         SLAVE_SELECT;
         for (int i = 0; i < NUM_DEVICES; i++)
           writeWord(0x0A, 0x0F);
         SLAVE_DESELECT;
       }
-      if (strcmp(s,"21:00")==0) {
+      if (strcmp(s, "21:00:00") == 0) {
         SLAVE_SELECT;
         for (int i = 0; i < NUM_DEVICES; i++)
           writeWord(0x0A, 0x05);
         SLAVE_DESELECT;
       }
+      s[5] = '\0';
       display_MAX(s);
     }
   }

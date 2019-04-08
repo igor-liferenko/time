@@ -52,9 +52,9 @@ void main(void)
         s[i++] = UEDATX;
       s[8] = '\0';
       UEINTX &= ~(1 << FIFOCON);
-      if (strcmp(s,"06:00:00") == 0)
+      if (strcmp(s, "06:00:00") == 0)
         display_write(0x0A << 8 | 0xFF);
-      if (strcmp(s,"21:00:00") == 0)
+      if (strcmp(s, "21:00:00") == 0)
         display_write(0x0A << 8 | 0x01);
       for (i = 0; i < 8; i++)
         display_write((8-i)<<8|(s[i]==':'?0x0F:s[i]-48));

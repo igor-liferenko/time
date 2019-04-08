@@ -53,7 +53,8 @@ const uint8_t digit_0[8][digit_0_width]
 @ @d digit_1_width 5
 
 @c
-const uint8_t d1[8][digit_1_width] PROGMEM = {
+const uint8_t digit_1[8][digit_1_width]
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 1, 0, 0 },
   { 0, 1, 1, 0, 0 },
   { 0, 0, 1, 0, 0 },
@@ -61,13 +62,14 @@ const uint8_t d1[8][digit_1_width] PROGMEM = {
   { 0, 0, 1, 0, 0 },
   { 0, 0, 1, 0 ,0 },
   { 0, 1, 1, 1, 0 },
-  { 0, 0, 0, 0, 0 }
+@t\2@> { 0, 0, 0, 0, 0 }
 };
 
 @ @d digit_2_width 5
 
 @c
-const uint8_t digit_2[8][digit_2_width] PROGMEM = {
+const uint8_t digit_2[8][digit_2_width]
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/  
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
   { 0, 0, 0, 0, 1 },
@@ -75,13 +77,14 @@ const uint8_t digit_2[8][digit_2_width] PROGMEM = {
   { 0, 0, 1, 0, 0 },
   { 0, 1, 0, 0, 0 },
   { 1, 1, 1, 1, 1 },
-  { 0, 0, 0, 0, 0 }
+@t\2@> { 0, 0, 0, 0, 0 }
 };
 
 @ @d digit_3_width 5
 
 @c
-const uint8_t digit_3[8][digit_3_width] PROGMEM = {
+const uint8_t digit_3[8][digit_3_width]
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/  
   { 1, 1, 1, 1, 1 },
   { 0, 0, 0, 1, 0 },
   { 0, 0, 1, 0, 0 },
@@ -89,11 +92,14 @@ const uint8_t digit_3[8][digit_3_width] PROGMEM = {
   { 0, 0, 0, 0, 1 },
   { 1, 0, 0, 0, 1 },
   { 0, 1, 1, 1, 0 },
-  { 0, 0, 0, 0, 0 }
+@t\2@> { 0, 0, 0, 0, 0 }
 };
 
-@ @c
-const uint8_t d4[8][5] PROGMEM = {
+@ @d digit_4_width 5
+
+@c
+const uint8_t digit_4[8][digit_4_width]
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 0, 1, 0 },
   { 0, 0, 1, 1, 0 },
   { 0, 1, 0, 1, 0 },
@@ -101,10 +107,14 @@ const uint8_t d4[8][5] PROGMEM = {
   { 1, 1, 1, 1, 1 },
   { 0, 0, 0, 1, 0 },
   { 0, 0, 0, 1, 0 },
-  { 0, 0, 0, 0, 0 }
+@t\2@> { 0, 0, 0, 0, 0 }
 };
 
-const uint8_t d5[8][5] PROGMEM = {
+@ @d digit_5_width 5
+
+@c
+const uint8_t digit_5[8][digit_5_width]
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 1, 1, 1, 1, 1 },
   { 1, 0, 0, 0, 0 },
   { 1, 1, 1, 1, 0 },
@@ -112,10 +122,14 @@ const uint8_t d5[8][5] PROGMEM = {
   { 0, 0, 0, 0, 1 },
   { 1, 0, 0, 0, 1 },
   { 0, 1, 1, 1, 0 },
-  { 0, 0, 0, 0, 0 }
+@t\2@> { 0, 0, 0, 0, 0 }
 };
 
-const uint8_t d6[8][5] PROGMEM = {
+@ @d digit_6_width 5
+
+@c
+const uint8_t digit_6[8][digit_6_width]
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 1, 1, 0 },
   { 0, 1, 0, 0, 0 },
   { 1, 0, 0, 0, 0 },
@@ -123,10 +137,14 @@ const uint8_t d6[8][5] PROGMEM = {
   { 1, 0, 0, 0, 1 },
   { 1, 0, 0, 0, 1 },
   { 0, 1, 1, 1, 0 },
-  { 0, 0, 0, 0, 0 }
+@t\2@> { 0, 0, 0, 0, 0 }
 };
 
-const uint8_t d7[8][5] PROGMEM = {
+@ @d digit_7_width 5
+
+@c
+const uint8_t digit_7[8][digit_7_width]
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 1, 1, 1, 1, 1 },
   { 1, 0, 0, 0, 1 },
   { 0, 0, 0, 1, 0 },
@@ -134,10 +152,14 @@ const uint8_t d7[8][5] PROGMEM = {
   { 0, 1, 0, 0, 0 },
   { 0, 1, 0, 0, 0 },
   { 0, 1, 0, 0, 0 },
-  { 0, 0, 0, 0, 0 }
+@t\2@> { 0, 0, 0, 0, 0 }
 };
 
-const uint8_t d8[8][5] PROGMEM = {
+@ @d digit_8_width 5
+
+@c
+const uint8_t digit_8[8][digit_8_width]
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
   { 1, 0, 0, 0, 1 },
@@ -145,10 +167,14 @@ const uint8_t d8[8][5] PROGMEM = {
   { 1, 0, 0, 0, 1 },
   { 1, 0, 0, 0, 1 },
   { 0, 1, 1, 1, 0 },
-  { 0, 0, 0, 0, 0 }
+@t\2@> { 0, 0, 0, 0, 0 }
 };
 
-const uint8_t d9[8][5] PROGMEM = {
+@ @d digit_9_width 5
+
+@c
+const uint8_t digit_9[8][digit_9_width]
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
   { 1, 0, 0, 0, 1 },
@@ -156,13 +182,14 @@ const uint8_t d9[8][5] PROGMEM = {
   { 0, 0, 0, 0, 1 },
   { 0, 0, 0, 1, 0 },
   { 0, 1, 1, 0, 0 },
-  { 0, 0, 0, 0, 0 }
+@t\2@> { 0, 0, 0, 0, 0 }
 };
 
 @ @d colon_width 6
 
 @c
-const uint8_t colon[8][colon_width] PROGMEM = {
+const uint8_t colon[8][colon_width]
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 0, 0, 0, 0 },
   { 0, 0, 0, 0, 0, 0 },
   { 0, 0, 1, 1, 0, 0 },
@@ -170,9 +197,10 @@ const uint8_t colon[8][colon_width] PROGMEM = {
   { 0, 0, 0, 0, 0, 0 },
   { 0, 0, 1, 1, 0, 0 },
   { 0, 0, 1, 1, 0, 0 },
-  { 0, 0, 0, 0, 0, 0 }
+@t\2@> { 0, 0, 0, 0, 0, 0 }
 };
 
+@ @c
 void display_push(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
 {
   for (int i = 16; i > 0; i--) { // shift 16 bits out, msb first

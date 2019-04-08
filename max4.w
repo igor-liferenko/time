@@ -145,17 +145,19 @@ const uint8_t d9[8][5] PROGMEM = {
 };
 
 const uint8_t colon[8][5] PROGMEM = {
-  { 0, 0, 0, 0, 0 },
-  { 0, 0, 0, 0, 0 },
-  { 0, 0, 1, 1, 0 },
-  { 0, 0, 1, 1, 0 },
-  { 0, 0, 0, 0, 0 },
-  { 0, 0, 1, 1, 0 },
-  { 0, 0, 1, 1, 0 },
-  { 0, 0, 0, 0, 0 }
+  { 0, 0, 0, 0, 0, 0 },
+  { 0, 0, 0, 0, 0, 0 },
+  { 0, 0, 1, 1, 0, 0 },
+  { 0, 0, 1, 1, 0, 0 },
+  { 0, 0, 0, 0, 0, 0 },
+  { 0, 0, 1, 1, 0, 0 },
+  { 0, 0, 1, 1, 0, 0 },
+  { 0, 0, 0, 0, 0, 0 }
 };
 
-@ @c
+@ Buffer is necessary because <see paper with notes>.
+
+@c
 uint8_t buffer[8][NUM_DEVICES*8];
 
 void init_SPI(void) 
@@ -226,8 +228,8 @@ void display_buffer(void)
 void fill_buffer(char *s)
 {
   for (int i = 0; i < 8; i++) {
-    int k = NUM_DEVICES*8-1-2; /* `|-2|' is the number of padding columns from left edge of the
-      whole display */
+    int k = NUM_DEVICES*8-1-1; /* last `|-1|' is the number of padding columns from left
+      edge of the whole display */
     for (int c = 0; c < strlen(s); c++) {
       switch (*(s+c))
       {
@@ -262,7 +264,7 @@ void fill_buffer(char *s)
         CYC(d9);
         break;
       case ':':
-        CYC(colon);
+        for (int j = 0; j < 6; j++) buffer[i][k--] = pgm_read_byte(&colon[i][j]);
         break;
       }
       buffer[i][k--] = 0x00; /* empty space; note, that no check for right

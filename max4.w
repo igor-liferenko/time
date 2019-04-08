@@ -173,28 +173,27 @@ const uint8_t colon[8][colon_width] PROGMEM = {
   { 0, 0, 0, 0, 0, 0 }
 };
 
+void display_push(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
+{
+  for (int i = 16; i > 0; i--) { // shift 16 bits out, msb first
+    if (dc & 1 << 15) @+ PORTB |= 1 << PB2;
+    else @+ PORTB &= ~(1 << PB2);
+    PORTB &= ~(1 << PB1); @+ PORTB |= 1 << PB1;
+    dc <<= 1;
+  }
+}
+
+void display_write_all(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
+{
+  for (int i = 0; i < NUM_DEVICES; i++)
+    display_push(dc);
+  latch();
+}
+
 @ Buffer is necessary because <see paper with notes>.
 
 @c
 uint8_t buffer[8][NUM_DEVICES*8];
-
-void init_SPI(void) 
-{
-  DDRB |= 1 << PB0; /* this pin is not used for SS because it is not available on promicro,
-    but it must be set for OUTPUT anyway, otherwise MCU will be used as SPI slave;
-    and on micro board which has SS pin it should not be used anyway because LED is
-    attached to it, which means it will be almost constantly ON (i.e., when SPI is
-    inactive) */
-  DDRB |= 1 << PB3;
-  PORTB |= 1 << PB3;      // begin high (unselected)
-
-  DDRB |= (1 << PB2);       // Output on MOSI 
-  DDRB |= (1 << PB1);       // Output on SCK 
-
-  SPCR |= (1 << MSTR);      // Clockmaster 
-  SPCR |= (1 << SPE);       // Enable SPI
-  // this means that SCK frequency is default clk/4, i.e., 4MHz
-}
 
 void writeByte(uint8_t byte)
 {
@@ -208,24 +207,8 @@ void writeWord(uint8_t address, uint8_t data)
   writeByte(data);
 }
 
-void init_displays(void)
-{
-  SLAVE_SELECT;
-  for (int i = 0; i < NUM_DEVICES; i++)
-    writeWord(0x0A, 0x0F); // brightness
-  SLAVE_DESELECT;
-
-  SLAVE_SELECT;
-  for (int i = 0; i < NUM_DEVICES; i++)
-    writeWord(0x0B, 0x07); /* all rows are used */
-  SLAVE_DESELECT;
-
-  SLAVE_SELECT;
-  for (int i = 0; i < NUM_DEVICES; i++)
-    writeWord(0x0C, 0x01);
-  SLAVE_DESELECT;
-}
-
+@ @d latch() PORTB |= 1 << PB3; @+ PORTB &= ~(1 << PB3);
+@c
 void display_buffer(void)
 {
   for (int i = 0; i < 8; i++) {
@@ -296,12 +279,6 @@ void fill_buffer(char *s)
   } // end row
 }
 
-void init_MAX(void)
-{
-  init_SPI();
-  init_displays();
-}
-
 void display_MAX(char *s)
 {
   fill_buffer(s);
@@ -311,7 +288,14 @@ void display_MAX(char *s)
 void main(void)
 {
   @<Connect to USB host (must be called first; |sei| is called here)@>@;
-  init_MAX();
+
+  DDRB |= 1 << PB1 | 1 << PB2 | 1 << PB3;
+
+  display_write_all(0x0B << 8 | 0x07); /* all characters are used */
+  display_write_all(0x09 << 8 | 0xFF); /* decode mode */
+  display_write_all(0x0A << 8 | 0xFF); /* brightness */
+  display_write_all(0x0C << 8 | 0x01); /* enable */
+
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
     UENUM = EP2;

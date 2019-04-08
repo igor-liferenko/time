@@ -66,7 +66,7 @@ const uint8_t d1[8][digit_1_width] PROGMEM = {
 @ @d digit_2_width 5
 
 @c
-const uint8_t d2[8][digit_2_width] PROGMEM = {
+const uint8_t digit_2[8][digit_2_width] PROGMEM = {
   { 0, 1, 1, 1, 0 },
   { 1, 0, 0, 0, 1 },
   { 0, 0, 0, 0, 1 },
@@ -80,7 +80,7 @@ const uint8_t d2[8][digit_2_width] PROGMEM = {
 @ @d digit_3_width 5
 
 @c
-const uint8_t d3[8][digit_3_width] PROGMEM = {
+const uint8_t digit_3[8][digit_3_width] PROGMEM = {
   { 1, 1, 1, 1, 1 },
   { 0, 0, 0, 1, 0 },
   { 0, 0, 1, 0, 0 },
@@ -91,6 +91,7 @@ const uint8_t d3[8][digit_3_width] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
+@ @c
 const uint8_t d4[8][5] PROGMEM = {
   { 0, 0, 0, 1, 0 },
   { 0, 0, 1, 1, 0 },
@@ -157,7 +158,10 @@ const uint8_t d9[8][5] PROGMEM = {
   { 0, 0, 0, 0, 0 }
 };
 
-const uint8_t colon[8][5] PROGMEM = {
+@ @d colon_width 6
+
+@c
+const uint8_t colon[8][colon_width] PROGMEM = {
   { 0, 0, 0, 0, 0, 0 },
   { 0, 0, 0, 0, 0, 0 },
   { 0, 0, 1, 1, 0, 0 },
@@ -237,7 +241,11 @@ void display_buffer(void)
   }
 }
 
-#define CYC(b) for (int j = 0; j < 5; j++) buffer[i][k--] = pgm_read_byte(&b[i][j]);
+@ Append character to buffer.
+
+@d app_char(buf, width) for (int j = 0; j < width; j++) buffer[i][k--] = pgm_read_byte(&buf[i][j]);
+
+@c
 void fill_buffer(char *s)
 {
   for (int i = 0; i < 8; i++) {
@@ -250,34 +258,34 @@ void fill_buffer(char *s)
         app_char(digit_0, digit_0_width);
         break;
       case '1':
-        CYC(d1);
+        app_char(digit_1, digit_1_width);
         break;
       case '2':
-        CYC(d2);
+        app_char(digit_2, digit_2_width);
         break;
       case '3':
-        CYC(d3);
+        app_char(digit_3, digit_3_width);
         break;
       case '4':
-        CYC(d4);
+        app_char(digit_4,5);
         break;
       case '5':
-        CYC(d5);
+        app_char(digit_5,5);
         break;
       case '6':
-        CYC(d6);
+        app_char(digit_6,5);
         break;
       case '7':
-        CYC(d7);
+        app_char(digit_7,5);
         break;
       case '8':
-        CYC(d8);
+        app_char(digit_8,5);
         break;
       case '9':
-        CYC(d9);
+        app_char(digit_9,5);
         break;
       case ':':
-        for (int j = 0; j < 6; j++) buffer[i][k--] = pgm_read_byte(&colon[i][j]);
+        app_char(colon, colon_width);
         break;
       }
       buffer[i][k--] = 0x00; /* empty space; note, that no check for right

@@ -12,6 +12,7 @@ max.c
 time-read.tex
 time-write.tex
 max.tex
+max4.tex
 *.toc
 *.eps
 *.[0-9]

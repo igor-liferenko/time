@@ -13,12 +13,19 @@ $$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4-pic.eps
 $$\hbox to10.26cm{\vbox to5.46805555555556cm{\vfil\special{psfile=MAX.1
   clip llx=-85 lly=-38 urx=206 ury=117 rwi=2910}}\hfil}$$
 
+%FIXME: see how to make images side-by-side in tex/TIPS
+%$$\hbox to8.35cm{\vbox to2.2225cm{\vfil\special{psfile=MAX.1
+%  clip llx=-38 lly=37 urx=57 ury=100 rwi=950}}\kern5cm
+%  \vbox to1.48166666666667cm{\vfil\special{psfile=MAX.2
+%  clip llx=-142 lly=-21 urx=-28 ury=21 rwi=1140}}\hfil}$$
+
+
 Displaying is done in rows (i.e., row address is used in show command), from top row to bottom row.
 On each display each row is set from right to left.
 Left device is set first, right device is set last.
 
-$$\hbox to4.23cm{\vbox to1.05833333333333cm{\vfil\special{psfile=max4.1
-  clip llx=-12 lly=-12 urx=108 ury=18 rwi=1200}}\hfil}$$
+$$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.1
+  clip llx=-27 lly=-26 urx=213 ury=32 rwi=2400}}\hfil}$$
 
 @d NUM_DEVICES 4
 

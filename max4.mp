@@ -7,7 +7,7 @@ verbatimtex
 etex
 
 beginfig(1);
-u:=1cm;
+u:=2cm;
 boxit.b1(btex 1 etex);
 b1.e-b1.w=right*1u;
 b1.n-b1.s=up*1u;

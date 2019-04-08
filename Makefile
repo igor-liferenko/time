@@ -18,6 +18,6 @@ max4-pic.eps: max4-pic.png
 	@convert $< $@
 	@imgsize $@ 7 -
 
-max.eps: max.png
+max-pic.eps: max-pic.png
 	@convert $< $@
 	@imgsize $@ 7 -

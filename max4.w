@@ -17,10 +17,11 @@ Displaying is done in rows (i.e., row address is used in show command), from top
 On each display each row is set from right to left.
 Left device is set first, right device is set last.
 
-$$\hbox to4.02cm{\vbox to1.05833333333333cm{\vfil\special{psfile=max4.1
-  clip llx=-12 lly=-12 urx=102 ury=18 rwi=1140}}\hfil}$$
+$$\hbox to4.23cm{\vbox to1.05833333333333cm{\vfil\special{psfile=max4.1
+  clip llx=-12 lly=-12 urx=108 ury=18 rwi=1200}}\hfil}$$
 
 @d NUM_DEVICES 4
+
 @c
 @<Header files@>@;
 @<Type definitions@>@;

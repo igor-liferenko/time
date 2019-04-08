@@ -5,7 +5,7 @@
 
 @* Program.
 
-$$\hbox to7cm{\vbox to5.55cm{\vfil\special{psfile=max.eps
+$$\hbox to7cm{\vbox to5.55cm{\vfil\special{psfile=max-pic.eps
   clip llx=0 lly=0 urx=431 ury=342 rwi=1984}}\hfil}$$
 
 FIXME: see how to make images side-by-side in tex/TIPS

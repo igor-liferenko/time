@@ -1,6 +1,10 @@
-outputtemplate:="%j.eps"; prologues:=3;
+%outputtemplate:="%j.eps"; prologues:=3;
 
 input boxes;
+
+verbatimtex
+\font\tenss=cmss10 \tenss
+etex
 
 beginfig(1);
 boxit.b1(btex 1 etex);

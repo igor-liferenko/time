@@ -279,22 +279,22 @@ void fill_buffer(char *s)
         app_char(digit_3, digit_3_width);
         break;
       case '4':
-        app_char(digit_4,5);
+        app_char(digit_4, digit_4_width);
         break;
       case '5':
-        app_char(digit_5,5);
+        app_char(digit_5, digit_5_width);
         break;
       case '6':
-        app_char(digit_6,5);
+        app_char(digit_6, digit_6_width);
         break;
       case '7':
-        app_char(digit_7,5);
+        app_char(digit_7, digit_7_width);
         break;
       case '8':
-        app_char(digit_8,5);
+        app_char(digit_8, digit_8_width);
         break;
       case '9':
-        app_char(digit_9,5);
+        app_char(digit_9, digit_9_width);
         break;
       case ':':
         app_char(colon, colon_width);

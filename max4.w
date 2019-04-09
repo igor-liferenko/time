@@ -53,8 +53,7 @@ Then set decode mode to properly clear all LEDs,
 and clear them. Finally, configure the rest registers and enable the display.
 
 @<Initialize display@>=
-DDRB |= 1 << PB0 | 1 << PB1 | 1 << PB2;
-DDRD |= 1 << PD7; // FIXME: after you make it work, try on PB3
+DDRB |= 1 << PB0 | 1 << PB1 | 1 << PB2 | 1 << PB4;
 SPCR |= 1 << MSTR | 1 << SPR1 | 1 << SPE;
 display_write4(0x0F, 0x00);
 display_write4(0x0C, 0x00);
@@ -150,7 +149,7 @@ $$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.1
           data |= 1 << i;
       display_push(row+1, data);
     }
-    PORTD |= 1 << PD7; _delay_us(1);@+ PORTD &= ~(1 << PD7);
+    PORTB |= 1 << PB4; _delay_us(1);@+ PORTB &= ~(1 << PB4);
   }
 
 @ @<Functions@>=
@@ -172,7 +171,7 @@ void display_write4(uint8_t address, uint8_t data)
 {
   for (int i = 0; i < NUM_DEVICES; i++)
     display_push(address, data);
-  PORTD |= 1 << PD7; @+_delay_us(1); PORTD &= ~(1 << PD7);
+  PORTB |= 1 << PB4; @+_delay_us(1); PORTB &= ~(1 << PB4);
 }
 
 @ @<Char...@>=

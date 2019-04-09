@@ -8,8 +8,8 @@
 $$\hbox to7cm{\vbox to5.55cm{\vfil\special{psfile=max-pic.eps
   clip llx=0 lly=0 urx=431 ury=342 rwi=1984}}\hfil}$$
 
-$$\hbox to5.64cm{\vbox to2.57527777777778cm{\vfil\special{psfile=MAX.1
-  clip llx=-63 lly=96 urx=97 ury=169 rwi=1600}}\hfil}$$
+$$\hbox to7.16cm{\vbox to2.92805555555556cm{\vfil\special{psfile=MAX.1
+  clip llx=-63 lly=96 urx=140 ury=179 rwi=2030}}\hfil}$$
 
 @c
 @<Header files@>@;

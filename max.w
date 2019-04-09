@@ -32,14 +32,7 @@ void main(void)
 {
   @<Connect to USB host (must be called first; |sei| is called here)@>@;
 
-  DDRB |= 1 << PB4;
-  DDRE |= 1 << PE6;
-  DDRD |= 1 << PD7;
-
-  display_write(0x0B << 8 | 0x07); /* all characters are used */
-  display_write(0x09 << 8 | 0xFF); /* decode mode */
-  display_write(0x0A << 8 | 0xFF); /* brightness */
-  display_write(0x0C << 8 | 0x01); /* enable */
+  MAX_init();
 
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
@@ -81,5 +74,6 @@ if (UEINTX & 1 << RXSTPI) {
 @<Header files@>=
 #include <avr/io.h>
 #include <string.h>
+#include <max.h>
 
 @* Index.

@@ -25,6 +25,7 @@ $$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.1
 @<Type definitions@>@;
 @<Global variables@>@;
 @<Functions@>@;
+@<Character images@>@;
 @<Create ISR for connecting to USB host@>@;
 
 void main(void)
@@ -55,6 +56,10 @@ void main(void)
 }
 
 @ Initialization of all registers must be done, because they may contain garbage.
+First we make sure that test mode is disabled, because it overrides all registers.
+Next, we make sure that display is disabled, because there may be random lighting LEDs on it.
+Then we clear all LEDs and configure the rest registers. Finally, after display was configured,
+we enable it.
 
 @<Initialize display@>=
 DDRB |= 1 << PB4;
@@ -164,7 +169,7 @@ void display_write4(unsigned int dc) /* FIXME: will it work without `|unsigned|'
   PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7);
 }
 
-@ @<Global...@>=
+@ @<Char...@>=
 const uint8_t digit_0[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/

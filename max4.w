@@ -182,7 +182,7 @@ const uint8_t digit_0[8][5]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Global...@>=
+@ @<Char...@>=
 const uint8_t digit_1[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 1, 0, 0 }, @/
@@ -195,7 +195,7 @@ const uint8_t digit_1[8][5]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Global...@>=
+@ @<Char...@>=
 const uint8_t digit_2[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/  
   { 0, 1, 1, 1, 0 }, @/
@@ -208,7 +208,7 @@ const uint8_t digit_2[8][5]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Global...@>=
+@ @<Char...@>=
 const uint8_t digit_3[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/  
   { 1, 1, 1, 1, 1 }, @/
@@ -221,7 +221,7 @@ const uint8_t digit_3[8][5]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Global...@>=
+@ @<Char...@>=
 const uint8_t digit_4[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 0, 1, 0 }, @/
@@ -234,7 +234,7 @@ const uint8_t digit_4[8][5]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Global...@>=
+@ @<Char...@>=
 const uint8_t digit_5[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 1, 1, 1, 1, 1 }, @/
@@ -247,7 +247,7 @@ const uint8_t digit_5[8][5]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Global...@>=
+@ @<Char...@>=
 const uint8_t digit_6[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 1, 1, 0 }, @/
@@ -260,7 +260,7 @@ const uint8_t digit_6[8][5]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Global...@>=
+@ @<Char...@>=
 const uint8_t digit_7[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 1, 1, 1, 1, 1 }, @/
@@ -273,7 +273,7 @@ const uint8_t digit_7[8][5]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Global...@>=
+@ @<Char...@>=
 const uint8_t digit_8[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
@@ -286,7 +286,7 @@ const uint8_t digit_8[8][5]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Global...@>=
+@ @<Char...@>=
 const uint8_t digit_9[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
@@ -299,7 +299,7 @@ const uint8_t digit_9[8][5]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Global...@>=
+@ @<Char...@>=
 const uint8_t colon[8][6]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 0, 0, 0, 0 }, @/

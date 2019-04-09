@@ -33,10 +33,8 @@ $$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.1
 #include <avr/pgmspace.h>
 #include <string.h>
 
-@ @d digit_0_width 5
-
-@c
-const uint8_t digit_0[8][digit_0_width]
+@ @c
+const uint8_t digit_0[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -48,10 +46,8 @@ const uint8_t digit_0[8][digit_0_width]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @d digit_1_width 5
-
-@c
-const uint8_t digit_1[8][digit_1_width]
+@ @c
+const uint8_t digit_1[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 1, 0, 0 }, @/
   { 0, 1, 1, 0, 0 }, @/
@@ -63,10 +59,8 @@ const uint8_t digit_1[8][digit_1_width]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @d digit_2_width 5
-
-@c
-const uint8_t digit_2[8][digit_2_width]
+@ @c
+const uint8_t digit_2[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/  
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -78,10 +72,8 @@ const uint8_t digit_2[8][digit_2_width]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @d digit_3_width 5
-
-@c
-const uint8_t digit_3[8][digit_3_width]
+@ @c
+const uint8_t digit_3[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/  
   { 1, 1, 1, 1, 1 }, @/
   { 0, 0, 0, 1, 0 }, @/
@@ -93,10 +85,8 @@ const uint8_t digit_3[8][digit_3_width]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @d digit_4_width 5
-
-@c
-const uint8_t digit_4[8][digit_4_width]
+@ @c
+const uint8_t digit_4[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 0, 1, 0 }, @/
   { 0, 0, 1, 1, 0 }, @/
@@ -108,10 +98,8 @@ const uint8_t digit_4[8][digit_4_width]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @d digit_5_width 5
-
-@c
-const uint8_t digit_5[8][digit_5_width]
+@ @c
+const uint8_t digit_5[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 1, 1, 1, 1, 1 }, @/
   { 1, 0, 0, 0, 0 }, @/
@@ -123,10 +111,8 @@ const uint8_t digit_5[8][digit_5_width]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @d digit_6_width 5
-
-@c
-const uint8_t digit_6[8][digit_6_width]
+@ @c
+const uint8_t digit_6[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 1, 1, 0 }, @/
   { 0, 1, 0, 0, 0 }, @/
@@ -138,10 +124,8 @@ const uint8_t digit_6[8][digit_6_width]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @d digit_7_width 5
-
-@c
-const uint8_t digit_7[8][digit_7_width]
+@ @c
+const uint8_t digit_7[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 1, 1, 1, 1, 1 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -153,10 +137,8 @@ const uint8_t digit_7[8][digit_7_width]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @d digit_8_width 5
-
-@c
-const uint8_t digit_8[8][digit_8_width]
+@ @c
+const uint8_t digit_8[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -168,10 +150,8 @@ const uint8_t digit_8[8][digit_8_width]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @d digit_9_width 5
-
-@c
-const uint8_t digit_9[8][digit_9_width]
+@ @c
+const uint8_t digit_9[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -183,10 +163,8 @@ const uint8_t digit_9[8][digit_9_width]
 @t\2@> { 0, 0, 0, 0, 0 } @/
 };
 
-@ @d colon_width 6
-
-@c
-const uint8_t colon[8][colon_width]
+@ @c
+const uint8_t colon[8][6]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 0, 0, 0, 0 }, @/
   { 0, 0, 1, 1, 0, 0 }, @/
@@ -259,8 +237,9 @@ void fill_buffer(char *s)
   for (int row = 0; row < 8; row++) {
     int col = NUM_DEVICES*8-1-1; /* last `|-1|' is the number of padding columns from left
       edge of the whole display */
-    while (*s != '\0') {
-      switch (*s)
+    char *c = s;
+    while (*c != '\0') {
+      switch (*c)
       {
       case '0':
         append(digit_0);
@@ -299,7 +278,7 @@ void fill_buffer(char *s)
       buffer[row][col--] = 0x00; /* empty space; note, that no check for right
         edge of the whole display is done, because due to size of the characters
         we have one free column there */
-      s++;
+      c++;
     }
   }
 }

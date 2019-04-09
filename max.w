@@ -62,7 +62,7 @@ if (UEINTX & 1 << RXSTPI) {
 
 @<Header files@>=
 #include <avr/io.h>
-#include <string.h>
+#include <string.h> /* |strcmp| */
 #include "max.h"
 
 @* Index.

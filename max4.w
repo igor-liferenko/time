@@ -209,11 +209,11 @@ void display_push(unsigned int dc) /* FIXME: will it work without `|unsigned|'? 
   }
 }
 
-void display_write_all(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
+void display_write4(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
 {
   for (int i = 0; i < NUM_DEVICES; i++)
     display_push(dc);
-  latch();
+  PORTB |= 1 << PB3; @+ PORTB &= ~(1 << PB3);
 }
 
 @ Buffer is necessary because <see paper with notes>.
@@ -233,8 +233,7 @@ void writeWord(uint8_t address, uint8_t data)
   writeByte(data);
 }
 
-@ @d latch() PORTB |= 1 << PB3; @+ PORTB &= ~(1 << PB3);
-@c
+@ @c
 void display_buffer(void)
 {
   for (int i = 0; i < 8; i++) {
@@ -317,10 +316,10 @@ void main(void)
 
   DDRB |= 1 << PB1 | 1 << PB2 | 1 << PB3;
 
-  display_write_all(0x0B << 8 | 0x07); /* all characters are used */
-  display_write_all(0x09 << 8 | 0xFF); /* decode mode */
-  display_write_all(0x0A << 8 | 0xFF); /* brightness */
-  display_write_all(0x0C << 8 | 0x01); /* enable */
+  display_write4(0x0B << 8 | 0x07); /* all characters are used */
+  display_write4(0x09 << 8 | 0xFF); /* decode mode */
+  display_write4(0x0A << 8 | 0xFF); /* brightness */
+  display_write4(0x0C << 8 | 0x01); /* enable */
 
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;

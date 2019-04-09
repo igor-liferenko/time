@@ -17,7 +17,7 @@ drawboxes(arduino); draw pic(arduino) shifted (down*.1u);
 
 % pins
 pair arduino[],arduino.B[],arduino.E[],arduino.D[],arduino.GND[],arduino.VCC,arduino.RST;
-xpart(arduino.16)=xpart(arduino.w)+.57u; ypart(arduino.16)=ypart(arduino.s);
+xpart(arduino.16)=xpart(arduino.w)+.56u; ypart(arduino.16)=ypart(arduino.s);
 xpart(arduino.14)=xpart(arduino.16)+.45u; ypart(arduino.14)=ypart(arduino.s);
 xpart(arduino.15)=xpart(arduino.14)+.45u; ypart(arduino.15)=ypart(arduino.s);
 xpart(arduino.VCC)=xpart(arduino.RST)-.48u; ypart(arduino.VCC)=ypart(arduino.s);

@@ -1,5 +1,5 @@
-void MAX_init(void) /* initialization of all registers must be done, because device registers may
-  contain garbage */
+/* Initialization of all registers must be done, because device registers may contain garbage. */
+void MAX_init(void)
 {
   DDRB |= 1 << PB4;
   DDRE |= 1 << PE6;

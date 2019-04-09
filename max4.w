@@ -65,12 +65,63 @@ void display_buffer(void)
   }
 }
 
+void main(void)
+{
+  @<Connect to USB host (must be called first; |sei| is called here)@>@;
+
+  @<Initialize display@>@;
+
+  char s[9];
+
+  while (1) {
+    @<If there is a request on |EP0|, handle it@>@;
+    UENUM = EP2;
+    if (UEINTX & 1 << RXOUTI) {
+      UEINTX &= ~(1 << RXOUTI);
+      int rx_counter = UEBCLX;
+      while (rx_counter--)
+        s[7-rx_counter] = UEDATX;
+      UEINTX &= ~(1 << FIFOCON);
+      s[8] = '\0';
+      if (strcmp(s, "06:00:00") == 0)
+        display_write4(0x0A << 8 | 0x0F);
+      if (strcmp(s, "21:00:00") == 0)
+        display_write4(0x0A << 8 | 0x03);
+      s[5] = '\0';
+      @<Display |s|@>@;
+    }
+  }
+}
+
+@ Initialization of all registers must be done, because they may contain garbage.
+
+@<Initialize display@>=
+DDRB |= 1 << PB4;
+DDRE |= 1 << PE6;
+DDRD |= 1 << PD7;
+display_write4(0x0F << 8 | 0x00);
+display_write4(0x0C << 8 | 0x00);
+display_write4(0x01 << 8 | 0x00);
+display_write4(0x02 << 8 | 0x00);
+display_write4(0x03 << 8 | 0x00);
+display_write4(0x04 << 8 | 0x00);
+display_write4(0x05 << 8 | 0x00);
+display_write4(0x06 << 8 | 0x00);
+display_write4(0x07 << 8 | 0x00);
+display_write4(0x08 << 8 | 0x00);
+display_write4(0x09 << 8 | 0x00);
+display_write4(0x0A << 8 | 0x0F);
+display_write4(0x0B << 8 | 0x07);
+display_write4(0x0C << 8 | 0x01);
+
+@ @<Display |s|@>=
+@<Fill buffer from |s|@>@;
+@<Display buffer@>@;
+
 @ @d app_to_buf(chr)
      for (int i = 0; i < sizeof chr / 8; i++) buffer[row][col--] = pgm_read_byte(&chr[row][i])
 
-@c
-void fill_buffer(char *s)
-{
+@<Fill buffer from |s|@>=
   for (int row = 0; row < 8; row++) {
     int col = NUM_DEVICES*8-1-1; /* last `|-1|' is the number of padding columns from left
       edge of the whole display */
@@ -116,61 +167,6 @@ void fill_buffer(char *s)
         we have one free column there */
     }
   }
-}
-
-void display_MAX(char *s)
-{
-  fill_buffer(s);
-  display_buffer();
-}
-
-void main(void)
-{
-  @<Connect to USB host (must be called first; |sei| is called here)@>@;
-
-  @<Initialize display@>@;
-
-  while (1) {
-    @<If there is a request on |EP0|, handle it@>@;
-    UENUM = EP2;
-    if (UEINTX & 1 << RXOUTI) {
-      UEINTX &= ~(1 << RXOUTI);
-      int rx_counter = UEBCLX;
-      char s[9];
-      while (rx_counter--)
-        s[7-rx_counter] = UEDATX;
-      s[8] = '\0';
-      UEINTX &= ~(1 << FIFOCON);
-      if (strcmp(s, "06:00:00") == 0)
-        display_write4(0x0A << 8 | 0x0F);
-      if (strcmp(s, "21:00:00") == 0)
-        display_write4(0x0A << 8 | 0x03);
-      s[5] = '\0';
-      display_MAX(s);
-    }
-  }
-}
-
-@ Initialization of all registers must be done, because they may contain garbage.
-
-@<Initialize display@>=
-DDRB |= 1 << PB4;
-DDRE |= 1 << PE6;
-DDRD |= 1 << PD7;
-display_write4(0x0F << 8 | 0x00);
-display_write4(0x0C << 8 | 0x00);
-display_write4(0x01 << 8 | 0x00);
-display_write4(0x02 << 8 | 0x00);
-display_write4(0x03 << 8 | 0x00);
-display_write4(0x04 << 8 | 0x00);
-display_write4(0x05 << 8 | 0x00);
-display_write4(0x06 << 8 | 0x00);
-display_write4(0x07 << 8 | 0x00);
-display_write4(0x08 << 8 | 0x00);
-display_write4(0x09 << 8 | 0x00);
-display_write4(0x0A << 8 | 0x0F);
-display_write4(0x0B << 8 | 0x07);
-display_write4(0x0C << 8 | 0x01);
 
 @ @<Global...@>=
 const uint8_t digit_0[8][5]

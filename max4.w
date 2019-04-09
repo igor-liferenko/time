@@ -24,46 +24,8 @@ $$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.1
 @<Header files@>@;
 @<Type definitions@>@;
 @<Global variables@>@;
+@<Functions@>@;
 @<Create ISR for connecting to USB host@>@;
-
-@ @c
-void display_push(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
-{
-  for (int i = 16; i > 0; i--) { // shift 16 bits out, msb first
-    if (dc & 1 << 15) @+ PORTB |= 1 << PB4;
-    else @+ PORTB &= ~(1 << PB4);
-    PORTE &= ~(1 << PE6); @+ PORTE |= 1 << PE6;
-    dc <<= 1;
-  }
-}
-
-void display_write4(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
-{
-  for (int i = 0; i < NUM_DEVICES; i++)
-    display_push(dc);
-  PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7);
-}
-
-@ Buffer is necessary because the whole row must be known before outputting it to a given device.
-
-@c
-uint8_t buffer[8][NUM_DEVICES*8];
-
-@ @c
-void display_buffer(void)
-{
-  for (int row = 0; row < 8; row++) {
-    uint8_t data;
-    for (int n = NUM_DEVICES; n > 0; n--) {
-      data = 0x00;
-      for (int i = 0; i < 8; i++)
-        if (buffer[row][(n-1)*8+i])
-          data |= 1 << i;
-      display_push(row+1 << 8 | data);
-    }
-    PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7);
-  }
-}
 
 void main(void)
 {
@@ -71,13 +33,12 @@ void main(void)
 
   @<Initialize display@>@;
 
-  char s[9];
-
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
+      char s[9];
       int rx_counter = UEBCLX;
       while (rx_counter--)
         s[7-rx_counter] = UEDATX;
@@ -114,14 +75,17 @@ display_write4(0x0A << 8 | 0x0F);
 display_write4(0x0B << 8 | 0x07);
 display_write4(0x0C << 8 | 0x01);
 
-@ @<Display |s|@>=
-@<Fill buffer from |s|@>@;
-@<Display buffer@>@;
+@ Buffer is necessary because the whole row must be known before outputting it to a given device.
+
+@<Display |s|@>=
+uint8_t buffer[8][NUM_DEVICES*8];
+@<Fill |buffer| from |s|@>@;
+@<Display |buffer|@>@;
 
 @ @d app_to_buf(chr)
      for (int i = 0; i < sizeof chr / 8; i++) buffer[row][col--] = pgm_read_byte(&chr[row][i])
 
-@<Fill buffer from |s|@>=
+@<Fill |buffer| from |s|@>=
   for (int row = 0; row < 8; row++) {
     int col = NUM_DEVICES*8-1-1; /* last `|-1|' is the number of padding columns from left
       edge of the whole display */
@@ -167,6 +131,38 @@ display_write4(0x0C << 8 | 0x01);
         we have one free column there */
     }
   }
+
+@ @<Display |buffer|@>=
+  for (int row = 0; row < 8; row++) {
+    uint8_t data;
+    for (int n = NUM_DEVICES; n > 0; n--) {
+      data = 0x00;
+      for (int i = 0; i < 8; i++)
+        if (buffer[row][(n-1)*8+i])
+          data |= 1 << i;
+      display_push(row+1 << 8 | data);
+    }
+    PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7);
+  }
+
+@ @<Functions@>=
+void display_push(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
+{
+  for (int i = 16; i > 0; i--) { // shift 16 bits out, msb first
+    if (dc & 1 << 15) @+ PORTB |= 1 << PB4;
+    else @+ PORTB &= ~(1 << PB4);
+    PORTE &= ~(1 << PE6); @+ PORTE |= 1 << PE6;
+    dc <<= 1;
+  }
+}
+
+@ @<Functions@>=
+void display_write4(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
+{
+  for (int i = 0; i < NUM_DEVICES; i++)
+    display_push(dc);
+  PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7);
+}
 
 @ @<Global...@>=
 const uint8_t digit_0[8][5]

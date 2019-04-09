@@ -17,17 +17,6 @@ $$\hbox to7.16cm{\vbox to2.92805555555556cm{\vfil\special{psfile=MAX.1
 @<Global variables@>@;
 @<Create ISR for connecting to USB host@>@;
 
-void display_write(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
-{
-  for (int i = 16; i > 0; i--) { // shift 16 bits out, msb first
-    if (dc & 1 << 15) @+ PORTB |= 1 << PB4;
-    else @+ PORTB &= ~(1 << PB4);
-    PORTE &= ~(1 << PE6); @+ PORTE |= 1 << PE6;
-    dc <<= 1;
-  }
-  PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7);
-}
-
 void main(void)
 {
   @<Connect to USB host (must be called first; |sei| is called here)@>@;
@@ -39,12 +28,12 @@ void main(void)
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
-      int rx_counter = UEBCLX;
       char s[9];
+      int rx_counter = UEBCLX;
       while (rx_counter--)
         s[7-rx_counter] = UEDATX;
-      s[8] = '\0';
       UEINTX &= ~(1 << FIFOCON);
+      s[8] = '\0';
       if (strcmp(s, "06:00:00") == 0)
         display_write(0x0A << 8 | 0xFF);
       if (strcmp(s, "21:00:00") == 0)

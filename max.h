@@ -1,3 +1,14 @@
+void display_write(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
+{
+  for (int i = 16; i > 0; i--) { // shift 16 bits out, msb first
+    if (dc & 1 << 15) @+ PORTB |= 1 << PB4;
+    else @+ PORTB &= ~(1 << PB4);
+    PORTE &= ~(1 << PE6); @+ PORTE |= 1 << PE6;
+    dc <<= 1;
+  }
+  PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7);
+}
+
 /* Initialization of all registers must be done, because they may contain garbage. */
 void MAX_init(void)
 {

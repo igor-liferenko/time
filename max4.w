@@ -47,10 +47,10 @@ void main(void)
 }
 
 @ Initialization of all registers must be done, because they may contain garbage.
-First we make sure that test mode is disabled, because it overrides all registers.
-Next, we make sure that display is disabled, because there may be random lighting LEDs on it.
-Then we clear all LEDs and configure the rest registers. Finally, after display was configured,
-we enable it.
+First make sure that test mode is disabled, because it overrides all registers.
+Next, make sure that display is disabled, because there may be random lighting LEDs on it.
+Then set decode mode to properly clear all LEDs,
+and clear them. Finally, configure the rest registers and enable the display.
 
 @<Initialize display@>=
 DDRB |= 1 << PB4;
@@ -58,6 +58,7 @@ DDRE |= 1 << PE6;
 DDRD |= 1 << PD7;
 display_write4(0x0F << 8 | 0x00);
 display_write4(0x0C << 8 | 0x00);
+display_write4(0x09 << 8 | 0x00);
 display_write4(0x01 << 8 | 0x00);
 display_write4(0x02 << 8 | 0x00);
 display_write4(0x03 << 8 | 0x00);
@@ -66,7 +67,6 @@ display_write4(0x05 << 8 | 0x00);
 display_write4(0x06 << 8 | 0x00);
 display_write4(0x07 << 8 | 0x00);
 display_write4(0x08 << 8 | 0x00);
-display_write4(0x09 << 8 | 0x00);
 display_write4(0x0A << 8 | 0x0F);
 display_write4(0x0B << 8 | 0x07);
 display_write4(0x0C << 8 | 0x01);
@@ -76,7 +76,7 @@ display_write4(0x0C << 8 | 0x01);
 @d NUM_DEVICES 4
 
 @<Show |str|@>=
-uint8_t buffer[8][NUM_DEVICES*8];
+uint8_t buffer[8][NUM_DEVICES*8] = { 0x00 };
 @<Fill |buffer| from |str|@>@;
 @<Display |buffer|@>@;
 
@@ -162,11 +162,14 @@ void display_push(unsigned int dc) /* FIXME: will it work without `|unsigned|'? 
   }
 }
 
-@ @<Functions@>=
+@ @d nop() __asm__ __volatile__ ("nop")
+
+@<Functions@>=
 void display_write4(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
 {
   for (int i = 0; i < NUM_DEVICES; i++)
     display_push(dc);
+  nop(); @+ nop(); /* small delay */
   PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7);
 }
 

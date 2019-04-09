@@ -11,8 +11,6 @@ $$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4-pic.eps
 $$\hbox to7.16cm{\vbox to2.92805555555556cm{\vfil\special{psfile=MAX.1
   clip llx=-63 lly=96 urx=140 ury=179 rwi=2030}}\hfil}$$
 
-@d NUM_DEVICES 4
-
 @c
 @<Header files@>@;
 @<Type definitions@>@;
@@ -74,6 +72,8 @@ display_write4(0x0B << 8 | 0x07);
 display_write4(0x0C << 8 | 0x01);
 
 @ Buffer is necessary because the whole row must be known before outputting it to a given device.
+
+@d NUM_DEVICES 4
 
 @<Display |s|@>=
 uint8_t buffer[8][NUM_DEVICES*8];

@@ -35,9 +35,9 @@ void main(void)
         str[7-rx_counter] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
       if (strcmp(str, "06:00:00") == 0)
-        display_write4(0x0A << 8 | 0x0F);
+        display_write4(0x0A, 0x0F);
       if (strcmp(str, "21:00:00") == 0)
-        display_write4(0x0A << 8 | 0x03);
+        display_write4(0x0A, 0x03);
       str[5] = '\0'; @+ @<Show |str|@>@;
     }
   }
@@ -53,23 +53,23 @@ Then set decode mode to properly clear all LEDs,
 and clear them. Finally, configure the rest registers and enable the display.
 
 @<Initialize display@>=
-DDRB |= 1 << PB4;
-DDRE |= 1 << PE6;
-DDRD |= 1 << PD7;
-display_write4(0x0F << 8 | 0x00);
-display_write4(0x0C << 8 | 0x00);
-display_write4(0x09 << 8 | 0x00);
-display_write4(0x01 << 8 | 0x00);
-display_write4(0x02 << 8 | 0x00);
-display_write4(0x03 << 8 | 0x00);
-display_write4(0x04 << 8 | 0x00);
-display_write4(0x05 << 8 | 0x00);
-display_write4(0x06 << 8 | 0x00);
-display_write4(0x07 << 8 | 0x00);
-display_write4(0x08 << 8 | 0x00);
-display_write4(0x0A << 8 | 0x0F);
-display_write4(0x0B << 8 | 0x07);
-display_write4(0x0C << 8 | 0x01);
+DDRB |= 1 << PB0 | 1 << PB1 | 1 << PB2;
+DDRD |= 1 << PD7; // FIXME: after you make it work, try on PB3
+SPCR |= 1 << MSTR | 1 << SPR1 | 1 << SPE;
+display_write4(0x0F, 0x00);
+display_write4(0x0C, 0x00);
+display_write4(0x09, 0x00);
+display_write4(0x01, 0x00);
+display_write4(0x02, 0x00);
+display_write4(0x03, 0x00);
+display_write4(0x04, 0x00);
+display_write4(0x05, 0x00);
+display_write4(0x06, 0x00);
+display_write4(0x07, 0x00);
+display_write4(0x08, 0x00);
+display_write4(0x0A, 0x0F);
+display_write4(0x0B, 0x07);
+display_write4(0x0C, 0x01);
 
 @ Buffer is necessary because the whole row must be known before outputting it to a given device.
 
@@ -148,28 +148,31 @@ $$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.1
       for (int i = 0; i < 8; i++)
         if (buffer[row][(n-1)*8+i])
           data |= 1 << i;
-      display_push(row+1 << 8 | data);
+      display_push(row+1, data);
     }
-    PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7);
+    PORTD |= 1 << PD7; _delay_us(1);@+ PORTD &= ~(1 << PD7);
   }
 
 @ @<Functions@>=
-void display_push(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
+void write_byte(uint8_t byte)
 {
-  for (int i = 16; i > 0; i--) { // shift 16 bits out, msb first
-    if (dc & 1 << 15) @+ PORTB |= 1 << PB4;
-    else @+ PORTB &= ~(1 << PB4);
-    PORTE &= ~(1 << PE6); @+ PORTE |= 1 << PE6;
-    dc <<= 1;
-  }
+  SPDR = byte;
+  while(!(SPSR & (1 << SPIF))); // FIXME: check op precedence to remove extra parens
 }
 
 @ @<Functions@>=
-void display_write4(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
+void display_push(uint8_t address, uint8_t data) 
+{
+  write_byte(address);
+  write_byte(data);
+}
+
+@ @<Functions@>=
+void display_write4(uint8_t address, uint8_t data)
 {
   for (int i = 0; i < NUM_DEVICES; i++)
-    display_push(dc);
-  PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7); // try to add nop between here
+    display_push(address, data);
+  PORTD |= 1 << PD7; @+_delay_us(1); PORTD &= ~(1 << PD7);
 }
 
 @ @<Char...@>=
@@ -335,5 +338,6 @@ if (UEINTX & 1 << RXSTPI) {
 #include <avr/io.h>
 #include <avr/pgmspace.h> /* |pgm_read_byte| */
 #include <string.h> /* |strcmp| */
+#include <util/delay.h>
 
 @* Index.

@@ -26,13 +26,6 @@ $$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.1
 @<Global variables@>@;
 @<Create ISR for connecting to USB host@>@;
 
-#define SLAVE_SELECT    PORTB &= ~(1 << PB3)
-#define SLAVE_DESELECT  PORTB |= 1 << PB3
-
-#include <avr/io.h>
-#include <avr/pgmspace.h>
-#include <string.h>
-
 @ @c
 const uint8_t digit_0[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
@@ -180,9 +173,9 @@ const uint8_t colon[8][6]
 void display_push(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
 {
   for (int i = 16; i > 0; i--) { // shift 16 bits out, msb first
-    if (dc & 1 << 15) @+ PORTB |= 1 << PB2;
-    else @+ PORTB &= ~(1 << PB2);
-    PORTB &= ~(1 << PB1); @+ PORTB |= 1 << PB1;
+    if (dc & 1 << 15) @+ PORTB |= 1 << PB4;
+    else @+ PORTB &= ~(1 << PB4);
+    PORTE &= ~(1 << PE6); @+ PORTE |= 1 << PE6;
     dc <<= 1;
   }
 }
@@ -191,7 +184,7 @@ void display_write4(unsigned int dc) /* FIXME: will it work without `|unsigned|'
 {
   for (int i = 0; i < NUM_DEVICES; i++)
     display_push(dc);
-  PORTB |= 1 << PB3; @+ PORTB &= ~(1 << PB3);
+  PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7);
 }
 
 @ Buffer is necessary because the whole row must be known before outputting it to a given device.
@@ -293,7 +286,9 @@ void main(void)
 {
   @<Connect to USB host (must be called first; |sei| is called here)@>@;
 
-  DDRB |= 1 << PB1 | 1 << PB2 | 1 << PB3;
+  DDRB |= 1 << PB4;
+  DDRE |= 1 << PE6;
+  DDRD |= 1 << PD7;
 
   display_write4(0x0B << 8 | 0x07); /* all characters are used */
   display_write4(0x09 << 8 | 0xFF); /* decode mode */
@@ -349,5 +344,7 @@ if (UEINTX & 1 << RXSTPI) {
 @<Header files@>=
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/pgmspace.h>
+#include <string.h>
 
 @* Index.

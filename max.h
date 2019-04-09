@@ -16,6 +16,7 @@ void MAX_init(void)
   DDRD |= 1 << PD7;
   display_write(0x0F << 8 | 0x00);
   display_write(0x0C << 8 | 0x00);
+  display_write(0x09 << 8 | 0xFF);
   display_write(0x01 << 8 | 0x0F);
   display_write(0x02 << 8 | 0x0F);
   display_write(0x03 << 8 | 0x0F);
@@ -24,7 +25,6 @@ void MAX_init(void)
   display_write(0x06 << 8 | 0x0F);
   display_write(0x07 << 8 | 0x0F);
   display_write(0x08 << 8 | 0x0F);
-  display_write(0x09 << 8 | 0xFF);
   display_write(0x0A << 8 | 0x0F);
   display_write(0x0B << 8 | 0x07);
   display_write(0x0C << 8 | 0x01);

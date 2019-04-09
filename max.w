@@ -28,12 +28,10 @@ void main(void)
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
-      char str[9];
       int rx_counter = UEBCLX;
       while (rx_counter--)
         str[7-rx_counter] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
-      str[8] = '\0';
       if (strcmp(str, "06:00:00") == 0)
         display_write(0x0A << 8 | 0xFF);
       if (strcmp(str, "21:00:00") == 0)
@@ -43,6 +41,9 @@ void main(void)
     }
   }
 }
+
+@ @<Global...@>=
+char str[9];
 
 @ No other requests except {\caps set control line state} come
 after connection is established. These are from \\{open} and implicit \\{close}

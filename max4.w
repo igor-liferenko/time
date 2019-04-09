@@ -30,21 +30,21 @@ void main(void)
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
-      char str[9];
       int rx_counter = UEBCLX;
       while (rx_counter--)
         str[7-rx_counter] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
-      str[8] = '\0';
       if (strcmp(str, "06:00:00") == 0)
         display_write4(0x0A << 8 | 0x0F);
       if (strcmp(str, "21:00:00") == 0)
         display_write4(0x0A << 8 | 0x03);
-      str[5] = '\0';
-      @<Show |str|@>@;
+      str[5] = '\0'; @+ @<Show |str|@>@;
     }
   }
 }
+
+@ @<Global...@>=
+char str[9];
 
 @ Initialization of all registers must be done, because they may contain garbage.
 First make sure that test mode is disabled, because it overrides all registers.
@@ -75,8 +75,10 @@ display_write4(0x0C << 8 | 0x01);
 
 @d NUM_DEVICES 4
 
-@<Show |str|@>=
-uint8_t buffer[8][NUM_DEVICES*8] = { 0x00 };
+@<Global...@>=
+uint8_t buffer[8][NUM_DEVICES*8];
+
+@ @<Show |str|@>=
 @<Fill |buffer| from |str|@>@;
 @<Display |buffer|@>@;
 
@@ -162,15 +164,12 @@ void display_push(unsigned int dc) /* FIXME: will it work without `|unsigned|'? 
   }
 }
 
-@ @d nop() __asm__ __volatile__ ("nop")
-
-@<Functions@>=
+@ @<Functions@>=
 void display_write4(unsigned int dc) /* FIXME: will it work without `|unsigned|'? */
 {
   for (int i = 0; i < NUM_DEVICES; i++)
     display_push(dc);
-  nop(); @+ nop(); /* small delay */
-  PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7);
+  PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7); // try to add nop between here
 }
 
 @ @<Char...@>=

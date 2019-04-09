@@ -49,18 +49,6 @@ void display_write4(unsigned int dc) /* FIXME: will it work without `|unsigned|'
 @c
 uint8_t buffer[8][NUM_DEVICES*8];
 
-void writeByte(uint8_t byte)
-{
-  SPDR = byte;                      // SPI starts sending immediately  
-  while(!(SPSR & (1 << SPIF)));     // Loop until complete bit set
-}
-
-void writeWord(uint8_t address, uint8_t data) 
-{
-  writeByte(address);
-  writeByte(data);
-}
-
 @ @c
 void display_buffer(void)
 {
@@ -87,8 +75,7 @@ void fill_buffer(char *s)
   for (int row = 0; row < 8; row++) {
     int col = NUM_DEVICES*8-1-1; /* last `|-1|' is the number of padding columns from left
       edge of the whole display */
-    char *c = s;
-    while (*c != '\0') {
+    for (char *c = s; *c != '\0'; c++) {
       switch (*c)
       {
       case '0':
@@ -128,7 +115,6 @@ void fill_buffer(char *s)
       buffer[row][col--] = 0x00; /* empty space; note, that no check for right
         edge of the whole display is done, because due to size of the characters
         we have one free column there */
-      c++;
     }
   }
 }
@@ -159,23 +145,14 @@ void main(void)
       UEINTX &= ~(1 << RXOUTI);
       int rx_counter = UEBCLX;
       char s[9];
-      int i = 0;
       while (rx_counter--)
-        s[i++] = UEDATX;
+        s[7-rx_counter] = UEDATX;
       s[8] = '\0';
       UEINTX &= ~(1 << FIFOCON);
-      if (strcmp(s, "06:00:00") == 0) {
-        SLAVE_SELECT;
-        for (int i = 0; i < NUM_DEVICES; i++)
-          writeWord(0x0A, 0x0F);
-        SLAVE_DESELECT;
-      }
-      if (strcmp(s, "21:00:00") == 0) {
-        SLAVE_SELECT;
-        for (int i = 0; i < NUM_DEVICES; i++)
-          writeWord(0x0A, 0x05);
-        SLAVE_DESELECT;
-      }
+      if (strcmp(s, "06:00:00") == 0)
+        display_write4(0x0A << 8 | 0x0F);
+      if (strcmp(s, "21:00:00") == 0)
+        display_write4(0x0A << 8 | 0x03);
       s[5] = '\0';
       display_MAX(s);
     }

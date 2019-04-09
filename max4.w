@@ -30,18 +30,18 @@ void main(void)
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
-      char s[9];
+      char str[9];
       int rx_counter = UEBCLX;
       while (rx_counter--)
-        s[7-rx_counter] = UEDATX;
+        str[7-rx_counter] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
-      s[8] = '\0';
-      if (strcmp(s, "06:00:00") == 0)
+      str[8] = '\0';
+      if (strcmp(str, "06:00:00") == 0)
         display_write4(0x0A << 8 | 0x0F);
-      if (strcmp(s, "21:00:00") == 0)
+      if (strcmp(str, "21:00:00") == 0)
         display_write4(0x0A << 8 | 0x03);
-      s[5] = '\0';
-      @<Display |s|@>@;
+      str[5] = '\0';
+      @<Show |str|@>@;
     }
   }
 }
@@ -75,19 +75,19 @@ display_write4(0x0C << 8 | 0x01);
 
 @d NUM_DEVICES 4
 
-@<Display |s|@>=
+@<Show |str|@>=
 uint8_t buffer[8][NUM_DEVICES*8];
-@<Fill |buffer| from |s|@>@;
+@<Fill |buffer| from |str|@>@;
 @<Display |buffer|@>@;
 
 @ @d app_to_buf(chr)
      for (int i = 0; i < sizeof chr / 8; i++) buffer[row][col--] = pgm_read_byte(&chr[row][i])
 
-@<Fill |buffer| from |s|@>=
+@<Fill |buffer| from |str|@>=
   for (int row = 0; row < 8; row++) {
     int col = NUM_DEVICES*8-1-1; /* last `|-1|' is the number of padding columns from left
       edge of the whole display */
-    for (char *c = s; *c != '\0'; c++) {
+    for (char *c = str; *c != '\0'; c++) {
       switch (*c)
       {
       case '0':

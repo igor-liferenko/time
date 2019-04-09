@@ -52,17 +52,16 @@ uint8_t buffer[8][NUM_DEVICES*8];
 @ @c
 void display_buffer(void)
 {
-  for (int i = 0; i < 8; i++) {
+  for (int row = 0; row < 8; row++) {
     uint8_t data;
-    SLAVE_SELECT;
-    for (int j = NUM_DEVICES-1; j>=0; j--) {
+    for (int n = NUM_DEVICES; n > 0; n--) {
       data = 0x00;
-      for (int k = 0; k < 8; k++) {
-        if (buffer[i][j*8+k]) data |= 1 << k;
-      }
-      writeWord(i+1, data);
+      for (int i = 0; i < 8; i++)
+        if (buffer[row][(n-1)*8+i])
+          data |= 1 << i;
+      display_push(row+1 << 8 | data);
     }
-    SLAVE_DESELECT;
+    PORTD |= 1 << PD7; @+ PORTD &= ~(1 << PD7);
   }
 }
 

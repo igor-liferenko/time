@@ -1,4 +1,4 @@
-/* Initialization of all registers must be done, because device registers may contain garbage. */
+/* Initialization of all registers must be done, because they may contain garbage. */
 void MAX_init(void)
 {
   DDRB |= 1 << PB4;

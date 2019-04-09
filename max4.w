@@ -151,10 +151,9 @@ void main(void)
   }
 }
 
-@ Initialization of all registers must be done, because device registers may
-contain garbage.
+@ Initialization of all registers must be done, because they may contain garbage.
 
-@<Initialize...@>=
+@<Initialize display@>=
 DDRB |= 1 << PB4;
 DDRE |= 1 << PE6;
 DDRD |= 1 << PD7;

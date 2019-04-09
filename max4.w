@@ -124,9 +124,9 @@ uint8_t buffer[8][NUM_DEVICES*8];
         app_to_buf(colon);
         break;
       }
-      buffer[row][col--] = 0x00; /* empty space; note, that no check for right
-        edge of the whole display is done, because due to size of the characters
-        we have one free column there */
+      buffer[row][col--] = 0x00; /* space between characters; note, that no boundary checking
+        is done, because due to size of characters\footnote\dag{See |@<Char...@>|.} there
+        is one free column on the right edge of the display */
     }
   }
 

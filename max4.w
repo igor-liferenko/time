@@ -216,7 +216,7 @@ void display_write4(unsigned int dc) /* FIXME: will it work without `|unsigned|'
   PORTB |= 1 << PB3; @+ PORTB &= ~(1 << PB3);
 }
 
-@ Buffer is necessary because <see paper with notes>.
+@ Buffer is necessary because the whole row must be known before outputting it to a given device.
 
 @c
 uint8_t buffer[8][NUM_DEVICES*8];
@@ -250,58 +250,58 @@ void display_buffer(void)
   }
 }
 
-@ Append character to buffer.
-
-@d app_char(buf, width) for (int j = 0; j < width; j++) buffer[i][k--] = pgm_read_byte(&buf[i][j]);
+@ @d append(chr)
+     for (int i = 0; i < sizeof chr / 8; i++) buffer[row][col--] = pgm_read_byte(&chr[row][i])
 
 @c
 void fill_buffer(char *s)
 {
-  for (int i = 0; i < 8; i++) {
-    int k = NUM_DEVICES*8-1-1; /* last `|-1|' is the number of padding columns from left
+  for (int row = 0; row < 8; row++) {
+    int col = NUM_DEVICES*8-1-1; /* last `|-1|' is the number of padding columns from left
       edge of the whole display */
-    for (int c = 0; c < strlen(s); c++) {
-      switch (*(s+c))
+    while (*s != '\0') {
+      switch (*s)
       {
       case '0':
-        app_char(digit_0, digit_0_width);
+        append(digit_0);
         break;
       case '1':
-        app_char(digit_1, digit_1_width);
+        append(digit_1);
         break;
       case '2':
-        app_char(digit_2, digit_2_width);
+        append(digit_2);
         break;
       case '3':
-        app_char(digit_3, digit_3_width);
+        append(digit_3);
         break;
       case '4':
-        app_char(digit_4, digit_4_width);
+        append(digit_4);
         break;
       case '5':
-        app_char(digit_5, digit_5_width);
+        append(digit_5);
         break;
       case '6':
-        app_char(digit_6, digit_6_width);
+        append(digit_6);
         break;
       case '7':
-        app_char(digit_7, digit_7_width);
+        append(digit_7);
         break;
       case '8':
-        app_char(digit_8, digit_8_width);
+        append(digit_8);
         break;
       case '9':
-        app_char(digit_9, digit_9_width);
+        append(digit_9);
         break;
       case ':':
-        app_char(colon, colon_width);
+        append(colon);
         break;
       }
-      buffer[i][k--] = 0x00; /* empty space; note, that no check for right
+      buffer[row][col--] = 0x00; /* empty space; note, that no check for right
         edge of the whole display is done, because due to size of the characters
         we have one free column there */
-    } // end char
-  } // end row
+      s++;
+    }
+  }
 }
 
 void display_MAX(char *s)

@@ -11,13 +11,6 @@ $$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4-pic.eps
 $$\hbox to7.16cm{\vbox to2.92805555555556cm{\vfil\special{psfile=MAX.1
   clip llx=-63 lly=96 urx=140 ury=179 rwi=2030}}\hfil}$$
 
-Displaying is done in rows (i.e., row address is used in show command), from top row to bottom row.
-On each display each row is set from right to left.
-Left device is set first, right device is set last.
-
-$$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.1
-  clip llx=-27 lly=-26 urx=213 ury=32 rwi=2400}}\hfil}$$
-
 @d NUM_DEVICES 4
 
 @c
@@ -137,7 +130,15 @@ uint8_t buffer[8][NUM_DEVICES*8];
     }
   }
 
-@ @<Display |buffer|@>=
+@ Displaying is done in rows (i.e., row address is used in show command), from top row to
+bottom row.
+On each display each row is set from right to left.
+Left device is set first, right device is set last.
+
+$$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.1
+  clip llx=-27 lly=-26 urx=213 ury=32 rwi=2400}}\hfil}$$
+
+@<Display |buffer|@>=
   for (int row = 0; row < 8; row++) {
     uint8_t data;
     for (int n = NUM_DEVICES; n > 0; n--) {

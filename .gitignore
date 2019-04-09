@@ -4,6 +4,7 @@ time-write
 time-write.c
 time-read.c
 max.c
+max4.c
 *.dvi
 *.idx
 *.log

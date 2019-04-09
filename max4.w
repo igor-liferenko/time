@@ -331,8 +331,7 @@ if (UEINTX & 1 << RXSTPI) {
 
 @<Header files@>=
 #include <avr/io.h>
-#include <util/delay.h>
-#include <avr/pgmspace.h>
-#include <string.h>
+#include <avr/pgmspace.h> /* |pgm_read_byte| */
+#include <string.h> /* |strcmp| */
 
 @* Index.

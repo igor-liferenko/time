@@ -9,7 +9,6 @@ void display_write(unsigned int dc) /* FIXME: will it work without `|unsigned|'?
   PORTD |= 1 << PD7; PORTD &= ~(1 << PD7);
 }
 
-/* Initialization of all registers must be done, because they may contain garbage. */
 void MAX_init(void)
 {
   DDRB |= 1 << PB4;

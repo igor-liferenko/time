@@ -28,18 +28,18 @@ void main(void)
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
-      char s[9];
+      char str[9];
       int rx_counter = UEBCLX;
       while (rx_counter--)
-        s[7-rx_counter] = UEDATX;
+        str[7-rx_counter] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
-      s[8] = '\0';
-      if (strcmp(s, "06:00:00") == 0)
+      str[8] = '\0';
+      if (strcmp(str, "06:00:00") == 0)
         display_write(0x0A << 8 | 0xFF);
-      if (strcmp(s, "21:00:00") == 0)
+      if (strcmp(str, "21:00:00") == 0)
         display_write(0x0A << 8 | 0x01);
       for (int i = 0; i < 8; i++)
-        display_write(8-i << 8 | (s[i]==':'?0x0F:s[i]-48));
+        display_write(8-i << 8 | (str[i]==':'?0x0F:str[i]-48));
     }
   }
 }

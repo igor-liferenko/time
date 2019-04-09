@@ -228,7 +228,7 @@ void display_buffer(void)
   }
 }
 
-@ @d append(chr)
+@ @d app_to_buf(chr)
      for (int i = 0; i < sizeof chr / 8; i++) buffer[row][col--] = pgm_read_byte(&chr[row][i])
 
 @c
@@ -242,37 +242,37 @@ void fill_buffer(char *s)
       switch (*c)
       {
       case '0':
-        append(digit_0);
+        app_to_buf(digit_0);
         break;
       case '1':
-        append(digit_1);
+        app_to_buf(digit_1);
         break;
       case '2':
-        append(digit_2);
+        app_to_buf(digit_2);
         break;
       case '3':
-        append(digit_3);
+        app_to_buf(digit_3);
         break;
       case '4':
-        append(digit_4);
+        app_to_buf(digit_4);
         break;
       case '5':
-        append(digit_5);
+        app_to_buf(digit_5);
         break;
       case '6':
-        append(digit_6);
+        app_to_buf(digit_6);
         break;
       case '7':
-        append(digit_7);
+        app_to_buf(digit_7);
         break;
       case '8':
-        append(digit_8);
+        app_to_buf(digit_8);
         break;
       case '9':
-        append(digit_9);
+        app_to_buf(digit_9);
         break;
       case ':':
-        append(colon);
+        app_to_buf(colon);
         break;
       }
       buffer[row][col--] = 0x00; /* empty space; note, that no check for right

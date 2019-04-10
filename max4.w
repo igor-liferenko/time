@@ -16,7 +16,6 @@ $$\hbox to7.16cm{\vbox to2.99861111111111cm{\vfil\special{psfile=max4.1
 @<Type definitions@>@;
 @<Global variables@>@;
 @<Functions@>@;
-@<Character images@>@;
 @<Create ISR for connecting to USB host@>@;
 
 void main(void)
@@ -82,62 +81,63 @@ display_write4(0x0A, 0x0F);
 display_write4(0x0B, 0x07);
 display_write4(0x0C, 0x01);
 
-@ Buffer is necessary because the whole row must be known before outputting it to a device.
+@ @d NUM_DEVICES 4
 
-@d NUM_DEVICES 4
+@<Global variables@>=
+@<Character images@>@;
+uint8_t buffer[8][NUM_DEVICES*8]; /* buffer is necessary because the whole row must be
+  known before outputting it to a device */
 
-@<Show |str|@>=
-uint8_t buffer[8][NUM_DEVICES*8];
-@<Fill |buffer| from |str|@>@;
-@<Display |buffer|@>@;
+@ @<Show |str|@>=
+@<Fill buffer@>@;
+@<Display buffer@>@;
 
 @ @d app_to_buf(chr)
      for (int i = 0; i < sizeof chr / 8; i++) buffer[row][col--] = pgm_read_byte(&chr[row][i])
 
-@<Fill |buffer| from |str|@>=
-  for (int row = 0; row < 8; row++) {
-    int col = NUM_DEVICES*8-1;
-    buffer[row][col--] = 0x00; /* left padding */
-    for (char *c = str; *c != '\0'; c++) {
-      switch (*c)
-      {
-      case '0':
-        app_to_buf(digit_0);
-        break;
-      case '1':
-        app_to_buf(digit_1);
-        break;
-      case '2':
-        app_to_buf(digit_2);
-        break;
-      case '3':
-        app_to_buf(digit_3);
-        break;
-      case '4':
-        app_to_buf(digit_4);
-        break;
-      case '5':
-        app_to_buf(digit_5);
-        break;
-      case '6':
-        app_to_buf(digit_6);
-        break;
-      case '7':
-        app_to_buf(digit_7);
-        break;
-      case '8':
-        app_to_buf(digit_8);
-        break;
-      case '9':
-        app_to_buf(digit_9);
-        break;
-      case ':':
-        app_to_buf(colon);
-        break;
-      }
-      buffer[row][col--] = 0x00; /* space between characters and right padding */
+@<Fill buffer@>=
+for (int row = 0; row < 8; row++) {
+  int col = NUM_DEVICES*8 - 1 - 1;
+  for (char *c = str; *c != '\0'; c++) {
+    switch (*c)
+    {
+    case '0':
+      app_to_buf(digit_0);
+      break;
+    case '1':
+      app_to_buf(digit_1);
+      break;
+    case '2':
+      app_to_buf(digit_2);
+      break;
+    case '3':
+      app_to_buf(digit_3);
+      break;
+    case '4':
+      app_to_buf(digit_4);
+      break;
+    case '5':
+      app_to_buf(digit_5);
+      break;
+    case '6':
+      app_to_buf(digit_6);
+      break;
+    case '7':
+      app_to_buf(digit_7);
+      break;
+    case '8':
+      app_to_buf(digit_8);
+      break;
+    case '9':
+      app_to_buf(digit_9);
+      break;
+    case ':':
+      app_to_buf(colon);
+      break;
     }
+    buffer[row][col--] = 0x00;
   }
+}
 
 @ Displaying is done in rows (i.e., row address is used in show command), from top row to
 bottom row.
@@ -147,7 +147,7 @@ Left device is set first, right device is set last.
 $$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.2
   clip llx=-27 lly=-26 urx=213 ury=32 rwi=2400}}\hfil}$$
 
-@<Display |buffer|@>=
+@<Display buffer@>=
 for (int row = 0; row < 8; row++) {
   uint8_t data;
   for (int n = NUM_DEVICES; n > 0; n--) {

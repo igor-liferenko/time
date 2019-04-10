@@ -58,6 +58,12 @@ so for next clock we have to set it HIGH here because on pro-micro leds are inve
 will not work in such case, don't set it to HIGH here and cut-off the resistor
 which goes to PB0 led instead
 
+SPI here is used as a way to push bytes to display (data + clock).
+Latch is used only in the end, like in shift registers.
+Frequency of SPI clock is adjusted empirically (starting from highest).
+Latch duration which should be safe is 1$\mu s$ (minimum is 50ns according to datasheet).
+It can also be adjusted, but after frequency - use NOP's to decrease it.
+
 @<Initialize display@>=
 DDRB |= 1 << PB0 | 1 << PB1 | 1 << PB2 | 1 << PB6;
 SPCR |= 1 << MSTR | 1 << SPR1 | 1 << SPE;
@@ -142,25 +148,25 @@ $$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.2
   clip llx=-27 lly=-26 urx=213 ury=32 rwi=2400}}\hfil}$$
 
 @<Display |buffer|@>=
-  for (int row = 0; row < 8; row++) {
-    uint8_t data;
-    for (int n = NUM_DEVICES; n > 0; n--) {
-      data = 0x00;
-      for (int i = 0; i < 8; i++)
-        if (buffer[row][(n-1)*8+i])
-          data |= 1 << i;
-      display_push(row+1, data);
-    }
-    PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6);
+for (int row = 0; row < 8; row++) {
+  uint8_t data;
+  for (int n = NUM_DEVICES; n > 0; n--) {
+    data = 0x00;
+    for (int i = 0; i < 8; i++)
+      if (buffer[row][(n-1)*8+i])
+        data |= 1 << i;
+    display_push(row+1, data);
   }
+  PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6);
+}
 
 @ @<Functions@>=
 void display_push(uint8_t address, uint8_t data) 
 {
   SPDR = address;
-  while (!(SPSR & 1 << SPIF)) ;
+  while (~SPSR & 1 << SPIF) ;
   SPDR = data;
-  while (!(SPSR & 1 << SPIF)) ; 
+  while (~SPSR & 1 << SPIF) ; 
 }
 
 @ @<Functions@>=

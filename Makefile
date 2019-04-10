@@ -8,16 +8,11 @@ flash:
 	@avrdude -qq -c usbasp -p $(MCU) -U flash:w:fw.hex
 
 imgs:
-	@mp MAX
 	@mp max4
 	@perl -ne 'if (/^(.*\.eps): (.*)/) { system "convert $$2 $$1" }' Makefile
 
 .PHONY: $(wildcard *.eps)
 
 max4-pic.eps: max4-pic.png
-	@convert $< $@
-	@imgsize $@ 7 -
-
-max-pic.eps: max-pic.png
 	@convert $< $@
 	@imgsize $@ 7 -

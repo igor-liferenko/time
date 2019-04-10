@@ -30,10 +30,12 @@ void main(void)
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
+      char str[9];
       int rx_counter = UEBCLX;
       while (rx_counter--)
         str[7-rx_counter] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
+      str[8] = '\0';
       if (strcmp(str, "06:00:00") == 0)
         display_write4(0x0A, 0x0F);
       if (strcmp(str, "21:00:00") == 0)
@@ -44,17 +46,20 @@ void main(void)
   }
 }
 
-@ @<Global...@>=
-char str[9];
-
 @ Initialization of all registers must be done, because they may contain garbage.
 First make sure that test mode is disabled, because it overrides all registers.
 Next, make sure that display is disabled, because there may be random lighting LEDs on it.
 Then set decode mode to properly clear all LEDs,
 and clear them. Finally, configure the rest registers and enable the display.
 
+Note, that |PB0| must be set to OUTPUT for SPI master.
+FIXME: PB0 led is damaged on board on which I did this first clock,
+so for next clock we have to set it HIGH here because on pro-micro leds are inverted, and if it
+will not work in such case, don't set it to HIGH here and cut-off the resistor
+which goes to PB0 led instead
+
 @<Initialize display@>=
-DDRB |= 1 << PB0 | 1 << PB1 | 1 << PB2 | 1 << PB4;
+DDRB |= 1 << PB0 | 1 << PB1 | 1 << PB2 | 1 << PB6;
 SPCR |= 1 << MSTR | 1 << SPR1 | 1 << SPE;
 display_write4(0x0F, 0x00);
 display_write4(0x0C, 0x00);
@@ -71,14 +76,12 @@ display_write4(0x0A, 0x0F);
 display_write4(0x0B, 0x07);
 display_write4(0x0C, 0x01);
 
-@ Buffer is necessary because the whole row must be known before outputting it to a given device.
+@ Buffer is necessary because the whole row must be known before outputting it to a device.
 
 @d NUM_DEVICES 4
 
-@<Global...@>=
+@<Show |str|@>=
 uint8_t buffer[8][NUM_DEVICES*8];
-
-@ @<Show |str|@>=
 @<Fill |buffer| from |str|@>@;
 @<Display |buffer|@>@;
 
@@ -87,8 +90,8 @@ uint8_t buffer[8][NUM_DEVICES*8];
 
 @<Fill |buffer| from |str|@>=
   for (int row = 0; row < 8; row++) {
-    int col = NUM_DEVICES*8-1-1; /* last `|-1|' is the number of padding columns from left
-      edge of the whole display */
+    int col = NUM_DEVICES*8-1;
+    buffer[row][col--] = 0x00; /* left padding */
     for (char *c = str; *c != '\0'; c++) {
       switch (*c)
       {
@@ -126,9 +129,7 @@ uint8_t buffer[8][NUM_DEVICES*8];
         app_to_buf(colon);
         break;
       }
-      buffer[row][col--] = 0x00; /* space between characters; note, that no boundary checking
-        is done, because due to size of characters\footnote\dag{See |@<Char...@>|.} there
-        is one free column on the right edge of the display */
+      buffer[row][col--] = 0x00; /* space between characters and right padding */
     }
   }
 
@@ -150,21 +151,16 @@ $$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.2
           data |= 1 << i;
       display_push(row+1, data);
     }
-    PORTB |= 1 << PB4; _delay_us(1);@+ PORTB &= ~(1 << PB4);
+    PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6);
   }
-
-@ @<Functions@>=
-void write_byte(uint8_t byte)
-{
-  SPDR = byte;
-  while(!(SPSR & (1 << SPIF))); // FIXME: check op precedence to remove extra parens
-}
 
 @ @<Functions@>=
 void display_push(uint8_t address, uint8_t data) 
 {
-  write_byte(address);
-  write_byte(data);
+  SPDR = address;
+  while (!(SPSR & 1 << SPIF)) ;
+  SPDR = data;
+  while (!(SPSR & 1 << SPIF)) ; 
 }
 
 @ @<Functions@>=
@@ -172,7 +168,7 @@ void display_write4(uint8_t address, uint8_t data)
 {
   for (int i = 0; i < NUM_DEVICES; i++)
     display_push(address, data);
-  PORTB |= 1 << PB4; @+_delay_us(1); PORTB &= ~(1 << PB4);
+  PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6);
 }
 
 @ @<Char...@>=

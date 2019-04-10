@@ -1,4 +1,4 @@
-%outputtemplate:="%j.eps"; prologues:=3;
+outputtemplate:="%j.eps"; prologues:=3;
 
 input rboxes;
 
@@ -16,52 +16,46 @@ arduino.n-arduino.s=up*1.5u;
 drawboxes(arduino); draw pic(arduino) shifted (down*.1u);
 
 % pins
-pair arduino[],arduino.B[],arduino.E[],arduino.D[],arduino.GND[],arduino.VCC,arduino.RST;
-xpart(arduino.16)=xpart(arduino.w)+.56u; ypart(arduino.16)=ypart(arduino.s);
-xpart(arduino.14)=xpart(arduino.16)+.45u; ypart(arduino.14)=ypart(arduino.s);
-xpart(arduino.15)=xpart(arduino.14)+.45u; ypart(arduino.15)=ypart(arduino.s);
+pair arduino[],arduino.B[],arduino.E[],arduino.D[],arduino.GND,arduino.VCC,arduino.RST;
+xpart(arduino.B6)=xpart(arduino.w)+.2u; ypart(arduino.B6)=ypart(arduino.s);
+xpart(arduino.B2)=xpart(arduino.B6)+.45u; ypart(arduino.B2)=ypart(arduino.s);
+xpart(arduino.14)=xpart(arduino.B2)+.45u; ypart(arduino.14)=ypart(arduino.s);
+xpart(arduino.B1)=xpart(arduino.14)+.45u; ypart(arduino.B1)=ypart(arduino.s);
 xpart(arduino.VCC)=xpart(arduino.RST)-.48u; ypart(arduino.VCC)=ypart(arduino.s);
-xpart(arduino.RST)=xpart(arduino.GND1)-.48u; ypart(arduino.RST)=ypart(arduino.s);
-xpart(arduino.GND1)=xpart(arduino.e)-.6u; ypart(arduino.GND1)=ypart(arduino.s);
-xpart(arduino.GND2)=xpart(arduino.VCC); ypart(arduino.GND2)=ypart(arduino.n);
-xpart(arduino.D7)=xpart(arduino.15); ypart(arduino.D7)=ypart(arduino.n);
-xpart(arduino.E6)=xpart(arduino.14); ypart(arduino.E6)=ypart(arduino.n);
-xpart(arduino.B4)=xpart(arduino.16); ypart(arduino.B4)=ypart(arduino.n);
+xpart(arduino.RST)=xpart(arduino.GND)-.48u; ypart(arduino.RST)=ypart(arduino.s);
+xpart(arduino.GND)=xpart(arduino.e)-.6u; ypart(arduino.GND)=ypart(arduino.s);
 % draw
 begingroup;
 interim rbox_radius:=1bp;
 save A; pen A; A:=currentpen;
 pickup pencircle scaled .1pt;
-label.bot(btex 8 etex, arduino.B4);
-rboxit.arduino.B4_box(btex B4 etex);
-arduino.B4_box.c=arduino.B4+down*.35u;
-arduino.B4_box.ne=arduino.B4_box.sw+right*.3u+up*.2u;
-drawboxed(arduino.B4_box);
-label.bot(btex 7 etex, arduino.E6);
-rboxit.arduino.E6_box(btex E6 etex);
-arduino.E6_box.c=arduino.E6+down*.35u;
-arduino.E6_box.ne=arduino.E6_box.sw+right*.3u+up*.2u;
-drawboxed(arduino.E6_box);
-label.bot(btex 6 etex, arduino.D7);
-rboxit.arduino.D7_box(btex D7 etex);
-arduino.D7_box.c=arduino.D7+down*.35u;
-arduino.D7_box.ne=arduino.D7_box.sw+right*.3u+up*.2u;
-drawboxed(arduino.D7_box);
-label.bot(btex GND etex, arduino.GND2);
-label.top(btex 15 etex, arduino.15);
+label.top(btex 16 etex, arduino.B2);
+rboxit.arduino.B2_box(btex B2 etex);
+arduino.B2_box.c=arduino.B2+up*.35u;
+arduino.B2_box.ne=arduino.B2_box.sw+right*.3u+up*.2u;
+drawboxed(arduino.B2_box);
+label.top(btex 10 etex, arduino.B6);
+rboxit.arduino.B6_box(btex B6 etex);
+arduino.B6_box.c=arduino.B6+up*.35u;
+arduino.B6_box.ne=arduino.B6_box.sw+right*.3u+up*.2u;
+drawboxed(arduino.B6_box);
+label.top(btex 15 etex, arduino.B1);
+rboxit.arduino.B1_box(btex B1 etex);
+arduino.B1_box.c=arduino.B1+up*.35u;
+arduino.B1_box.ne=arduino.B1_box.sw+right*.3u+up*.2u;
+drawboxed(arduino.B1_box);
 label.top(btex 14 etex, arduino.14);
-label.top(btex 16 etex, arduino.16);
 label.top(btex VCC etex, arduino.VCC);
 label.top(btex RST etex, arduino.RST);
-label.top(btex GND etex, arduino.GND1);
-label.top(btex DIN etex, arduino.B4);
-label.top(btex CLK etex, arduino.E6);
-label.top(btex CS etex, arduino.D7);
+label.top(btex GND etex, arduino.GND);
+label.bot(btex DIN etex, arduino.B2);
+label.bot(btex CS etex, arduino.B6);
+label.bot(btex CLK etex, arduino.B1);
 pickup A;
 endgroup;
 
 endfig;
-
+end
 beginfig(2);
 u:=2cm;
 boxit.b1(btex 1 etex);

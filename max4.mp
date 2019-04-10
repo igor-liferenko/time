@@ -1,4 +1,4 @@
-outputtemplate:="%j.eps"; prologues:=3;
+%outputtemplate:="%j.eps"; prologues:=3;
 
 input rboxes;
 
@@ -13,7 +13,7 @@ boxit.arduino(btex \big Arduino ProMicro etex);
 arduino.sw=(-1.3u,2u);
 arduino.e-arduino.w=right*4.2u;
 arduino.n-arduino.s=up*1.5u;
-drawboxes(arduino); draw pic(arduino) shifted (down*.1u);
+drawboxes(arduino); draw pic(arduino) shifted (up*.2u);
 
 % pins
 pair arduino[],arduino.B[],arduino.E[],arduino.D[],arduino.GND,arduino.VCC,arduino.RST;
@@ -31,31 +31,31 @@ save A; pen A; A:=currentpen;
 pickup pencircle scaled .1pt;
 label.top(btex 16 etex, arduino.B2);
 rboxit.arduino.B2_box(btex B2 etex);
-arduino.B2_box.c=arduino.B2+up*.35u;
+arduino.B2_box.c=arduino.B2+up*.4u;
 arduino.B2_box.ne=arduino.B2_box.sw+right*.3u+up*.2u;
 drawboxed(arduino.B2_box);
 label.top(btex 10 etex, arduino.B6);
 rboxit.arduino.B6_box(btex B6 etex);
-arduino.B6_box.c=arduino.B6+up*.35u;
+arduino.B6_box.c=arduino.B6+up*.4u;
 arduino.B6_box.ne=arduino.B6_box.sw+right*.3u+up*.2u;
 drawboxed(arduino.B6_box);
 label.top(btex 15 etex, arduino.B1);
 rboxit.arduino.B1_box(btex B1 etex);
-arduino.B1_box.c=arduino.B1+up*.35u;
+arduino.B1_box.c=arduino.B1+up*.4u;
 arduino.B1_box.ne=arduino.B1_box.sw+right*.3u+up*.2u;
 drawboxed(arduino.B1_box);
 label.top(btex 14 etex, arduino.14);
 label.top(btex VCC etex, arduino.VCC);
 label.top(btex RST etex, arduino.RST);
 label.top(btex GND etex, arduino.GND);
-label.bot(btex DIN etex, arduino.B2);
-label.bot(btex CS etex, arduino.B6);
-label.bot(btex CLK etex, arduino.B1);
+label.bot(btex DIN etex, arduino.B2+down*.05u);
+label.bot(btex CS etex, arduino.B6+down*.05u);
+label.bot(btex CLK etex, arduino.B1+down*.05u);
 pickup A;
 endgroup;
 
 endfig;
-end
+
 beginfig(2);
 u:=2cm;
 boxit.b1(btex 1 etex);

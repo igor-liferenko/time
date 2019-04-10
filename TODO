@@ -1,28 +1,9 @@
+Order 5V power supply and use shift registers for led strip clock (not max72xx), as here:
+    http://videooko.net/?p=895
+    http://videooko.net/?p=854
+
 see adc.w to control brightness
-
-NOTE: use max7221 instead of max7219 because photorisistor (https://playground.arduino.cc/Main/MAX72XXHardware#SelectProduct)
-https://electronics.stackexchange.com/questions/24146/arduino-max7221-common-anode-4-digit-7-seg-led-array
-
-http://videooko.net/?p=895
-http://videooko.net/?p=854
-
 https://arduino.stackexchange.com/questions/58240/vary-voltage-using-relay-is-this-possible
 
-http://www.rocketnumbernine.com/2009/04/26/using-spi-on-an-avr-1
-
---------------------
-
-MAX7219:
-http://narodstream.ru/avr-urok-28-spi-drajver-led-max7219/
-https://gist.github.com/adnbr/2352797
 
 After you connect 7-segment MAX7219, rm "echo minute-second ..." from tel.w and rebuild and reflash raspberry (build-clock.sh) and rm "case '0'" from "Main menu" in tel.w
-
--------------------------
-
-MAX7221:
-https://electronics.stackexchange.com/questions/412986/
-
-------------------------
-
-Determine if display is common anode or common cathode: http://www.circuitbasics.com/arduino-7-segment-display-tutorial/

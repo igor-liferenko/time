@@ -61,7 +61,7 @@ which goes to PB0 led instead
 SPI here is used as a way to push bytes to display (data + clock).
 Latch is used only in the end, like in shift registers.
 Frequency of SPI clock is adjusted empirically (starting from highest).
-Latch duration which should be safe is 1$\mu s$ (minimum is 50ns according to datasheet).
+Latch duration which should be safe is 1$\mu$s (minimum is 50ns according to datasheet).
 It can also be adjusted, but after frequency - use NOP's to decrease it.
 
 @<Initialize display@>=

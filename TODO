@@ -1,6 +1,7 @@
-Order 5V power supply and use shift registers for led strip clock (not max72xx), as here:
+use shift registers for led strip clock (not max72xx), as here:
     http://videooko.net/?p=895
     http://videooko.net/?p=854
+think how external 5V power will work with USB - read about VBUS in datasheet
 
 see adc.w to control brightness
 https://arduino.stackexchange.com/questions/58240/vary-voltage-using-relay-is-this-possible

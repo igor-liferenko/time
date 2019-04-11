@@ -62,6 +62,9 @@ Latch is used only in the end, like in shift registers.
 Frequency of SPI clock is adjusted empirically (starting from highest).
 Latch duration which should be safe is 1$\mu$s (minimum is 50ns according to datasheet).
 It can also be adjusted, but after frequency - use NOP's to decrease it.
+Take into accound capacitance of wires for SPI - signal may raise and fall with some latency
+(clock and latch are in parallel, DIN goes through each device to DOUT and then to DIN of
+next device in a chain).
 
 @<Initialize display@>=
 DDRB |= 1 << PB0 | 1 << PB1 | 1 << PB2 | 1 << PB6;

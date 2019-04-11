@@ -81,14 +81,14 @@ display_write4(0x0A, 0x0F);
 display_write4(0x0B, 0x07);
 display_write4(0x0C, 0x01);
 
-@ @d NUM_DEVICES 4
+@ To output the characters we use a buffer. Buffer is necessary because
+outputting to a device is done in 8-element rows, and width of each character (with space)
+is not exactly 8.
 
-@<Global variables@>=
-@<Character images@>@;
-uint8_t buffer[8][NUM_DEVICES*8]; /* buffer is necessary because the whole row must be
-  known before outputting it to a device */
+@d NUM_DEVICES 4
 
-@ @<Show |str|@>=
+@<Show |str|@>=
+uint8_t buffer[8][NUM_DEVICES*8];
 @<Fill buffer@>@;
 @<Display buffer@>@;
 
@@ -97,7 +97,8 @@ uint8_t buffer[8][NUM_DEVICES*8]; /* buffer is necessary because the whole row m
 
 @<Fill buffer@>=
 for (int row = 0; row < 8; row++) {
-  int col = NUM_DEVICES*8 - 1 - 1;
+  int col = NUM_DEVICES*8 - 1;
+  buffer[row][col--] = 0x00;
   for (char *c = str; *c != '\0'; c++) {
     switch (*c)
     {
@@ -176,6 +177,9 @@ void display_write4(uint8_t address, uint8_t data)
     display_push(address, data);
   PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6);
 }
+
+@ @<Global variables@>=
+@<Character images@>@;
 
 @ @<Char...@>=
 const uint8_t digit_0[8][5]

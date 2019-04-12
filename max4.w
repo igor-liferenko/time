@@ -148,8 +148,8 @@ for (int row = 0; row < 8; row++) {
 @ Rows are output from top to bottom.
 Left device is set first, right device is set last.
 
-$$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.3
-  clip llx=-27 lly=-26 urx=213 ury=32 rwi=2400}}\hfil}$$
+$$\hbox to8.89cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.3
+  clip llx=-39 lly=-26 urx=213 ury=32 rwi=2520}}\hfil}$$
 
 @<Display buffer@>=
 for (int row = 0; row < 8; row++) {

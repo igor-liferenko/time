@@ -1,3 +1,16 @@
-example:
+example1:
   wmerge max4 max4-reverse merged
+  ctangle merged brightness max4
+
+example2:
+  wmerge max4 max4-sec merged
+  ctangle merged brightness max4
+
+example3:
+  wmerge max4 max4-sec merged
+  ctangle merged max4-reverse max4
+
+example4:
+  wmerge max4 max4-reverse merged
+  wmerge merged.web max4-sec | sponge merged.web
   ctangle merged brightness max4

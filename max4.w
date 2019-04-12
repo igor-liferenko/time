@@ -84,11 +84,8 @@ display_write4(0x0A, 0x0F);
 display_write4(0x0B, 0x07);
 display_write4(0x0C, 0x01);
 
-@ Outputting to each device is done in 8-element rows:
-$$\hbox to2.04cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.2
-  clip llx=-29 lly=-29 urx=29 ury=29 rwi=580}}\hfil}$$
-Width of each character (with space) is not exactly 8. To cope with this,
-we use a buffer, because we can divide it into required portions.
+@ Outputting to each device is done as explained in |@<Display buffer@>|.
+That is why we use a buffer.
 
 @d NUM_DEVICES 4
 
@@ -145,10 +142,10 @@ for (int row = 0; row < 8; row++) {
   }
 }
 
-@ Rows are output from top to bottom.
+@ Rows are output from right to left, from top to bottom.
 Left device is set first, right device is set last.
 
-$$\hbox to8.89cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.3
+$$\hbox to8.89cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.2
   clip llx=-39 lly=-26 urx=213 ury=32 rwi=2520}}\hfil}$$
 
 @<Display buffer@>=

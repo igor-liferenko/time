@@ -35,9 +35,11 @@ void main(void)
         str[7-rx_counter] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
       str[8] = '\0';
-      if (strcmp(str, "06:00:00") == 0)
+      if (strcmp(str, "06:00:00") == 0) /* FIXME: theoretically, it may jump over 1 second,
+        although very rarely; to be sure, add here
+        `{\tt\char'174\char'174} |strcmp(str, "06:00:01") == 0|' */
         display_write4(0x0A, 0x0F);
-      if (strcmp(str, "21:00:00") == 0)
+      if (strcmp(str, "21:00:00") == 0) /* ditto */
         display_write4(0x0A, 0x03);
       str[5] = '\0';
       @<Show |str|@>@;
@@ -84,8 +86,7 @@ display_write4(0x0A, 0x0F);
 display_write4(0x0B, 0x07);
 display_write4(0x0C, 0x01);
 
-@ Outputting to each device is done as explained in |@<Display buffer@>|.
-That is why we use a buffer.
+@ Buffer is used because in each device addresses are assigned to rows.
 
 @d NUM_DEVICES 4
 

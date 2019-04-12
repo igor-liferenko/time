@@ -86,7 +86,11 @@ display_write4(0x0C, 0x01);
 
 @ To output the characters we use a buffer. Buffer is necessary because
 outputting to a device is done in 8-element rows, and width of each character (with space)
-is not exactly 8.
+is not exactly 8. And buffer is easy to divide into portions. This picture shows
+how row is set on each device.
+
+$$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.2
+  clip llx=-27 lly=-26 urx=213 ury=32 rwi=2400}}\hfil}$$
 
 @d NUM_DEVICES 4
 
@@ -145,11 +149,7 @@ for (int row = 0; row < 8; row++) {
 
 @ Displaying is done in rows (i.e., row address is used in show command), from top row to
 bottom row.
-On each display each row is set from right to left.
 Left device is set first, right device is set last.
-
-$$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.2
-  clip llx=-27 lly=-26 urx=213 ury=32 rwi=2400}}\hfil}$$
 
 @<Display buffer@>=
 for (int row = 0; row < 8; row++) {

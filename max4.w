@@ -145,8 +145,7 @@ for (int row = 0; row < 8; row++) {
   }
 }
 
-@ Displaying is done in rows (i.e., row address is used in show command), from top row to
-bottom row.
+@ Rows are output from top to bottom.
 Left device is set first, right device is set last.
 
 $$\hbox to8.46cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.3

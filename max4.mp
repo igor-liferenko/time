@@ -91,7 +91,7 @@ draw b4.e+up*.1u .. b4.e+right*.2u+up*.1u;
 draw b4.e .. b4.e+right*.2u;
 draw b4.e+down*.1u .. b4.e+right*.2u+down*.1u;
 draw b4.e+down*.2u .. b4.e+right*.2u+down*.2u;
-
+drawarrow b1.nw+left*.2u .. b1.sw+left*.2u;
 endfig;
 
 end

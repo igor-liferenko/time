@@ -58,6 +58,15 @@ endfig;
 
 beginfig(2);
 u:=2cm;
+boxit.b();
+b.e-b.w=right*1u;
+b.n-b.s=up*1u;
+drawboxed(b);
+drawarrow b.e+left*.05u .. b.w+right*.05u;
+endfig;
+
+beginfig(3);
+u:=2cm;
 boxit.b1(btex 1 etex);
 b1.e-b1.w=right*1u;
 b1.n-b1.s=up*1u;

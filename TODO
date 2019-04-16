@@ -3,7 +3,8 @@ use shift registers for led strip clock (not max72xx), as here:
     http://videooko.net/?p=854
 (use the same procedure as in max.h (not SPI) and use one pin for clock and latch for all
 shift registers and one pin for data for each shift register)
-use 500mA when connecting to USB - this will be sufficient
+use 500mA when connecting to USB - this should be sufficient (max 39 segments may be on
+at the same time, which is 390 mA, so it remains 110mA for arduino and shift registers)
 HINT: set 500mA in USB.w and compare wireshark trace before and after
 as an aside: how to check if usb-hub takes 500mA: use resistors on each port
 and via usb doctor see when voltage starts to drop

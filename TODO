@@ -1,10 +1,12 @@
 use shift registers for led strip clock (not max72xx), as here:
     http://videooko.net/?p=895
     http://videooko.net/?p=854
-(use the same procedure as in max.h - not SPI - and use parallel for clock and latch, and
-separate outputs for data for each shift register)
-think how external 5V power will work with USB - read about VBUS in datasheet
-or maybe use 500mA when connecting to USB instead of 5V power supply - use USB-doctor to check
+(use the same procedure as in max.h (not SPI) and use one pin for clock and latch for all
+shift registers and one pin for data for each shift register)
+use 500mA when connecting to USB - this will be sufficient
+HINT: set 500mA in USB.w and compare wireshark trace before and after
+as an aside: how to check if usb-hub takes 500mA: use resistors on each port
+and via usb doctor see when voltage starts to drop
 
 see adc.w to control brightness
 https://arduino.stackexchange.com/questions/58240/vary-voltage-using-relay-is-this-possible

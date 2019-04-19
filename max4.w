@@ -105,39 +105,17 @@ for (int row = 0; row < 8; row++) {
   for (char *c = str; *c != '\0'; c++) {
     switch (*c)
     {
-    case '0':
-      app(0);
-      break;
-    case '1':
-      app(1);
-      break;
-    case '2':
-      app(2);
-      break;
-    case '3':
-      app(3);
-      break;
-    case '4':
-      app(4);
-      break;
-    case '5':
-      app(5);
-      break;
-    case '6':
-      app(6);
-      break;
-    case '7':
-      app(7);
-      break;
-    case '8':
-      app(8);
-      break;
-    case '9':
-      app(9);
-      break;
-    case ':':
-      app(colon);
-      break;
+    case '0': app(0); @+ break;
+    case '1': app(1); @+ break;
+    case '2': app(2); @+ break;
+    case '3': app(3); @+ break;
+    case '4': app(4); @+ break;
+    case '5': app(5); @+ break;
+    case '6': app(6); @+ break;
+    case '7': app(7); @+ break;
+    case '8': app(8); @+ break;
+    case '9': app(9); @+ break;
+    case ':': app(colon); @+ break;
     }
     buffer[row][col--] = 0x00;
   }

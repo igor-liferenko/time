@@ -115,7 +115,7 @@ for (int row = 0; row < 8; row++) {
     case '7': app(7); @+ break;
     case '8': app(8); @+ break;
     case '9': app(9); @+ break;
-    case ':': app(colon); @+ break;
+    case ':': app(colon);
     }
     buffer[row][col--] = 0x00;
   }

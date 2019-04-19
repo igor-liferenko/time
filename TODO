@@ -12,4 +12,5 @@ and via usb doctor see when voltage starts to drop
 see adc.w to control brightness
 https://arduino.stackexchange.com/questions/58240/vary-voltage-using-relay-is-this-possible
 
+Connect bare 7-segment display to shift register to test
 Determine if display is common anode or common cathode: http://www.circuitbasics.com/arduino-7-segment-display-tutorial/

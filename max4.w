@@ -37,9 +37,6 @@ void main(void)
       str[8] = '\0';
       if (strcmp(str, "06:00:00") == 0) display_write4(0x0A, 0x0F);
       if (strcmp(str, "21:00:00") == 0) display_write4(0x0A, 0x03);
- /* FIXME: theoretically, it may jump over 1 second,
-        although very rarely; to be sure, add here
-        `{\tt\char'174\char'174} |strcmp(str, "06:00:01") == 0|' */
       str[5] = '\0';
       @<Show |str|@>@;
     }
@@ -152,8 +149,10 @@ void display_push(uint8_t address, uint8_t data)
 @ @<Functions@>=
 void display_write4(uint8_t address, uint8_t data)
 {
-  for (int i = 0; i < NUM_DEVICES; i++)
-    display_push(address, data);
+  display_push(address, data);
+  display_push(address, data);
+  display_push(address, data);
+  display_push(address, data);
   PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6);
 }
 

@@ -94,8 +94,9 @@ uint8_t buffer[8][NUM_DEVICES*8];
 @<Fill buffer@>@;
 @<Display buffer@>@;
 
-@ @d app(chr) /* append specified character to buffer */
-     for (int i = 0; i < sizeof chr / 8; i++) buffer[row][col--] = pgm_read_byte(&chr[row][i])
+@ @d app(c) /* append specified character to buffer */
+     for (int i = 0; i < sizeof chr_##c / 8; i++)
+       buffer[row][col--] = pgm_read_byte(&chr_##c[row][i])
 
 @<Fill buffer@>=
 for (int row = 0; row < 8; row++) {
@@ -105,34 +106,34 @@ for (int row = 0; row < 8; row++) {
     switch (*c)
     {
     case '0':
-      app(digit_0);
+      app(0);
       break;
     case '1':
-      app(digit_1);
+      app(1);
       break;
     case '2':
-      app(digit_2);
+      app(2);
       break;
     case '3':
-      app(digit_3);
+      app(3);
       break;
     case '4':
-      app(digit_4);
+      app(4);
       break;
     case '5':
-      app(digit_5);
+      app(5);
       break;
     case '6':
-      app(digit_6);
+      app(6);
       break;
     case '7':
-      app(digit_7);
+      app(7);
       break;
     case '8':
-      app(digit_8);
+      app(8);
       break;
     case '9':
-      app(digit_9);
+      app(9);
       break;
     case ':':
       app(colon);
@@ -182,7 +183,7 @@ void display_write4(uint8_t address, uint8_t data)
 @<Character images@>@;
 
 @ @<Char...@>=
-const uint8_t digit_0[8][5]
+const uint8_t chr_0[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -195,7 +196,7 @@ const uint8_t digit_0[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t digit_1[8][5]
+const uint8_t chr_1[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 1, 0, 0 }, @/
   { 0, 1, 1, 0, 0 }, @/
@@ -208,7 +209,7 @@ const uint8_t digit_1[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t digit_2[8][5]
+const uint8_t chr_2[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/  
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -221,7 +222,7 @@ const uint8_t digit_2[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t digit_3[8][5]
+const uint8_t chr_3[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/  
   { 1, 1, 1, 1, 1 }, @/
   { 0, 0, 0, 1, 0 }, @/
@@ -234,7 +235,7 @@ const uint8_t digit_3[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t digit_4[8][5]
+const uint8_t chr_4[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 0, 1, 0 }, @/
   { 0, 0, 1, 1, 0 }, @/
@@ -247,7 +248,7 @@ const uint8_t digit_4[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t digit_5[8][5]
+const uint8_t chr_5[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 1, 1, 1, 1, 1 }, @/
   { 1, 0, 0, 0, 0 }, @/
@@ -260,7 +261,7 @@ const uint8_t digit_5[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t digit_6[8][5]
+const uint8_t chr_6[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 1, 1, 0 }, @/
   { 0, 1, 0, 0, 0 }, @/
@@ -273,7 +274,7 @@ const uint8_t digit_6[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t digit_7[8][5]
+const uint8_t chr_7[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 1, 1, 1, 1, 1 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -286,7 +287,7 @@ const uint8_t digit_7[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t digit_8[8][5]
+const uint8_t chr_8[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -299,7 +300,7 @@ const uint8_t digit_8[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t digit_9[8][5]
+const uint8_t chr_9[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -312,7 +313,7 @@ const uint8_t digit_9[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t colon[8][6]
+const uint8_t chr_colon[8][6]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 0, 0, 0, 0 }, @/
   { 0, 0, 1, 1, 0, 0 }, @/

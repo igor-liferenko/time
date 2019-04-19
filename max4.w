@@ -94,7 +94,7 @@ uint8_t buffer[8][NUM_DEVICES*8];
 @<Fill buffer@>@;
 @<Display buffer@>@;
 
-@ @d app_to_buf(chr)
+@ @d app(chr) /* append specified character to buffer */
      for (int i = 0; i < sizeof chr / 8; i++) buffer[row][col--] = pgm_read_byte(&chr[row][i])
 
 @<Fill buffer@>=
@@ -105,37 +105,37 @@ for (int row = 0; row < 8; row++) {
     switch (*c)
     {
     case '0':
-      app_to_buf(digit_0);
+      app(digit_0);
       break;
     case '1':
-      app_to_buf(digit_1);
+      app(digit_1);
       break;
     case '2':
-      app_to_buf(digit_2);
+      app(digit_2);
       break;
     case '3':
-      app_to_buf(digit_3);
+      app(digit_3);
       break;
     case '4':
-      app_to_buf(digit_4);
+      app(digit_4);
       break;
     case '5':
-      app_to_buf(digit_5);
+      app(digit_5);
       break;
     case '6':
-      app_to_buf(digit_6);
+      app(digit_6);
       break;
     case '7':
-      app_to_buf(digit_7);
+      app(digit_7);
       break;
     case '8':
-      app_to_buf(digit_8);
+      app(digit_8);
       break;
     case '9':
-      app_to_buf(digit_9);
+      app(digit_9);
       break;
     case ':':
-      app_to_buf(colon);
+      app(colon);
       break;
     }
     buffer[row][col--] = 0x00;

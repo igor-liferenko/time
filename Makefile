@@ -5,7 +5,7 @@ time-read max4:
 	@avr-objcopy -O ihex fw.elf fw.hex
 
 flash:
-	@avrdude -qq -c usbasp -p $(MCU) -U flash:w:fw.hex
+	@if ! unbuffer avrdude -c usbasp -p $(MCU) | grep -q 'Fuses OK (E:CB, H:D9, L:FF)'; then echo Wrong fuses; else avrdude -qq -c usbasp -p $(MCU) -U flash:w:fw.hex; fi
 
 imgs:
 	@mp max4

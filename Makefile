@@ -5,7 +5,7 @@ time-read max4:
 	@avr-objcopy -O ihex fw.elf fw.hex
 
 flash:
-	@test "$$(avrdude -qq -c usbasp -p atmega32u4 -U efuse:r:-:h -U hfuse:r:-:h -U lfuse:r:-:h | paste -sd_)" = 0xcb_0xd9_0xff
+	@avrdude -qq -c usbasp -p atmega32u4 -U efuse:r:-:h -U hfuse:r:-:h -U lfuse:r:-:h | paste -sd_ | grep -q 0xcb_0xd9_0xff
 	@avrdude -qq -c usbasp -p $(MCU) -U flash:w:fw.hex
 
 imgs:

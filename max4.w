@@ -302,9 +302,9 @@ const uint8_t chr_colon[8][6]
 };
 
 @ @<Set brightness depending on time of day@>=
-if (strcmp(str, "21:00:00") > 0 || strcmp(str, "06:00:00") < 0)
+if (strcmp(str, "21:00:00") >= 0 || strcmp(str, "06:00:00") < 0)
   display_write4(0x0A, 0x03);
-if (strcmp(str, "06:00:00") > 0 && strcmp(str, "21:00:00") < 0)
+if (strcmp(str, "06:00:00") >= 0 && strcmp(str, "21:00:00") < 0)
   display_write4(0x0A, 0x0F);
 
 @ No other requests except {\caps set control line state} come

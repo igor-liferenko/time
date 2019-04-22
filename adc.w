@@ -4,8 +4,6 @@ From ttps://piandmore.wordpress.com/2016/10/14/photo-resistors-in-depth/: please
 
 see on youtube avr measure analog voltage
 
-@d F_CPU 16000000UL
-
 @c
 #include <avr/io.h>
 

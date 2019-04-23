@@ -29,15 +29,15 @@ void main(void)
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
-      char str[9];
+      char time[9];
       int rx_counter = UEBCLX;
       while (rx_counter--)
-        str[7-rx_counter] = UEDATX;
+        time[7-rx_counter] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
-      str[8] = '\0';
+      time[8] = '\0';
       @<Set brightness depending on time of day@>@;
-      str[5] = '\0';
-      @<Show |str|@>@;
+      time[5] = '\0';
+      @<Show |time|@>@;
     }
   }
 }
@@ -85,7 +85,7 @@ display_write4(0x0C, 0x01);
 
 @d NUM_DEVICES 4
 
-@<Show |str|@>=
+@<Show |time|@>=
 uint8_t buffer[8][NUM_DEVICES*8];
 @<Fill buffer@>@;
 @<Display buffer@>@;
@@ -98,7 +98,7 @@ uint8_t buffer[8][NUM_DEVICES*8];
 for (int row = 0; row < 8; row++) {
   int col = NUM_DEVICES*8 - 1;
   buffer[row][col--] = 0x00;
-  for (char *c = str; *c != '\0'; c++) {
+  for (char *c = time; *c != '\0'; c++) {
     switch (*c)
     {
     case '0': app(0); @+ break;
@@ -301,10 +301,10 @@ const uint8_t chr_colon[8][6]
 @t\2@> { 0, 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Set brightness depending on time of day@>=
-if (strcmp(str, "21:00:00") >= 0 || strcmp(str, "06:00:00") < 0)
+@ @<Set brightness...@>=
+if (strcmp(time, "21:00:00") >= 0 || strcmp(time, "06:00:00") < 0)
   display_write4(0x0A, 0x03);
-if (strcmp(str, "06:00:00") >= 0 && strcmp(str, "21:00:00") < 0)
+if (strcmp(time, "06:00:00") >= 0 && strcmp(time, "21:00:00") < 0)
   display_write4(0x0A, 0x0F);
 
 @ No other requests except {\caps set control line state} come

@@ -5,8 +5,7 @@ time-read max4:
 	@avr-objcopy -O ihex fw.elf fw.hex
 
 flash:
-	@avrdude -qq -c usbasp -p $(MCU) -U efuse:v:0xcb:m -U hfuse:v:0xd9:m -U lfuse:v:0xff:m
-	@avrdude -qq -c usbasp -p $(MCU) -U flash:w:fw.hex
+	@avrdude -qq -c usbasp -p $(MCU) -U efuse:v:0xcb:m -U hfuse:v:0xd9:m -U lfuse:v:0xff:m -U flash:w:fw.hex
 
 imgs:
 	@mp max4

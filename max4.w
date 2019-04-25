@@ -302,10 +302,8 @@ const uint8_t chr_colon[8][6]
 };
 
 @ @<Set brightness...@>=
-if (strcmp(time, "21:00:00") >= 0 || strcmp(time, "06:00:00") < 0)
-  display_write4(0x0A, 0x03);
-if (strcmp(time, "06:00:00") >= 0 && strcmp(time, "21:00:00") < 0)
-  display_write4(0x0A, 0x0F);
+if (strcmp(time, "21:00:00") >= 0 || strcmp(time, "06:00:00") < 0) display_write4(0x0A, 0x03);
+if (strcmp(time, "06:00:00") >= 0 && strcmp(time, "21:00:00") < 0) display_write4(0x0A, 0x0F);
 
 @ No other requests except {\caps set control line state} come
 after connection is established. These are from \\{open} and implicit \\{close}

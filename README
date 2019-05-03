@@ -1,3 +1,12 @@
+Прихожая:
+  wmerge max4 max4-sec merged
+  ctangle merged brightness max4
+
+Зал:
+  ctangle max4 brightness2
+
+--------------------
+
 example1:
   wmerge max4 max4-reverse merged
   ctangle merged brightness max4

@@ -6,7 +6,7 @@ Use red display.
 @z
 
 @x
-    for (char *c = time; *c != '\0'; c++) {
+  for (char *c = time; *c != '\0'; c++) {
 @y
-    for (char *c = time+3; *c != '\0'; c++) {
+  for (char *c = time+3; *c != '\0'; c++) {
 @z

@@ -49,10 +49,7 @@ Then set decode mode to properly clear all LEDs,
 and clear them. Finally, configure the rest registers and enable the display.
 
 Note, that |PB0| must be set to OUTPUT for SPI master.
-FIXME: PB0 led is damaged on board on which I did this first clock,
-so for next clock we have to set it HIGH here because on pro-micro leds are inverted, and if it
-will not work in such case, don't set it to HIGH here and cut-off the resistor
-which goes to PB0 led instead
+On pro-micro it has a LED attached to it.
 
 SPI here is used as a way to push bytes to display (data + clock).
 Latch is used only in the end, like in shift registers.
@@ -64,6 +61,7 @@ Take into accound capacitance of wires for SPI - signal may raise and fall with 
 next device in a chain).
 
 @<Initialize display@>=
+PORTB |= 1 << PB0; /* on pro-micro led is inverted */
 DDRB |= 1 << PB0 | 1 << PB1 | 1 << PB2 | 1 << PB6;
 SPCR |= 1 << MSTR | 1 << SPR1 | 1 << SPE;
 display_write4(0x0F, 0x00);

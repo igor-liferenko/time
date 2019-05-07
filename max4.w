@@ -1,7 +1,7 @@
 \let\lheader\rheader
 %\datethis
 \secpagedepth=2 % begin new page only on *
-\font\caps=cmcsc10 at 9pt
+\font\caps=cmcsc10 at 9pt % for USB.w
 
 @* Program.
 
@@ -63,7 +63,7 @@ next device in a chain).
 @<Initialize display@>=
 PORTB |= 1 << PB0; /* on pro-micro led is inverted */
 DDRB |= 1 << PB0 | 1 << PB1 | 1 << PB2 | 1 << PB6;
-SPCR |= 1 << MSTR | 1 << SPR1 | 1 << SPE;
+SPCR |= 1 << MSTR | 1 << SPR1 | 1 << SPE; /* \.{SPR1} is 250 kHz */
 display_write4(0x0F, 0x00);
 display_write4(0x0C, 0x00);
 display_write4(0x09, 0x00);
@@ -299,7 +299,12 @@ const uint8_t chr_colon[8][6]
 @t\2@> { 0, 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Set brightness...@>=
+@ This code takes approx ? ms (SPI speed is 250kHz), so it has enough time
+to complete until new time is sent from USB host.
+FIXME: instead of counting time interval that this code takes, device a test
+method via led or something to see this objectively
+
+@<Set brightness...@>=
 if (strcmp(time, "21:00:00") >= 0 || strcmp(time, "06:00:00") < 0) display_write4(0x0A, 0x01);
 if (strcmp(time, "06:00:00") >= 0 && strcmp(time, "21:00:00") < 0) display_write4(0x0A, 0x0F);
 

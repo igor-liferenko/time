@@ -1,3 +1,5 @@
+NOTE: see doc-part of section @<Set brightness...@>
+
 @x
 display_write4(0x0A, 0x0F);
 @y

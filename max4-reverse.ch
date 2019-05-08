@@ -1,2 +1,13 @@
-TODO: change here section @<Display buffer@> to use pins on the left side
-HINT: edit max4.w directly, and then use "git difftool", editing ~/.gitconfig to set "-c" option
+@x
+  for (int n = 1; n <= NUM_DEVICES; n++) {
+@y
+  for (int n = NUM_DEVICES; n > 0; n--) {
+@z
+
+@x
+        data |= 1 << (7-i);
+    display_push(row+1, data);
+@y
+        data |= 1 << i;
+    display_push(7-row+1, data);
+@z

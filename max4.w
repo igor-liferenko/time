@@ -128,11 +128,11 @@ $$\hbox to8.89cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.2
 @<Display buffer@>=
 for (int row = 0; row < 8; row++) {
   uint8_t data;
-  for (int n = NUM_DEVICES; n > 0; n--) {
+  for (int n = 1; n <= NUM_DEVICES; n++) {
     data = 0x00;
     for (int i = 0; i < 8; i++)
       if (buffer[row][(n-1)*8+i])
-        data |= 1 << i;
+        data |= 1 << (7-i);
     display_push(row+1, data);
   }
   PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6);

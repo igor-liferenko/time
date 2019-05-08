@@ -1,19 +1,13 @@
 NOTE: see doc-part of section @<Set brightness...@>
 
 @x
-display_write4(0x0A, 0x0F);
-@y
-display_write4(0x0A, 0x05); /* blue is too bright */
-@z
-
-@x
 if (strcmp(time, "21:00:00") >= 0 || strcmp(time, "06:00:00") < 0) display_write4(0x0A, 0x01);
 @y
-if (strcmp(time, "21:00:00") >= 0 || strcmp(time, "05:00:00") < 0) display_write4(0x0C, 0x00);
+if (strcmp(time, "21:00:00") >= 0 || strcmp(time, "06:00:00") < 0) display_write4(0x0A, 0x00);
 @z
 
 @x
 if (strcmp(time, "06:00:00") >= 0 && strcmp(time, "21:00:00") < 0) display_write4(0x0A, 0x0F);
 @y
-if (strcmp(time, "05:00:00") >= 0 && strcmp(time, "21:00:00") < 0) display_write4(0x0C, 0x01);
+if (strcmp(time, "06:00:00") >= 0 && strcmp(time, "21:00:00") < 0) display_write4(0x0A, 0x05);
 @z

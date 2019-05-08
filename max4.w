@@ -2,6 +2,8 @@
 %\datethis
 \secpagedepth=2 % begin new page only on *
 
+@i ../usb/USB.h
+
 @* Program.
 
 $$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4-pic.eps
@@ -307,7 +309,7 @@ method via led or something to see this objectively
 if (strcmp(time, "21:00:00") >= 0 || strcmp(time, "06:00:00") < 0) display_write4(0x0A, 0x01);
 if (strcmp(time, "06:00:00") >= 0 && strcmp(time, "21:00:00") < 0) display_write4(0x0A, 0x0F);
 
-@ No other requests except {\global\font\caps=cmcsc10 at 9pt \caps set control line state} come
+@ No other requests except {\caps set control line state} come
 after connection is established. These are from \\{open} and implicit \\{close}
 in \.{time-write}. Just discard the data.
 

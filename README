@@ -1,6 +1,9 @@
 Прихожая:
+ Right module:
   wmerge max4 max4-sec merged
   ctangle merged brightness max4
+ Left module:
+  ctangle max4 brightness
 
 Зал:
   ctangle max4 brightness2

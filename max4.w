@@ -94,12 +94,12 @@ This is for easier output in |@<Display buffer@>|.
 
 @d app(c) /* append specified character to buffer */
      for (int i = 0; i < sizeof chr_##c / 8; i++)
-       buffer[row][col--] = pgm_read_byte(&chr_##c[row][i])
+       buffer[row][col++] = pgm_read_byte(&chr_##c[row][i])
 
 @<Fill buffer@>=
 for (int row = 0; row < 8; row++) {
-  int col = NUM_DEVICES*8 - 1;
-  buffer[row][col--] = 0x00;
+  int col = 0;
+  buffer[row][col++] = 0x00;
   for (char *c = time; *c != '\0'; c++) {
     switch (*c)
     {
@@ -115,7 +115,7 @@ for (int row = 0; row < 8; row++) {
     case '9': app(9); @+ break;
     case ':': app(colon);
     }
-    buffer[row][col--] = 0x00;
+    buffer[row][col++] = 0x00;
   }
 }
 

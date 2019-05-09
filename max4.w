@@ -89,16 +89,13 @@ uint8_t buffer[8][NUM_DEVICES*8];
 @<Fill buffer@>@;
 @<Display buffer@>@;
 
-@ Data is appended to buffer from right to left, i.e., 123456 becomes 654321.
-This is for easier output in |@<Display buffer@>|.
-
-@d app(c) /* append specified character to buffer */
-     for (int i = 0; i < sizeof chr_##c / 8; i++)
+@ @d app(c) /* append specified character to buffer */
+     for (uint8_t i = 0; i < sizeof chr_##c / 8; i++)
        buffer[row][col++] = pgm_read_byte(&chr_##c[row][i])
 
 @<Fill buffer@>=
-for (int row = 0; row < 8; row++) {
-  int col = 0;
+for (uint8_t row = 0; row < 8; row++) {
+  uint8_t col = 0;
   buffer[row][col++] = 0x00;
   for (char *c = time; *c != '\0'; c++) {
     switch (*c)

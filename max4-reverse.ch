@@ -5,7 +5,7 @@
 @z
 
 @x
-        data |= 1 << (7-i);
+        data |= 1 << 7-i;
     display_push(row+1, data);
 @y
         data |= 1 << i;

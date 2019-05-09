@@ -132,7 +132,7 @@ for (int row = 0; row < 8; row++) {
     data = 0x00;
     for (int i = 0; i < 8; i++)
       if (buffer[row][(n-1)*8+i])
-        data |= 1 << (7-i);
+        data |= 1 << 7-i;
     display_push(row+1, data);
   }
   PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6);

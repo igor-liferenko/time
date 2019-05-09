@@ -64,7 +64,7 @@ next device in a chain).
 @<Initialize display@>=
 PORTB |= 1 << PB0; /* on pro-micro led is inverted */
 DDRB |= 1 << PB0 | 1 << PB1 | 1 << PB2 | 1 << PB6;
-SPCR |= 1 << MSTR | 1 << SPR1 | 1 << SPE; /* \.{SPR1} is 250 kHz */
+SPCR |= 1 << MSTR | 1 << SPR1 | 1 << SPE; /* \.{SPR1} means 250 kHz */
 display_write4(0x0F, 0x00);
 display_write4(0x0C, 0x00);
 display_write4(0x09, 0x00);

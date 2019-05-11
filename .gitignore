@@ -3,7 +3,7 @@
 time-write
 time-write.c
 time-read.c
-max4.c
+time.c
 *.dvi
 *.idx
 *.log
@@ -11,7 +11,7 @@ max4.c
 *.scn
 time-read.tex
 time-write.tex
-max4.tex
+time.tex
 *.toc
 *.eps
 *.[0-9]

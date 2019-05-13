@@ -1,33 +1,14 @@
 Прихожая:
  Left module:
-  wmerge max4 max4-reverse merged
-  ctangle merged brightness max4
+  wmerge time reverse merged
+  ctangle merged brightness time
  Right module:
-  wmerge max4 max4-sec merged
-  ctangle merged brightness max4
+  wmerge time seconds merged
+  ctangle merged brightness time
 
 Зал:
-  ctangle max4 brightness2
+  ctangle time brightness2
 
 Кухня:
-  wmerge max4 max4-reverse merged
-  ctangle merged brightness3 max4
-
---------------------
-
-example1:
-  wmerge max4 max4-reverse merged
-  ctangle merged brightness max4
-
-example2:
-  wmerge max4 max4-sec merged
-  ctangle merged brightness max4
-
-example3:
-  wmerge max4 max4-sec merged
-  ctangle merged max4-reverse max4
-
-example4:
-  wmerge max4 max4-reverse merged
-  wmerge merged.web max4-sec | sponge merged.web
-  ctangle merged brightness max4
+  wmerge time reverse merged
+  ctangle merged brightness3 time

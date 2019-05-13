@@ -6,10 +6,10 @@
 
 @* Program.
 
-$$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4-pic.eps
+$$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4.eps
   clip llx=0 lly=0 urx=179 ury=149 rwi=1984}}\hfil}$$
 
-$$\hbox to7.16cm{\vbox to2.99861111111111cm{\vfil\special{psfile=max4.1
+$$\hbox to7.16cm{\vbox to2.99861111111111cm{\vfil\special{psfile=time.1
   clip llx=-63 lly=84 urx=140 ury=169 rwi=2030}}\hfil}$$
 
 @c
@@ -119,7 +119,7 @@ for (uint8_t row = 0; row < 8; row++) {
 @ Rows are output from right to left, from top to bottom.
 Left device is set first, right device is set last.
 
-$$\hbox to8.89cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.2
+$$\hbox to8.89cm{\vbox to2.04611111111111cm{\vfil\special{psfile=time.2
   clip llx=-39 lly=-26 urx=213 ury=32 rwi=2520}}\hfil}$$
 
 @<Display buffer@>=

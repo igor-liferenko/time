@@ -11,6 +11,6 @@ imgs:
 
 .PHONY: $(wildcard *.eps)
 
-max4-pic.eps: max4-pic.png
+max4.eps: max4.png
 	@convert $< $@
 	@imgsize $@ 7 -

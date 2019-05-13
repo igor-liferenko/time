@@ -123,12 +123,12 @@ $$\hbox to8.89cm{\vbox to2.04611111111111cm{\vfil\special{psfile=max4.2
   clip llx=-39 lly=-26 urx=213 ury=32 rwi=2520}}\hfil}$$
 
 @<Display buffer@>=
-for (int row = 0; row < 8; row++) {
+for (uint8_t row = 0; row < 8; row++) {
   uint8_t data;
-  for (int n = 1; n <= NUM_DEVICES; n++) {
+  for (uint8_t n = 0; n < NUM_DEVICES; n++) {
     data = 0x00;
-    for (int i = 0; i < 8; i++)
-      if (buffer[row][(n-1)*8+i])
+    for (uint8_t i = 0; i < 8; i++)
+      if (buffer[row][n*8+i])
         data |= 1 << 7-i;
     display_push(row+1, data);
   }

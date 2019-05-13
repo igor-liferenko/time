@@ -3,8 +3,6 @@
 @y
 @z
 
-On left panel there is one space in the end, so on right panel we must start with character.
-Output last separator and seconds.
 @x
   buffer[row][col++] = 0x00;
   for (char *c = time; *c != '\0'; c++) {

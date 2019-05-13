@@ -1,7 +1,7 @@
 @x
-  for (int n = 1; n <= NUM_DEVICES; n++) {
+  for (int n = 0; n < NUM_DEVICES; n++) {
 @y
-  for (int n = NUM_DEVICES; n > 0; n--) {
+  for (int n = NUM_DEVICES-1; n >= 0; n--) {
 @z
 
 @x

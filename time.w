@@ -3,7 +3,7 @@
 
 \input USB
 
-@* Program.
+@* Program. Display time from USB using MAX7219 display module.
 
 $$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4.eps
   clip llx=0 lly=0 urx=179 ury=149 rwi=1984}}\hfil}$$

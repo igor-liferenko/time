@@ -131,7 +131,6 @@ for (uint8_t row = 0; row < 8; row++) {
         data |= 1 << 7-i;
     display_push(row+1, data);
   }
-  _delay_us(1);
   PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6);
 }
 
@@ -151,7 +150,6 @@ void display_write4(uint8_t address, uint8_t data)
   display_push(address, data);
   display_push(address, data);
   display_push(address, data);
-  _delay_us(1);
   PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6);
 }
 

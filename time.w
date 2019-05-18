@@ -305,7 +305,7 @@ FIXME: instead of counting time interval that this code takes, device a test
 method via led or something to see this objectively
 
 @<Set brightness...@>=
-if (strcmp(time, "21:00:00") >= 0 || strcmp(time, "06:00:00") < 0) display_write4(0x0A, 0x01);
+if (strcmp(time, "21:00:00") >= 0 || strcmp(time, "06:00:00") < 0) display_write4(0x0A, 0x00);
 if (strcmp(time, "06:00:00") >= 0 && strcmp(time, "21:00:00") < 0) display_write4(0x0A, 0x0F);
 
 @ No other requests except {\caps set control line state} come

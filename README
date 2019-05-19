@@ -1,14 +1,15 @@
-Прихожая:
- Left module:
+Bedroom:
   wmerge time reverse merged
-  ctangle merged brightness time
- Right module:
-  wmerge time seconds merged
-  ctangle merged brightness time
+  ctangle merged long-wire time
 
-Зал:
+Entrance:
+ Left module:
+  ctangle time reverse
+ Right module:
+  ctangle time seconds
+
+Big room:
   ctangle time brightness2
 
-Кухня:
-  wmerge time reverse merged
-  ctangle merged brightness3 time
+Kitchen:
+  ctangle time reverse

@@ -9,7 +9,7 @@ Entrance:
   ctangle time seconds
 
 Big room:
-  ctangle time brightness2
+  ctangle time brightness
 
 Kitchen:
   ctangle time reverse

@@ -301,7 +301,7 @@ const uint8_t chr_colon[8][6]
 
 @ This code takes approx ? ms (SPI speed is 250kHz), so it has enough time
 to complete until new time is sent from USB host.
-FIXME: instead of counting time interval that this code takes, device a test
+FIXME: instead of counting time interval that this code takes, devise a test
 method via led or something to see this objectively
 
 @<Set brightness...@>=

@@ -24,6 +24,8 @@ void main(void)
 
   @<Initialize display@>@;
 
+  uint8_t gotcha;
+
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
     UENUM = EP2;
@@ -36,9 +38,17 @@ void main(void)
       UEINTX &= ~(1 << FIFOCON);
       time[8] = '\0';
       @<Set brightness depending on time of day@>@;
+      if (gotcha) {
+        display_write4(0x0C, 0x01); /* to be sure */
+        strcpy(time, "::::::::"); /* indicate failure */
+      }
       time[5] = '\0';
       @<Show |time|@>@;
+      if (gotcha) break;
+      gotcha = 1; /* activate */
     }
+    else
+      gotcha = 0; /* deactivate */
   }
 }
 
@@ -299,12 +309,7 @@ const uint8_t chr_colon[8][6]
 @t\2@> { 0, 0, 0, 0, 0, 0 } @/
 };
 
-@ This code takes approx ? ms (SPI speed is 250kHz), so it has enough time
-to complete until new time is sent from USB host.
-FIXME: instead of counting time interval that this code takes, devise a test
-method via led or something to see this objectively
-
-@<Set brightness...@>=
+@ @<Set brightness...@>=
 if (strcmp(time, "21:00:00") >= 0 || strcmp(time, "06:00:00") < 0) display_write4(0x0A, 0x00);
 if (strcmp(time, "06:00:00") >= 0 && strcmp(time, "21:00:00") < 0) display_write4(0x0A, 0x0F);
 

@@ -4,12 +4,15 @@ Bedroom:
 
 Entrance:
  Left module:
-  ctangle time reverse
+  wmerge time reverse merged
+  ctangle merged brightness3 time
  Right module:
-  ctangle time seconds
+  wmerge time seconds merged
+  ctangle merged brightness3 time
 
 Big room:
   ctangle time brightness
 
 Kitchen:
-  ctangle time reverse
+  wmerge time reverse merged
+  ctangle merged brightness2 time

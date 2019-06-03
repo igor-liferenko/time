@@ -24,7 +24,8 @@ void main(void)
 
   @<Initialize display@>@;
 
-  uint8_t gotcha;
+  uint8_t gotcha = 0; /* when new data arrives and it is not deactivated, we know that
+    our code exceeds allowed interval */
 
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
@@ -44,7 +45,7 @@ void main(void)
       }
       time[5] = '\0';
       @<Show |time|@>@;
-      if (gotcha) break;
+      if (gotcha) break; /* freeze */
       gotcha = 1; /* activate */
     }
     else

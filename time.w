@@ -40,7 +40,8 @@ void main(void)
       time[8] = '\0';
       @<Set brightness depending on time of day@>@;
       if (gotcha) {
-        display_write4(0x0C, 0x01); /* to be sure */
+        display_write4(0x0C, 0x01); /* to be sure (it may be disabled in |@<Set brightness..@>|,
+          possibly via change-file) */
         strcpy(time, "::::::::"); /* indicate failure */
       }
       time[5] = '\0';

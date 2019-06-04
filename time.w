@@ -40,7 +40,7 @@ void main(void)
       time[8] = '\0';
       @<Set brightness depending on time of day@>@;
       if (gotcha) {
-        display_write4(0x0C, 0x01); /* to be sure (it may be disabled in |@<Set brightness..@>|,
+        display_write4(0x0C, 0x01); /* to be sure (it may be disabled in |@<Set brightness...@>|,
           possibly via change-file) */
         strcpy(time, "99:99:99"); /* indicate failure */
       }
@@ -60,17 +60,17 @@ Next, make sure that display is disabled, because there may be random lighting L
 Then set decode mode to properly clear all LEDs,
 and clear them. Finally, configure the rest registers and enable the display.
 
-Note, that |PB0| must be set to OUTPUT for SPI master.
-On pro-micro it has a LED attached to it.
-
 SPI here is used as a way to push bytes to display (data + clock).
 Latch is used only in the end, like in shift registers.
-Frequency of SPI clock is adjusted empirically (starting from highest).
-Latch duration which should be safe is 1$\mu$s (minimum is 50ns according to datasheet).
-It can also be adjusted, but after frequency - use NOP's to decrease it.
-Take into accound capacitance of wires for SPI - signal may raise and fall with some latency
-(clock and latch are in parallel, DIN goes through each device to DOUT and then to DIN of
-next device in a chain).
+SS pin is used as latch, which means that it must be set as OUTPUT,
+but it has LED attached to it anyway, so it cannot be used, but it must
+be set as OUTPUT anyway. Use |PB6| for real latch.
+
+Latch duration which should be safe is 1$\mu$s (min.\hbox{} is
+50ns---t\lower.25ex\hbox{\the\scriptfont0 CSW} in datasheet).
+
+Note, that segments are connected as this: clock and latch are in parallel,
+DIN goes through each segment to DOUT and then to DIN of next segment in the chain.
 
 @<Initialize display@>=
 PORTB |= 1 << PB0; /* on pro-micro led is inverted */
@@ -144,7 +144,7 @@ for (uint8_t row = 0; row < 8; row++) {
         data |= 1 << 7-i;
     display_push(row+1, data);
   }
-  PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6);
+  PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6); /* latch */
 }
 
 @ @<Functions@>=
@@ -163,7 +163,7 @@ void display_write4(uint8_t address, uint8_t data)
   display_push(address, data);
   display_push(address, data);
   display_push(address, data);
-  PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6);
+  PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6); /* latch */
 }
 
 @ @<Global variables@>=

@@ -3,7 +3,7 @@
 
 \input USB
 
-\font\textmu=tcrm1000
+\font\textmu=tcrm1000 % TODO: do it in metafont
 
 @* Program. Display time from USB using MAX7219 module.
 

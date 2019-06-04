@@ -26,8 +26,8 @@ void main(void)
 
   @<Initialize display@>@;
 
-  uint8_t gotcha = 0; /* when new data arrives and it is not deactivated, we know that
-    our code exceeds allowed interval */
+  uint8_t gotcha = 0; /* used to protect ourselves from inadvertently introducing long-running
+    code: time of execution of one loop iteration must not exceed interval between data arrivals */
 
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;

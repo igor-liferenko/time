@@ -6,3 +6,6 @@ third from right, GND to low 6th from left and VCC to upper 6th
 from left.
 Also, in time.w comment 'PORTB |= 1 << PB0;' (on micro PB0 is not inverted).
 NOTE: do not use zif socket with pro-micro - contact is awful, tried it
+Note, that I decided use SPI instead of bitbang (as I did previously - see 'git log -p')
+because it is easier to adjust (SPI has only one parameter to change (frequency), while
+binbang has more, and latch can be set sufficiently big).

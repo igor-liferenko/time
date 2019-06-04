@@ -66,7 +66,7 @@ SS pin is used as latch, which means that it must be set as OUTPUT,
 but it has LED attached to it anyway, so it cannot be used, but it is required
 to be set as OUTPUT anyway. Use |PB6| for real latch.
 
-Latch duration which should be safe is 1$\mu$s (min.\hbox{} is
+For simplicity (not to use timer), we use latch duration of 1$\mu$s (min.\hbox{} is
 50ns---t\lower.25ex\hbox{\the\scriptfont0 CSW} in datasheet).
 
 Note, that segments are connected as this: clock and latch are in parallel,

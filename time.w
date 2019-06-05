@@ -3,7 +3,7 @@
 
 \input USB
 
-\font\textmu=tcrm1000 % TODO: do it in metafont
+\def\textmu{u\vbox{\moveleft5.9pt\hbox{\j}}}
 
 @* Program. Display time from USB using MAX7219 module.
 
@@ -69,7 +69,7 @@ but it has LED attached to it (and on pro-micro it does not have external contac
 so it cannot be used, but it is required to be set as OUTPUT, otherwise SPI will work
 in slave mode. Use |PB6| for real latch.
 
-For simplicity (not to use timer), we use latch duration of 1{\textmu\char181}s (min.\ is
+For simplicity (not to use timer), we use latch duration of 1{\textmu}s (min.\ is
 50ns---t\lower.25ex\hbox{\the\scriptfont0 CSW} in datasheet).
 
 Note, that segments are connected as this: clock and latch are in parallel,

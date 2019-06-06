@@ -3,7 +3,8 @@
 
 \input USB
 
-\def\textmu{u\vbox{\moveleft5.9pt\hbox{\j}}}
+\def\textmu{\setbox0=\hbox{u}\leavevmode\copy0\dimen0=\wd0
+  \advance\dimen0 by.5pt\vbox{\moveleft\dimen0\hbox{\j}}}
 
 @* Program. Display time from USB using MAX7219 module.
 

@@ -4,10 +4,10 @@
 \input USB
 
 % this is for microseconds
-\def\textmu{\setbox0=\hbox{u}\dimen0=\wd0 \advance\dimen0 by.45pt % backup a little more
+\def\textmu{\setbox0=\hbox{u}\dimen0=\wd0 \advance\dimen0 by.4pt % backup a little more
   \box0\llap{\kern\j\dimen0}}
-%\def\textmu{\setbox0=\hbox{u}\dimen0=\wd0\setbox2=\hbox{\j}\dimen2=\wd2\advance\dimen2 by-.45pt
-%  \advance\dimen0 by-\dimen2 \box0\llap{\j\kern\dimen0}}
+%\def\textmu{\setbox0=\hbox{u}\dimen0=\wd0 \advance\dimen0 by.4pt % backup a little more
+%  \box0\llap{\rlap{\j}\kern\dimen0}}
 
 @* Program. Display time from USB using MAX7219 module.
 

@@ -5,7 +5,7 @@
 
 % this is for microseconds
 \def\textmu{\setbox0=\hbox{u}\dimen0=\wd0 \advance\dimen0 by.4pt % backup a little more
-  \box0\llap{\kern\j\dimen0}}
+  \box0\vbox{\moveleft\dimen0\hbox{\j}}}
 %\def\textmu{\setbox0=\hbox{u}\dimen0=\wd0 \advance\dimen0 by.4pt % backup a little more
 %  \box0\llap{\rlap{\j}\kern\dimen0}}
 

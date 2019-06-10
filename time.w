@@ -6,8 +6,7 @@
 % this is for microseconds
 \def\textmu{\setbox0=\hbox{u}\dimen0=\wd0 \advance\dimen0 by.4pt % backup a little more
   \box0\vbox{\moveleft\dimen0\hbox{\j}}}
-%\def\textmu{\setbox0=\hbox{u}\dimen0=\wd0 \advance\dimen0 by.4pt % backup a little more
-%  \box0\llap{\rlap{\j}\kern\dimen0}}
+% \box0\llap{\rlap{\j}\kern\dimen0}} % equivalent
 
 @* Program. Display time from USB using MAX7219 module.
 

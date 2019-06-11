@@ -65,16 +65,9 @@ Next, make sure that display is disabled, because there may be random lighting L
 Then set decode mode to properly clear all LEDs,
 and clear them. Finally, configure the rest registers and enable the display.
 
-SPI here is used as a way to push bytes to display (data + clock).
-Latch is used only in the end, like in shift registers.
-SS pin is used as latch, which means that it must be set as OUTPUT,
-but it has LED attached to it (and on pro-micro it does not have external contact anyway),
-so it cannot be used, but it is required to be set as OUTPUT, otherwise SPI will work
-in slave mode. FIXME: does this mean that the latch (PB0 pin aka SS) is activated
-automatically when data is transmitted by writing to SPDR register? - search datasheet;
-otherwise I see no sense that a specific pin must be set to output mode while using
-SPI writes.
-Use |PB6| for the latch.
+MAX7219 is a shift register.
+SPI here is used as a way to push bytes to MAX7219 (data + clock).
+|PB6| is used as the latch.
 
 For simplicity (not to use timer), we use latch duration of 1{\textmu}s (min.\ is
 50ns---t\lower.25ex\hbox{\the\scriptfont0 CSW} in datasheet).
@@ -84,7 +77,10 @@ DIN goes through each segment to DOUT and then to DIN of next segment in the cha
 
 @<Initialize display@>=
 PORTB |= 1 << PB0; /* on pro-micro led is inverted */
-DDRB |= 1 << PB0 | 1 << PB1 | 1 << PB2 | 1 << PB6;
+DDRB |= 1 << PB0; /* SPI master\footnote*{the ``latch'' is not supposed to be managed
+automatically in SPI, just that Atmel engineers decided to configure master mode that
+way---see {\tt https://electronics.stackexchange.com/questions/442794/}} */
+DDRB |= 1 << PB1 | 1 << PB2 | 1 << PB6;
 SPCR |= 1 << MSTR | 1 << SPR1 | 1 << SPE; /* \.{SPR1} means 250 kHz
   FIXME: does native wire work without SPR1? does long wire work without SPR1? */
 display_write4(0x0F, 0x00);

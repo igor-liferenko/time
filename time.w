@@ -67,7 +67,6 @@ and clear them. Finally, configure the rest registers and enable the display.
 
 MAX7219 is a shift register.
 SPI here is used as a way to push bytes to MAX7219 (data + clock).
-|PB6| is used as the latch.
 
 For simplicity (not to use timer), we use latch duration of 1{\textmu}s (min.\ is
 50ns---t\lower.25ex\hbox{\the\scriptfont0 CSW} in datasheet).
@@ -77,10 +76,10 @@ DIN goes through each segment to DOUT and then to DIN of next segment in the cha
 
 @<Initialize display@>=
 PORTB |= 1 << PB0; /* on pro-micro led is inverted */
-DDRB |= 1 << PB0; /* SPI master\footnote*{the ``latch'' is not supposed to be managed
-automatically in SPI, just that Atmel engineers decided to configure master mode that
-way---see {\tt https://electronics.stackexchange.com/questions/442794/}} */
-DDRB |= 1 << PB1 | 1 << PB2 | 1 << PB6;
+DDRB |= 1 << PB0; /* disable SPI slave mode (\.{SS} port) */
+DDRB |= 1 << PB1; /* clock */
+DDRB |= 1 << PB2; /* data */
+DDRB |= 1 << PB6; /* latch */
 SPCR |= 1 << MSTR | 1 << SPR1 | 1 << SPE; /* \.{SPR1} means 250 kHz
   FIXME: does native wire work without SPR1? does long wire work without SPR1? */
 display_write4(0x0F, 0x00);

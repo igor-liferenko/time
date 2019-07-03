@@ -3,7 +3,6 @@
 
 \input USB
 
-% this is for microseconds
 \font\greek=rgrrg10
 
 @* Program. Display time from USB using MAX7219 module.

@@ -4,9 +4,7 @@
 \input USB
 
 % this is for microseconds
-\def\textmu{\setbox0=\hbox{u}\dimen0=\wd0 \advance\dimen0 by.4pt % backup a little more
-  \box0\vbox{\moveleft\dimen0\hbox{\j}}}
-% \box0\llap{\rlap{\j}\kern\dimen0}} % equivalent
+\font\greek=rgrrg10
 
 @* Program. Display time from USB using MAX7219 module.
 
@@ -68,7 +66,7 @@ and clear them. Finally, configure the rest registers and enable the display.
 MAX7219 is a shift register.
 SPI here is used as a way to push bytes to MAX7219 (data + clock).
 
-For simplicity (not to use timer), we use latch duration of 1{\textmu}s (min.\ is
+For simplicity (not to use timer), we use latch duration of 1{\greek m}s (min.\ is
 50ns---t\lower.25ex\hbox{\the\scriptfont0 CSW} in datasheet).
 
 Note, that segments are connected as this: clock and latch are in parallel,

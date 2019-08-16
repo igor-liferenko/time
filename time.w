@@ -3,8 +3,6 @@
 
 \input USB
 
-\font\greek=rgrrg10
-
 @* Program. Display time from USB using MAX7219 module.
 
 $$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4.eps

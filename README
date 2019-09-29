@@ -9,8 +9,8 @@ Entrance:
   wmerge time seconds merged
   ctangle merged brightness3 time
 
-Left room:
-  ctangle time brightness
+Right room:
+  ctangle time
 
 Kitchen:
   wmerge time reverse merged

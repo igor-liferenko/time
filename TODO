@@ -1,3 +1,5 @@
+use usb/ repo here directly, without @i - this is the only program where USb is used anyway, so it will help to make it more direct
+
 use shift registers for led strip clock (not max72xx), as here:
     http://videooko.net/?p=895
     http://videooko.net/?p=854

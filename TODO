@@ -1,4 +1,4 @@
-use usb/ repo here directly, without @i - this is the only program where USb is used anyway, so it will help to make it more direct
+this is the only program where usb is used, so integrate USB.w directly into time.w - this will make code more straightforward (it was necessary to do some hacks to make USB.w into a library)
 
 use shift registers for led strip clock (not max72xx), as here:
     http://videooko.net/?p=895

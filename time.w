@@ -1,4 +1,3 @@
-\let\lheader\rheader
 %\datethis
 
 \input USB

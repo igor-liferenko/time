@@ -2,15 +2,11 @@
 *.hex
 time-write
 *.c
-*.dvi
 *.pdf
 *.idx
 *.log
-*.ps
 *.scn
 *.tex
 *.toc
-*.eps
 *.[0-9]
 *.mpx
-*.web

@@ -9,4 +9,5 @@ time-write
 *.tex
 *.toc
 *.[0-9]
+*.eps
 *.mpx

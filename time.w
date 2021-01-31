@@ -332,7 +332,7 @@ if (UEINTX & 1 << RXSTPI) {
 @ Program headers are in separate section from USB headers.
 
 @<Header files@>=
-#include <avr/io.h>
+#include <avr/io.h> /* |@!PORTB| */
 #include <avr/pgmspace.h> /* |@!pgm_read_byte| */
 #include <string.h> /* |@!strcmp| */
 #include <util/delay.h> /* |@!_delay_us| */

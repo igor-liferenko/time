@@ -1,6 +1,6 @@
 %\datethis
 
-\input USB
+\input /home/user/usb/USB
 
 @* Program. Display time from USB using MAX7219 module.
 

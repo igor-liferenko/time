@@ -2,6 +2,8 @@
 
 \input /home/user/usb/USB
 
+@s uint8_t int
+
 @* Program. Display time from USB using MAX7219 module.
 
 $$\hbox to7cm{\vbox to5.82cm{\vfil\special{psfile=max4.eps
@@ -101,7 +103,7 @@ uint8_t buffer[8][NUM_DEVICES*8];
 @<Display buffer@>@;
 
 @ @d app(c) /* append specified character to buffer */
-     for (uint8_t i = 0; i < sizeof chr_##c / 8; i++)
+     for (uint8_t i = 0; i < sizeof @!chr_##c / 8; i++)
        buffer[row][col++] = pgm_read_byte(&chr_##c[row][i])
 
 @<Fill buffer@>=
@@ -121,7 +123,7 @@ for (uint8_t row = 0; row < 8; row++) {
     case '7': app(7); @+ break;
     case '8': app(8); @+ break;
     case '9': app(9); @+ break;
-    case ':': app(colon);
+    case ':': app(@!colon);
     }
     buffer[row][col++] = 0x00;
   }
@@ -332,9 +334,11 @@ if (UEINTX & 1 << RXSTPI) {
 @ Program headers are in separate section from USB headers.
 
 @<Header files@>=
-#include <avr/io.h> /* |@!PORTB| */
+#include <avr/io.h> /* |@!DDRB|, |@!FIFOCON|, |@!MSTR|, |@!PB0|, |@!PB1|, |@!PB2|, |@!PB6|,
+  |@!PORTB|, |@!RXOUTI|, |@!RXSTPI|, |@!SPCR|, |@!SPDR|, |@!SPE|, |@!SPIF|, |@!SPR1|, |@!SPSR|,
+  |@!TXINI|, |@!UEBCLX|, |@!UEDATX|, |@!UEINTX|, |@!UENUM| */
 #include <avr/pgmspace.h> /* |@!pgm_read_byte| */
-#include <string.h> /* |@!strcmp| */
+#include <string.h> /* |@!strcmp|, |@!strcpy| */
 #include <util/delay.h> /* |@!_delay_us| */
 
 @* Index.

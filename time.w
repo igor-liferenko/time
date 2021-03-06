@@ -103,8 +103,8 @@ uint8_t buffer[8][NUM_DEVICES*8];
 @<Display buffer@>@;
 
 @ @d app(c) /* append specified character to buffer */
-     for (uint8_t i = 0; i < sizeof @!chr_##c / 8; i++)
-       buffer[row][col++] = pgm_read_byte(&chr_##c[row][i])
+for (uint8_t i = 0; i < sizeof @t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##c / 8; i++)
+  buffer[row][col++] = pgm_read_byte(&@t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##c[row][i])
 
 @<Fill buffer@>=
 for (uint8_t row = 0; row < 8; row++) {
@@ -123,7 +123,7 @@ for (uint8_t row = 0; row < 8; row++) {
     case '7': app(7); @+ break;
     case '8': app(8); @+ break;
     case '9': app(9); @+ break;
-    case ':': app(@!colon);
+    case ':': app(@t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=colon@>);
     }
     buffer[row][col++] = 0x00;
   }

@@ -337,7 +337,6 @@ if (UEINTX & 1 << RXSTPI) {
 #include <avr/io.h> /* |@!DDRB|, |@!FIFOCON|, |@!MSTR|, |@!PB0|, |@!PB1|, |@!PB2|, |@!PB6|,
   |@!PORTB|, |@!RXOUTI|, |@!RXSTPI|, |@!SPCR|, |@!SPDR|, |@!SPE|, |@!SPIF|, |@!SPR1|, |@!SPSR|,
   |@!TXINI|, |@!UEBCLX|, |@!UEDATX|, |@!UEINTX|, |@!UENUM| */
-#include <avr/pgmspace.h> /* |@!pgm_read_byte| */
 #include <string.h> /* |@!strcmp|, |@!strcpy| */
 #include <util/delay.h> /* |@!_delay_us| */
 

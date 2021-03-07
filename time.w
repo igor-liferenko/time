@@ -103,7 +103,8 @@ uint8_t buffer[8][NUM_DEVICES*8];
 @<Display buffer@>@;
 
 @ @d app(c) /* append specified character to buffer */
-for (uint8_t i = 0; i < sizeof @t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##c / 8; i++)
+for (uint8_t i = 0; i < sizeof
+                               @t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##c / 8; i++)
   buffer[row][col++] = pgm_read_byte(&@t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##c[row][i])
 
 @<Fill buffer@>=

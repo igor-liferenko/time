@@ -331,12 +331,22 @@ if (UEINTX & 1 << RXSTPI) {
 @i ../usb/OUT-endpoint-management.w
 @i ../usb/USB.w
 
-@ Program headers are in separate section from USB headers.
+@* Headers.
+
+\secpagedepth=1 % index on current page
 
 @<Header files@>=
-#include <avr/io.h> /* |@!DDRB|, |@!FIFOCON|, |@!MSTR|, |@!PB0|, |@!PB1|, |@!PB2|, |@!PB6|,
-  |@!PORTB|, |@!RXOUTI|, |@!RXSTPI|, |@!SPCR|, |@!SPDR|, |@!SPE|, |@!SPIF|, |@!SPR1|, |@!SPSR|,
-  |@!TXINI|, |@!UEBCLX|, |@!UEDATX|, |@!UEINTX|, |@!UENUM| */
+#include <avr/boot.h> /* |@!boot_signature_byte_get| */
+#include <avr/interrupt.h> /* |@!@.ISR@>@t\.{ISR}@>|,
+  |@!@.USB\_GEN\_vect@>@t\.{USB\_GEN\_vect}@>|, |@!sei| */
+#include <avr/io.h> /* |@!ADDEN|, |@!ALLOC|, |@!DDRB|, |@!DETACH|, |@!EORSTE|, |@!EORSTI|,
+  |@!EPDIR|, |@!EPEN|, |@!EPSIZE1|, |@!EPTYPE0|, |@!EPTYPE1|, |@!FIFOCON|, |@!FRZCLK|,
+  |@!MCUSR|, |@!MSTR|, |@!OTGPADE|, |@!PB0|, |@!PB1|, |@!PB2|, |@!PB6|, |@!PINDIV|,
+  |@!PLLCSR|, |@!PLLE|, |@!PLOCK|, |@!PORTB|, |@!RXOUTI|, |@!RXSTPI|, |@!SPCR|, |@!SPDR|,
+  |@!SPE|, |@!SPIF|, |@!SPR1|, |@!SPSR|, |@!STALLRQ|, |@!TXINI|, |@!UDADDR|, |@!UDCON|, |@!UDIEN|,
+  |@!UDINT|, |@!UEBCLX|, |@!UECFG0X|, |@!UECFG1X|, |@!UECONX|, |@!UEDATX|, |@!UEINTX|, |@!UENUM|,
+  |@!UHWCON|, |@!USBCON|, |@!USBE|, |@!UVREGE|, |@!WDCE|, |@!WDE|, |@!WDRF|, |@!WDTCSR| */
+#include <avr/pgmspace.h> /* |@!pgm_read_byte| */
 #include <string.h> /* |@!strcmp|, |@!strcpy| */
 #include <util/delay.h> /* |@!_delay_us| */
 

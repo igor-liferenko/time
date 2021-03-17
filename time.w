@@ -27,6 +27,8 @@ void main(void)
 
   uint8_t gotcha = 0; /* used to protect ourselves from inadvertently introducing long-running
     code: time of execution of one loop iteration must not exceed interval between data arrivals */
+  /* TODO: analyze timing as in doc-part of |@<Disable WDT@>| section and decide whether the
+     limit is far enough to get rid of this variable */
 
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;

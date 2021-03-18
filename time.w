@@ -1,4 +1,4 @@
-%\datethis
+\datethis
 
 \input /home/user/usb/USB
 

@@ -1,3 +1,6 @@
+\pdfhorigin=3.5cm \hoffset=\pdfpagewidth \advance\hoffset-\hsize
+  \advance\hoffset-2\pdfhorigin
+
 \datethis
 
 \input /home/user/usb/USB

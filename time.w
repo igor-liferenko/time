@@ -3,7 +3,7 @@
 
 \datethis
 
-\input ../usb/USB.tex
+\input ../usb/USB
 
 @s uint8_t int
 

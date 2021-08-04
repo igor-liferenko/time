@@ -4,6 +4,7 @@ time-write
 *.c
 *.dvi
 *.pdf
+*.arg
 *.idx
 *.log
 *.scn

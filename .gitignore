@@ -2,6 +2,7 @@
 *.hex
 time-write
 *.c
+*.dvi
 *.pdf
 *.idx
 *.log

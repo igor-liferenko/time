@@ -1,20 +1,21 @@
 Bedroom:
-  ctangle time reverse
+  tie -c time.ch time.w reverse.ch brightness-bedroom.ch
+  ctangle time time
 
 Entrance:
  Left module:
-  wmerge time reverse merged
-  ctangle merged brightness-entrance time
+  tie -c time.ch time.w reverse.ch brightness-entrance.ch
+  ctangle time time
  Right module:
-  wmerge time seconds merged
-  ctangle merged brightness-entrance time
+  tie -c time.ch time.w seconds.ch brightness-entrance.ch
+  ctangle time time
 
 Right room:
-  ctangle time
+  ctangle time brightness-rightroom
 
 Kitchen:
-  wmerge time reverse merged
-  ctangle merged brightness-kitchen time
+  tie -c time.ch time.w reverse.ch brightness-kitchen.ch
+  ctangle time time
 
 Big room:
   ctangle time brightness-bigroom

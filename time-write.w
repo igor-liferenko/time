@@ -30,8 +30,8 @@ void main(void)
 fd = open("/dev/ttyACM0", O_WRONLY | O_NOCTTY);
 
 @ @<Write time to serial port@>= {
-  time_t now = time(NULL);
-  if (write(fd, ctime(&now) + 11, 8) == -1) {
+  time_t $ = time(NULL);
+  if (write(fd, ctime(&$) + 11, 8) == -1) {
     close(fd);
     fd = -1;
   }

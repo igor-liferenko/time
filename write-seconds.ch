@@ -1,15 +1,13 @@
 @x
-@d serial_port_closed() fd == -1
 @d serial_port_opened() fd != -1
 @y
-@d serial_port_closed() fd == -1 || fd2 == -1
 @d serial_port_opened() fd != -1 && fd2 != -1
 @z
 
 @x
   int fd = -1;
 @y
-  int fd = -1, fd2 = -1;
+  int fd = -1, fd2;
 @z
 
 @x
@@ -28,7 +26,7 @@ fd2 = open("/dev/ttyACM1", O_WRONLY | O_NOCTTY);
   time_t $ = time(NULL);
   char *c = ctime(&$) + 11;
   if (write(fd, c, 8) == -1 || write(fd2, c, 8) == -1)
-    close(fd), fd = -1, close(fd2), fd2 = -1;
+    close(fd), fd = -1, close(fd2);
 }
-else close(fd), fd = -1, close(fd2), fd2 = -1;
+else close(fd), fd = -1, close(fd2);
 @z

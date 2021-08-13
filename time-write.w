@@ -31,10 +31,8 @@ fd = open("/dev/ttyACM0", O_WRONLY | O_NOCTTY);
 
 @ @<Write time to serial port@>= {
   time_t $ = time(NULL);
-  if (write(fd, ctime(&$) + 11, 8) == -1) {
-    close(fd);
-    fd = -1;
-  }
+  if (write(fd, ctime(&$) + 11, 8) == -1)
+    close(fd), fd = -1;
 }
 
 @ @<Header files@>=

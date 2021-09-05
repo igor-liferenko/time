@@ -33,7 +33,7 @@ void main(void)
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
-      char time[9];
+      char time[8];
       int rx_counter = UEBCLX;
       while (rx_counter--)
         time[7-rx_counter] = UEDATX;
@@ -46,8 +46,8 @@ void main(void)
         uint8_t byte = time[1];
         if (byte >= '0' && byte <= '9') byte = byte - '0';
         else if (byte >= 'A' && byte <= 'F') byte = byte - 'A' + 10;        
-        if (time[0] == 'A') display_write4(0x0C, 0x01), display_write4(0x0A, byte);
-        if (time[0] == 'C') display_write4(0x0C, 0x00);
+        if (time[0] == 'A') display_write4(0x0A, byte);
+        else if (time[0] == 'C') display_write4(0x0C, byte);
       }
     }
   }

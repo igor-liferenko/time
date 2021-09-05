@@ -1,4 +1,10 @@
 @x
+      char time[8];
+@y
+      char time[9];
+@z
+
+@x
         time[5] = '\0';
 @y
         time[8] = '\0';

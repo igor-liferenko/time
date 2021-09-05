@@ -343,7 +343,6 @@ if (UEINTX & 1 << RXSTPI) {
   |@!UDINT|, |@!UEBCLX|, |@!UECFG0X|, |@!UECFG1X|, |@!UECONX|, |@!UEDATX|, |@!UEINTX|, |@!UENUM|,
   |@!UHWCON|, |@!USBCON|, |@!USBE|, |@!UVREGE|, |@!WDCE|, |@!WDE|, |@!WDRF|, |@!WDTCSR| */
 #include <avr/pgmspace.h> /* |@!pgm_read_byte| */
-#include <string.h> /* |@!strcmp|, |@!strcpy| */
 #include <util/delay.h> /* |@!_delay_us| */
 
 @* Index.

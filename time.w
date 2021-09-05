@@ -28,11 +28,6 @@ void main(void)
 
   @<Initialize display@>@;
 
-  uint8_t gotcha = 0; /* used to protect ourselves from inadvertently introducing long-running
-    code: time of execution of one loop iteration must not exceed interval between data arrivals */
-  /* TODO: analyze timing as in doc-part of |@<Disable WDT@>| section and decide whether the
-     limit is far enough to get rid of this variable */
-
   while (1) {
     @<If there is a request on |EP0|, handle it@>@;
     UENUM = EP2;
@@ -44,19 +39,18 @@ void main(void)
         time[7-rx_counter] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
       time[8] = '\0';
-      @<Set brightness depending on time of day@>@;
-      if (gotcha) {
-        display_write4(0x0C, 0x01); /* to be sure (it may be disabled in |@<Set brightness...@>|,
-          possibly via change-file) */
-        strcpy(time, "99:99:99"); /* indicate failure */
+      if (time[0] < 'A') {
+        time[5] = '\0';
+        @<Show |time|@>@;
       }
-      time[5] = '\0';
-      @<Show |time|@>@;
-      if (gotcha) break; /* freeze */
-      gotcha = 1; /* activate */
+      else {
+        uint8_t byte = time[1];
+        if (byte >= '0' && byte <= '9') byte = byte - '0';
+        else if (byte >= 'A' && byte <= 'F') byte = byte - 'A' + 10;        
+        if (time[0] == 'A') display_write4(0x0A, byte);
+        if (time[0] == 'C') display_write4(0x0C, byte);
+      }
     }
-    else
-      gotcha = 0; /* deactivate */
   }
 }
 
@@ -318,10 +312,6 @@ const uint8_t chr_colon[8][6]
   { 0, 0, 0, 0, 0, 0 }, @/
 @t\2@> { 0, 0, 0, 0, 0, 0 } @/
 };
-
-@ @<Set brightness...@>=
-if (strcmp(time, "21:00:00") >= 0 || strcmp(time, "06:00:00") < 0) display_write4(0x0A, 0x00);
-if (strcmp(time, "06:00:00") >= 0 && strcmp(time, "21:00:00") < 0) display_write4(0x0A, 0x0F);
 
 @ No other requests except {\caps set control line state} come
 after connection is established. These are sent automatically by the driver when

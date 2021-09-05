@@ -1,0 +1,17 @@
+Bedroom:
+  ctangle time reverse
+
+Entrance:
+ Left module:
+  ctangle time reverse
+ Right module:
+  ctangle time seconds
+
+Right room:
+  ctangle time
+
+Kitchen:
+  ctangle time reverse
+
+Big room:
+  ctangle time

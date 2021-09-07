@@ -1,17 +1,16 @@
-Bedroom:
+1:
   ctangle time reverse
-
-Entrance:
- Left module:
-  ctangle time reverse
- Right module:
   ctangle time seconds
 
-Right room:
-  ctangle time
-
-Kitchen:
+2:
   ctangle time reverse
 
-Big room:
+4:
   ctangle time
+
+5:
+  ctangle time
+
+--------------
+
+  ctangle time reverse

@@ -2,7 +2,7 @@
   \advance\hoffset-2\pdfhorigin
 
 \datethis
-\nocon
+
 \input ../usb/USB
 
 @s uint8_t int

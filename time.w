@@ -35,16 +35,16 @@ void main(void)
       while (rx_counter--)
         time[7-rx_counter] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
-      if (time[0] < 'A') {
-        time[5] = '\0';
-        @<Show |time|@>@;
-      }
-      else {
+      if (time[0] == 'A' || time[0] == 'C') {
         uint8_t byte = time[1];
         if (byte >= '0' && byte <= '9') byte = byte - '0';
         else if (byte >= 'A' && byte <= 'F') byte = byte - 'A' + 10;        
         if (time[0] == 'A') display_write4(0x0A, byte);
-        else if (time[0] == 'C') display_write4(0x0C, byte);
+        else display_write4(0x0C, byte);
+      }
+      else {
+        time[5] = '\0';
+        @<Show |time|@>@;
       }
     }
   }

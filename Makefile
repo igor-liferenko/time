@@ -7,10 +7,10 @@ flash:
 
 imgs:
 	@mpost time
-	@perl -ne 'if (/^(.*\.eps): (.*)/) { system "convert $$2 $$1" }' Makefile
+	@perl -ne 'if (/^(.*\.eps): (.*)/) { system "convert $$2 eps2:$$1" }' Makefile
 
 .PHONY: $(wildcard *.eps)
 
 max4.eps: max4.png
-	@gm convert $< $@
+	@convert $< eps2:$@
 	@imgsize $@ 7 -

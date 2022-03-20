@@ -1,5 +1,12 @@
-time:
-	@avr-gcc -mmcu=atmega32u4 -DF_CPU=16000000UL -g -Os -o fw.elf $@.c
+all:
+	@echo ERROR: run 'make N'
+
+4:
+	ctangle time
+	make time
+
+time: time.c
+	@avr-gcc -mmcu=atmega32u4 -DF_CPU=16000000UL -g -Os -o fw.elf time.c
 	@avr-objcopy -O ihex fw.elf fw.hex
 
 flash:

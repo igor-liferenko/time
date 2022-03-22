@@ -1,7 +1,24 @@
 all:
-	@echo ERROR: run 'make N'
+	ctangle time reverse
+	make fw.hex
+
+1_1:
+	ctangle time reverse
+	make fw.hex
+
+1_2:
+	ctangle time seconds
+	make fw.hex
+
+2:
+	ctangle time reverse
+	make fw.hex
 
 4:
+	ctangle time
+	make fw.hex
+
+5:
 	ctangle time
 	make fw.hex
 

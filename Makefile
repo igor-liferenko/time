@@ -1,29 +1,29 @@
 all:
-	@echo run "'make x'"
+	@echo run "'make hostname'"
 
-1.1:
+c.1:
 	ctangle time reverse
-	make time
+	make --no-print-directory time
 
-1.2:
+c.2:
 	ctangle time seconds
-	make time
+	make --no-print-directory time
 
-2:
+v:
 	ctangle time reverse
-	make time
+	make --no-print-directory time
 
-4:
+t:
 	ctangle time
-	make time
+	make --no-print-directory time
 
-5:
+u:
 	ctangle time
-	make time
+	make --no-print-directory time
 
 m:
 	ctangle time reverse
-	make time  
+	make --no-print-directory time  
 
 time:
 	@avr-gcc -mmcu=atmega32u4 -DF_CPU=16000000UL -g -Os -o fw.elf time.c

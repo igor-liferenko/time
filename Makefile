@@ -1,28 +1,31 @@
 all:
-	ctangle time reverse
-	make fw.hex
+	@echo run "'make x'"
 
-1_1:
+1.1:
 	ctangle time reverse
-	make fw.hex
+	make time
 
-1_2:
+1.2:
 	ctangle time seconds
-	make fw.hex
+	make time
 
 2:
 	ctangle time reverse
-	make fw.hex
+	make time
 
 4:
 	ctangle time
-	make fw.hex
+	make time
 
 5:
 	ctangle time
-	make fw.hex
+	make time
 
-fw.hex: time.c
+m:
+	ctangle time reverse
+	make time  
+
+time:
 	@avr-gcc -mmcu=atmega32u4 -DF_CPU=16000000UL -g -Os -o fw.elf time.c
 	@avr-objcopy -O ihex fw.elf fw.hex
 

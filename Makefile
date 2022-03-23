@@ -3,27 +3,27 @@ all:
 
 c.1:
 	ctangle time reverse
-	make --no-print-directory time
+	@make --no-print-directory time
 
 c.2:
 	ctangle time seconds
-	make --no-print-directory time
+	@make --no-print-directory time
 
 v:
 	ctangle time reverse
-	make --no-print-directory time
+	@make --no-print-directory time
 
 t:
 	ctangle time
-	make --no-print-directory time
+	@make --no-print-directory time
 
 u:
 	ctangle time
-	make --no-print-directory time
+	@make --no-print-directory time
 
 m:
 	ctangle time reverse
-	make --no-print-directory time  
+	@make --no-print-directory time  
 
 time:
 	@avr-gcc -mmcu=atmega32u4 -DF_CPU=16000000UL -g -Os -o fw.elf time.c

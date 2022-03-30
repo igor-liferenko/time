@@ -2,27 +2,31 @@ all:
 	@echo run "'make hostname'"
 
 c.1:
-	ctangle time reverse
+	tie -c time.ch time.w reverse.ch brightness.ch >/dev/null
+	ctangle time time
 	@make --no-print-directory time
 
 c.2:
-	ctangle time seconds
+	tie -c time.ch time.w brightness.ch seconds.ch >/dev/null
+	ctangle time time
 	@make --no-print-directory time
 
 v:
-	ctangle time reverse
+	tie -c time.ch time.w reverse.ch brightness.ch >/dev/null
+	ctangle time time
 	@make --no-print-directory time
 
 t:
-	ctangle time
+	ctangle time brightness
 	@make --no-print-directory time
 
 u:
-	ctangle time
+	ctangle time brightness
 	@make --no-print-directory time
 
 m:
-	ctangle time reverse
+	tie -c time.ch time.w reverse.ch brightness.ch >/dev/null
+	ctangle time time
 	@make --no-print-directory time  
 
 time:

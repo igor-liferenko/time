@@ -7,7 +7,7 @@ c.1:
 	@make --no-print-directory time
 
 c.2:
-	tie -c time.ch time.w brightness.ch seconds.ch >/dev/null
+	tie -c time.ch time.w seconds.ch brightness.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 

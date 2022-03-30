@@ -1,28 +1,27 @@
 NOTE: disabling/enabling display via `C' command does not work properly, so use empty characters X and Y
 
 @x
-      time[5] = '\0';
-      @<Show |time|@>@;
+      UEINTX &= ~(1 << FIFOCON);
 @y
+      UEINTX &= ~(1 << FIFOCON);
       if (time[0] == 'A') {
         uint8_t byte = time[1];
         if (byte >= '0' && byte <= '9') byte = byte - '0';
         else if (byte >= 'A' && byte <= 'F') byte = byte - 'A' + 10;
         display_write4(0x0A, byte), blank = 0;
+        continue;
       }
-      else if (time[0] == 'C') blank = 1;
-      else {
-        if (blank) time[0] = 'X', time[1] = 'X', time[2] = 'Y', time[3] = 'X',
-                   time[4] = 'X', time[5] = 'Y', time[6] = 'X', time[7] = 'X';
-      time[5] = '\0';
-      @<Show |time|@>@;
+      if (time[0] == 'C') {
+        blank = 1;
+        continue;
       }
+      if (blank) strncpy(time, "XXYXXYXX", 8);
 @z
 
 @x
-    case '0': app(0); @+ break;
+    case '9': app(9); @+ break;
 @y
-    case '0': app(0); @+ break;
+    case '9': app(9); @+ break;
     case 'X': app(X); break;
     case 'Y': app(Y); break;
 @z
@@ -52,4 +51,11 @@ const uint8_t chr_Y[8][6] PROGMEM = {
   { 0, 0, 0, 0, 0, 0 }
 };
 @<Character images@>@;
+@z
+
+@x
+@<Header files@>=
+@y
+@<Header files@>=
+#include <string.h>
 @z

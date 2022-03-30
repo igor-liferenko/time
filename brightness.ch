@@ -8,14 +8,15 @@ NOTE: disabling/enabling display via `C' command does not work properly, so use 
         uint8_t byte = time[1];
         if (byte >= '0' && byte <= '9') byte = byte - '0';
         else if (byte >= 'A' && byte <= 'F') byte = byte - 'A' + 10;
-        display_write4(0x0A, byte), blank = 0;
+        display_write4(0x0A, byte);
+        blank = 0;
         continue;
       }
+      if (blank) continue;
       if (time[0] == 'C') {
+        strncpy(time, "XXYXXYXX", 8);
         blank = 1;
-        continue;
       }
-      if (blank) strncpy(time, "XXYXXYXX", 8);
 @z
 
 @x

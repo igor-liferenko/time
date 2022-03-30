@@ -1,3 +1,5 @@
+NOTE: disabling/enabling display via `C' command does not work, so use empty characters X and Y
+
 @x
       time[5] = '\0';
       @<Show |time|@>@;

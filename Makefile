@@ -25,8 +25,7 @@ u:
 	@make --no-print-directory time
 
 m:
-	tie -c time.ch time.w reverse.ch brightness.ch >/dev/null
-	ctangle time time
+	ctangle time reverse
 	@make --no-print-directory time  
 
 time:

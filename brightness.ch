@@ -5,10 +5,7 @@ NOTE: disabling/enabling display via `C' command does not work properly, so use 
 @y
       UEINTX &= ~(1 << FIFOCON);
       if (time[0] == 'A') {
-        uint8_t byte = time[1];
-        if (byte >= '0' && byte <= '9') byte = byte - '0';
-        else if (byte >= 'A' && byte <= 'F') byte = byte - 'A' + 10;
-        display_write4(0x0A, byte);
+        display_write4(0x0A, time[1]);
         glowing = 1;
         continue;
       }

@@ -11,7 +11,8 @@ NOTE: disabling/enabling display via `C' command does not work properly, so use 
       }
       if (!glowing) continue;
       if (time[0] == 'C') {
-        strncpy(time, "XXYXXYXX", 8);
+        time[0] = time[1] = time[3] = time[4] = time[6] = time[7] = 'X';
+        time[2] = time[5] = 'Y';
         glowing = 0;
       }
 @z
@@ -49,11 +50,4 @@ const uint8_t chr_Y[8][6] PROGMEM = {
   { 0, 0, 0, 0, 0, 0 }
 };
 @<Character images@>@;
-@z
-
-@x
-@<Header files@>=
-@y
-@<Header files@>=
-#include <string.h>
 @z

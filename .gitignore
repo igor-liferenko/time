@@ -1,11 +1,9 @@
-time.ch
 *.elf
 *.hex
 time-write
 *.c
 *.dvi
 *.pdf
-*.arg
 *.idx
 *.log
 *.scn

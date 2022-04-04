@@ -1,4 +1,5 @@
-NOTE: disabling/enabling display via `C' command does not work properly, so use empty characters X and Y
+NOTE: disabling/enabling display via `C' command does not work properly, so use empty characters X
+      and Y
 
 @x
       UEINTX &= ~(1 << FIFOCON);

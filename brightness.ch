@@ -1,31 +1,22 @@
-NOTE: disabling/enabling display via `C' command does not work properly, so use empty characters X
-      and Y
+Change brightness by Ax------ and C-------; if `printf **------ >/dev/ttyACMx' is
+called at the moment when `time-write' is writing data, data which arrives at the
+microcontroller may be intermixed - to cope with this we verify the data and ignore
+it if it is bad
+
+NOTE: disabling/enabling display via `0x0C' command does not work properly,
+      so use empty characters chr_X and chr_Y
 
 @x
       UEINTX &= ~(1 << FIFOCON);
 @y
       UEINTX &= ~(1 << FIFOCON);
-      if (time[0] == 'A')
-      if (time[1] >= 0 && time[1] <= 15)
-      if (time[2] == '-')
-      if (time[3] == '-')
-      if (time[4] == '-')
-      if (time[5] == '-')  
-      if (time[6] == '-')  
-      if (time[7] == '-') {
+      if (time[0] == 'A' && time[1] >= 0 && time[1] <= 15) {
         display_write4(0x0A, time[1]);
         glowing = 1;
         continue;
       }
       if (!glowing) continue;
-      if (time[0] == 'C')
-      if (time[1] == '-')    
-      if (time[2] == '-')  
-      if (time[3] == '-')  
-      if (time[4] == '-')  
-      if (time[5] == '-')   
-      if (time[6] == '-')   
-      if (time[7] == '-') {
+      if (time[0] == 'C') {
         time[0] = time[1] = time[3] = time[4] = time[6] = time[7] = '/';
         time[2] = time[5] = '.';
         glowing = 0;
@@ -37,9 +28,9 @@ NOTE: disabling/enabling display via `C' command does not work properly, so use 
       if (time[4] >= 46 && time[4] <= 58)
       if (time[5] >= 46 && time[5] <= 58)
       if (time[6] >= 46 && time[6] <= 58)
-      if (time[7] >= 46 && time[7] <= 58) goto next;
-      continue; /* if data is intermixed due to simultaneous write to the TTY of `time-write' and
-                   `printf **------ >/dev/ttyACMx' commands, just ignore it */
+      if (time[7] >= 46 && time[7] <= 58)
+      goto next;
+      continue; /* ignore bad data */
       next:
 @z
 

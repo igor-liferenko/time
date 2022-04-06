@@ -1,7 +1,7 @@
 Change brightness by Ax------ and C-------; if `printf **------ >/dev/ttyACMx' is
-called at the moment when `time-write' and/or cron is writing data, data which arrives at the
-microcontroller may be intermixed - to cope with this we verify the data and ignore
-it if it is bad
+called in AGI at the moment when `time-write' and/or cron is writing data, data which
+arrives at the microcontroller may be intermixed - to cope with this we verify the data
+and ignore it if it is bad
 
 NOTE: disabling/enabling display via `0x0C' command does not work properly,
       so use empty characters chr_X and chr_Y

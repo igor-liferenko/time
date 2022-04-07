@@ -1,9 +1,3 @@
-If intermix is possible, then brightness commands can have no effect sometimes.
-Let it work for some time and see if this fault happens. If it never happens, then
-intermix is impossible (I suspect that minimal USB packet size of 8 bits may determine this,
-and each packet in this program is exactly 8 bits) and all may be left as-is. If it
-happens, then restore synchronization via pkill in cron.
-
 @x
   while (1) {
 @y

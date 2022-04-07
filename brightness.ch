@@ -1,12 +1,8 @@
-If intermix is possible, then the current code (without validation)
-can happily work - just wrong brightness value can be set and some
-digits can be missed. TODO: check if the same applies to commit b5b63b which is the current
-firmware
-
-So, let it work for some time and see if one of these faults happens. If it never happens, then
+If intermix is possible, then brightness commands can have no effect sometimes.
+Let it work for some time and see if this fault happens. If it never happens, then
 intermix is impossible (I suspect that minimal USB packet size of 8 bits may determine this,
-and each packet in this program is exactly 8 bits) and current code may be left as-is. If it
-happens, then add data validation here.
+and each packet in this program is exactly 8 bits) and all may be left as-is. If it
+happens, then restore synchronization via pkill in cron.
 
 @x
   while (1) {
@@ -19,13 +15,13 @@ happens, then add data validation here.
       UEINTX &= ~(1 << FIFOCON);
 @y
       UEINTX &= ~(1 << FIFOCON);
-      if (time[0] == 'A') {
-        display_write4(0x0A, time[1]);
+      if (time[0] >= 'A' && time[0] <= 'A'+15) {
+        display_write4(0x0A, time[0]-'A');
         glowing = 1;
         continue;
       }
       if (!glowing) continue;
-      if (time[0] == 'C') {
+      if (time[0] == '@@') {
         time[0] = time[1] = time[2] = time[3] = time[4] = time[5] = time[6] = time[7] = 'X';
         glowing = 0;
       }

@@ -15,14 +15,14 @@ happens, then restore synchronization via pkill in cron.
       UEINTX &= ~(1 << FIFOCON);
 @y
       UEINTX &= ~(1 << FIFOCON);
-      if (time[0] >= 'A' && time[0] <= 'A'+15) {
-        display_write4(0x0A, time[0]-'A');
+      if (time[0] >= 'A' && time[0] <= 'P') {
+        display_write4(0x0A, time[0] - 'A');
         glowing = 1;
         continue;
       }
       if (!glowing) continue;
-      if (time[0] == '@@') {
-        time[0] = time[1] = time[2] = time[3] = time[4] = time[5] = time[6] = time[7] = 'X';
+      if (time[0] == 'X') {
+        time[7] = time[6] = time[5] = time[4] = time[3] = time[2] = time[1] = time[0];
         glowing = 0;
       }
 @z

@@ -19,12 +19,11 @@ happens, then add data validation here.
       UEINTX &= ~(1 << FIFOCON);
 @y
       UEINTX &= ~(1 << FIFOCON);
-      if (time[0] == 'A')
-        if (time[1] >= 0 && time[1] <= 15) {
-          display_write4(0x0A, time[1]);
-          glowing = 1;
-          continue;
-        }
+      if (time[0] == 'A') {
+        display_write4(0x0A, time[1]);
+        glowing = 1;
+        continue;
+      }
       if (!glowing) continue;
       if (time[0] == 'C') {
         time[0] = time[1] = time[2] = time[3] = time[4] = time[5] = time[6] = time[7] = 'X';

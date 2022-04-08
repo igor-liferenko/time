@@ -114,7 +114,8 @@ for (uint8_t row = 0; row < 8; row++) {
     }
     buffer[row][col++] = 0x00;
   }
-  while (col < NUM_DEVICES*8) buffer[row][col++] = 0x00;
+  while (col < NUM_DEVICES*8) buffer[row][col++] = 0x00; /* has effect for brightness.ch and
+                                                            seconds.ch */
 }
 
 @ Rows are output from right to left, from top to bottom.

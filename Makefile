@@ -35,12 +35,17 @@ time:
 flash:
 	avrdude -qq -c usbasp -p atmega32u4 -U efuse:v:0xcb:m -U hfuse:v:0xd9:m -U lfuse:v:0xff:m -U flash:w:fw.hex
 
-imgs:
+img:
 	@mpost time
-	@perl -ne 'if (/^(.*\.eps): (.*)/) { system "convert $$2 eps2:$$1" }' Makefile
+	@perl -ne 'if (/^(.*\.eps):$$/) { system "make --no-print-directory $$1" }' Makefile
 
 .PHONY: $(wildcard *.eps)
 
-max4.eps: max4.png
-	@convert $< eps2:$@
-	@imgsize $@ 7 -
+max4.eps:
+	convert -resize 827 max4.png eps2:$@
+
+time-1.eps:
+	convert -resize 203 time.1 eps2:$@
+
+time-2.eps:
+	convert -resize 250 time.2 eps2:$@

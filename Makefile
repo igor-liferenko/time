@@ -37,7 +37,7 @@ flash:
 
 eps:
 	@mpost time
-	@make --no-print-directory `sed -n 's/^\(.*\.eps\):/\1/p' Makefile`
+	@make --no-print-directory `grep -o '^\S*\.eps' Makefile`
 
 .PHONY: $(wildcard *.eps)
 

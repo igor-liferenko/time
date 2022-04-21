@@ -6,9 +6,9 @@
 
 @* Program. Display time from USB using MAX7219 module.
 
-$$\epsfbox{max4.eps}$$
+$$\epsfxsize 7cm \epsfbox{max4.eps}$$
 
-$$\epsfbox{time-1.eps}$$
+$$\epsfbox{time.1}$$
 
 @c
 @<Header files@>@;
@@ -119,7 +119,7 @@ for (uint8_t row = 0; row < 8; row++) {
 @ Rows are output from right to left, from top to bottom.
 Left device is set first, right device is set last.
 
-$$\epsfbox{time-2.eps}$$
+$$\epsfbox{time.2}$$
 
 @<Display buffer@>=
 for (uint8_t row = 0; row < 8; row++) {

@@ -42,7 +42,7 @@ eps:
 .PHONY: $(wildcard *.eps)
 
 max4.eps:
-	convert max4.png -resize 827 -density `get-resolution` eps2:$@
+	convert max4.png -resize 827 eps2:$@
 
 time-1.eps:
 	convert time.1 -resize 203 -density `get-resolution` eps2:$@

@@ -6,7 +6,7 @@
 
 @* Program. Display time from USB using MAX7219 module.
 
-$$\epsfxsize 7cm \epsfbox{max4.eps}$$
+$$\epsfbox{max4.eps}$$
 
 $$\epsfbox{time.1}$$
 

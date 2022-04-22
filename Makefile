@@ -36,10 +36,10 @@ flash:
 	avrdude -qq -c usbasp -p atmega32u4 -U efuse:v:0xcb:m -U hfuse:v:0xd9:m -U lfuse:v:0xff:m -U flash:w:fw.hex
 
 eps:
-	@mpost time
+	@mpost -interaction batchmode time >/dev/null
 	@make --no-print-directory `grep -o '^\S*\.eps' Makefile`
 
 .PHONY: $(wildcard *.eps)
 
 max4.eps:
-	convert max4.png eps2:$@
+	@convert max4.png eps2:$@

@@ -38,6 +38,7 @@ flash:
 eps:
 	@mpost -interaction batchmode time >/dev/null
 	@make --no-print-directory `grep -o '^\S*\.eps' Makefile`
+	@make --no-print-directory -C ../usb eps
 
 .PHONY: $(wildcard *.eps)
 

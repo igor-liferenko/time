@@ -18,8 +18,14 @@ For this on `v' the following changes are made:
 
 I started to use this test from 1 may 2022 - test it for some time and if 99:99 never
 appears, reflash all arduinos with current ~/time/ (but without check-intermixed.ch)
-and in build scripts for all routers and on routers themselves in cron do the same what is now
-on `v' and in change-brightness do the same commands as in 2) for all routers
+and in build scripts for all routers and on routers themselves in /etc/rc.local and in cron do the
+same what is now on `v' and in change-brightness do the same commands as in 2) for all routers
+If 99:99 appears, remove check-intermixed.ch and revert to commit b5b63b52, but in build scripts
+for routers and on routers themselves make the following changes in /etc/rc.local:
+     printf C-------       ->   printf X-------
+     printf "A\00------"   ->   printf A-------
+     printf "A\017------"  ->   printf P-------
+and adjust ~/time/ to use this format.
 
 @x
 @<Global variables@>@;

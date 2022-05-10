@@ -6,26 +6,22 @@ and bytes IJKLMNOP written to /dev/ttyACM0 in one write() call from process 2 ca
 arduino in the order different from ABCDEFGHIJKLMNOP or IJKLMNOPABCDEFGH.
 In this change-file we check if such a situation happens, and if it does, we output
 99:99 on the display and stop changing it.
-This firmware is now only used on `v' with a separate arduino temporarily (on all other arduinos
+This firmware is now only used on a separate arduino temporarily on `v' (on all other arduinos
 the firmware from commit b5b63b52 is flashed).
-For this on `v' the following changes are made:
-  1) in /etc/rc.local simply `time-write &' is used
-  2) in cron
+For this the following changes are made:
+  1) on `v' in /etc/rc.local simply `time-write &' is used
+  2) on `v' in cron
      `printf X------- >/dev/ttyACM0' is used instead of `killall -HUP time-write'
      `printf A------- >/dev/ttyACM0' is used instead of `killall -USR1 time-write'
      `printf P------- >/dev/ttyACM0' is used instead of `killall -USR2 time-write'
-  3) in change-brightness for `v' the same commands are used as in 2)
+  3) on `f' in change-brightness for `v' the same commands are used as in 2)
 
 I started to use this test from 1 may 2022 - test it for some time and if 99:99 never
-appears, reflash all arduinos with current ~/time/ (but without check-intermixed.ch)
+appears, reflash all arduinos with current ~/time/ (but without check-intermixed.ch; also adjust to use the former format of brightness-changing commands if you wish - but this does not matter - the new format matters only for checking if data can be intermixed)
 and in build scripts for all routers and on routers themselves in /etc/rc.local and in cron do the
 same what is now on `v' and in change-brightness do the same commands as in 2) for all routers
-If 99:99 appears, remove check-intermixed.ch and revert to commit b5b63b52, but in build scripts
-for routers and on routers themselves make the following changes in /etc/rc.local:
-     printf C-------       ->   printf X-------
-     printf "A\00------"   ->   printf A-------
-     printf "A\017------"  ->   printf P-------
-and adjust ~/time/ to use this format.
+If 99:99 appears, remove check-intermixed.ch and revert to commit b5b63b52 and undo the temporary
+changes on `v' and on `f'.
 
 @x
 @<Global variables@>@;

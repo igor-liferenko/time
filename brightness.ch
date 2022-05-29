@@ -9,13 +9,13 @@ uint8_t glowing = 1;
       UEINTX &= ~(1 << FIFOCON);
 @y
       UEINTX &= ~(1 << FIFOCON);
-      if (time[0] >= 'A' && time[0] <= 'P') {
-        display_write4(0x0A, time[0] - 'A');
+      if (time[0] == 'A') {
+        display_write4(0x0A, time[1]);
         glowing = 1;
         continue;
       }
       if (!glowing) continue;
-      if (time[0] == 'X') glowing = 0;
+      if (time[0] == 'C') glowing = 0;
 @z
 
 @x

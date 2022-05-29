@@ -13,7 +13,7 @@ $$\epsfbox{time.1}$$
 @c
 @<Header files@>@;
 @<Type definitions@>@;
-@<Global variables@>@;
+@<Character images@>@;
 @<Functions@>@;
 @<Create ISR for connecting to USB host@>@;
 
@@ -77,7 +77,8 @@ display_write4(0x0A, 0x0F);
 display_write4(0x0B, 0x07);
 display_write4(0x0C, 0x01);
 
-@ Buffer is used because in each device addresses are assigned to rows.
+@ First we assemble the images of received characters in buffer, then we display parts
+of buffer corresponding to each device.
 
 @d NUM_DEVICES 4
 
@@ -86,7 +87,7 @@ uint8_t buffer[8][NUM_DEVICES*8];
 @<Fill buffer@>@;
 @<Display buffer@>@;
 
-@ @d app(c) /* append specified character to buffer */
+@ @d app(c) /* append image of specified character to buffer */
 for (uint8_t i = 0; i < sizeof
                                @t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##c / 8; i++)
   buffer[row][col++] = pgm_read_byte(&@t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##c[row][i])
@@ -112,8 +113,6 @@ for (uint8_t row = 0; row < 8; row++) {
     }
     buffer[row][col++] = 0x00;
   }
-  while (col < NUM_DEVICES*8) buffer[row][col++] = 0x00; /* has effect for brightness.ch and
-                                                            seconds.ch */
 }
 
 @ Rows are output from right to left, from top to bottom.
@@ -152,9 +151,6 @@ void display_write4(uint8_t address, uint8_t data)
   display_push(address, data);
   PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6); /* latch */
 }
-
-@ @<Global variables@>=
-@<Character images@>@;
 
 @ @<Char...@>=
 const uint8_t chr_0[8][5]

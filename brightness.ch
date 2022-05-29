@@ -17,3 +17,12 @@ uint8_t glowing = 1;
       if (!glowing) continue;
       if (time[0] == 'X') glowing = 0;
 @z
+
+@x
+    buffer[row][col++] = 0x00;
+  }
+@y
+    buffer[row][col++] = 0x00;
+  }
+  while (col < NUM_DEVICES*8) buffer[row][col++] = 0x00;
+@z

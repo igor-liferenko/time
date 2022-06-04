@@ -16,7 +16,6 @@ syscall is without |O_CREAT|.
 
 void main(void)
 {
-  signal(SIGINT, SIG_DFL);
   int fd = -1;
   while (1) {
     if (serial_port_closed())
@@ -37,7 +36,6 @@ fd = open("/dev/ttyACM0", O_WRONLY | O_NOCTTY);
 }
 
 @ @<Header files@>=
-#include <signal.h>
 #include <fcntl.h>
 #include <time.h>
 #include <unistd.h>

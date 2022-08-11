@@ -8,11 +8,12 @@
 
 $$\epsfbox{max4.eps}$$
 
-$$\epsfbox{time.1}$$
+$$\epsfbox{arduino.eps}$$
 
 @c
 @<Header files@>@;
 @<Type definitions@>@;
+@<Global variables@>@;
 @<Character images@>@;
 @<Functions@>@;
 @<Create ISR for connecting to USB host@>@;
@@ -118,7 +119,7 @@ for (uint8_t row = 0; row < 8; row++) {
 @ Rows are output from right to left, from top to bottom.
 Left device is set first, right device is set last.
 
-$$\epsfbox{time.2}$$
+$$\epsfbox{time.eps}$$
 
 @<Display buffer@>=
 for (uint8_t row = 0; row < 8; row++) {

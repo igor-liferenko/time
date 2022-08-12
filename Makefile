@@ -44,4 +44,4 @@ eps:
 .PHONY: $(wildcard *.eps)
 
 max4.eps:
-	@convert max4.png eps2:$@
+	@convert max4.png $@

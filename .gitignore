@@ -10,6 +10,5 @@ time-write
 *.scn
 *.tex
 *.toc
-*.[0-9]
 *.eps
 time.ch

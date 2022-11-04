@@ -4,6 +4,7 @@ time-write
 *.c
 *.dvi
 *.pdf
+*.ps
 *.idx
 *.log
 *.scn
@@ -11,5 +12,4 @@ time-write
 *.toc
 *.[0-9]
 *.eps
-*.mpx
 time.ch

@@ -36,8 +36,8 @@ flash:
 	avrdude -qq -c usbasp -p atmega32u4 -U efuse:v:0xcb:m -U hfuse:v:0xd9:m -U lfuse:v:0xff:m -U flash:w:fw.hex
 
 eps:
-	@inkscape --export-type=eps --export-ps-level=2 --export-filename=arduino.eps --export-text-to-path arduino.svg
-	@inkscape --export-type=eps --export-ps-level=2 --export-filename=time.eps --export-text-to-path time.svg
+	@inkscape --export-type=eps --export-ps-level=2 --export-filename=arduino.eps --export-text-to-path arduino.svg 2>/dev/null || inkscape -E arduino.eps --export-ps-level=2 --export-text-to-path arduino.svg 2>/dev/null || inkscape -E arduino.eps --export-text-to-path arduino.svg
+	@inkscape --export-type=eps --export-ps-level=2 --export-filename=time.eps --export-text-to-path time.svg 2>/dev/null || inkscape -E time.eps --export-ps-level=2 --export-text-to-path time.svg 2>/dev/null || inkscape -E time.eps --export-text-to-path time.svg
 	@make --no-print-directory `grep -o '^\S*\.eps' Makefile`
 	@make --no-print-directory -C ../usb eps
 

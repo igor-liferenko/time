@@ -27,7 +27,7 @@ void main(void)
 }
 
 @ @<Try to open serial port@>=
-fd = open("/dev/ttyACM0", O_WRONLY | O_NOCTTY);
+fd = open("/dev/ttyACM0", O_WRONLY);
 
 @ @<Write time to serial port@>= {
   time_t $ = time(NULL);

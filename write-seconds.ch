@@ -11,10 +11,10 @@
 @z
 
 @x
-fd = open("/dev/ttyACM0", O_WRONLY | O_NOCTTY);
+fd = open("/dev/ttyACM0", O_WRONLY);
 @y
-fd = open("/dev/ttyACM0", O_WRONLY | O_NOCTTY),
-fd2 = open("/dev/ttyACM1", O_WRONLY | O_NOCTTY);
+fd = open("/dev/ttyACM0", O_WRONLY),
+fd2 = open("/dev/ttyACM1", O_WRONLY);
 @z
 
 @x

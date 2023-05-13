@@ -1,0 +1,6 @@
+I don't know if core dump is made and to be sure that flash memory
+is not filled I use only signals which are Term (not Core). (Because
+a signal may arrive before its signal handler is installed.)
+
+SIGKILL cannot have handler. SIGTERM is used for termination.
+SIGALRM must not be used together with sleep().

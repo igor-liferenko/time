@@ -1,0 +1,34 @@
+@x
+void main(void)
+{
+  int fd = -1;
+@y
+#include <signal.h>
+volatile int fd = -1;
+void bright1(int signum)
+{
+  if (serial_port_opened()) write(fd, "C-------", 8);
+}
+void bright2(int signum)
+{
+  if (serial_port_opened()) write(fd, "A\x00------", 8);
+}
+void bright13(int signum)
+{
+  if (serial_port_opened()) write(fd, "A\x0F------", 8);
+}
+void main(void)
+{
+  struct sigаction sa;
+  sigemptyset(&sa.sa_mask);
+  sa.sa_flags = 0;
+
+  sa.sa_handler = bright1;
+  sigaction(SIGHUP, &sa, NULL);
+
+  sa.sa_handler = bright2;
+  sigaction(SIGUSR1, &sa, NULL);
+
+  sa.sa_handler = bright13;
+  sigaction(SIGUSR2, &sa, NULL);
+@z

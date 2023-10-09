@@ -3,7 +3,7 @@ time (check 'which time'):
 #!/bin/sh
 if mkdir /tmp/time.lock 2>/dev/null; then
   killall time-write 2>/dev/null
-  #while pgrep time-write... - see cweb/Makefile
+  while pgrep time-write >/dev/null; do true; done
   if [ $1 = seconds ] || [ $1 = no-seconds ]; then
     if [ $1 = no-seconds ]; then
       touch /tmp/time.no-seconds
@@ -20,7 +20,7 @@ if mkdir /tmp/time.lock 2>/dev/null; then
       ;;
     2)
       time-write 15
-      ;; 
+      ;;
     esac
   fi
   rmdir /tmp/time.lock

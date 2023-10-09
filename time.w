@@ -311,7 +311,7 @@ if (UEINTX & 1 << RXSTPI) {
   int dtr_rts = UEDATX | UEDATX << 8;
   UEINTX &= ~(1 << RXSTPI);
   UEINTX &= ~(1 << TXINI); /* STATUS stage */
-  if (!dtr_rts) {
+  if (dtr_rts == 0) {
     for (uint8_t row = 0; row < 8; row++)
       for (uint8_t col = 0; col < NUM_DEVICES*8; col++)
         buffer[row][col] = 0x00;

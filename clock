@@ -1,6 +1,6 @@
 #!/bin/sh
 if mkdir /tmp/time.lock 2>/dev/null; then
-  killall time-write 2>/dev/null && running=1
+  killall time-write 2>/dev/null && was_running=1
   while pgrep time-write >/dev/null; do true; done
   if [ $1 = seconds ] || [ $1 = no-seconds ]; then
     if [ $1 = no-seconds ]; then
@@ -9,7 +9,7 @@ if mkdir /tmp/time.lock 2>/dev/null; then
     else
       rm -f /tmp/time.no-seconds
     fi
-    [ "$running" ] && time-write
+    [ "$was_running" ] && time-write
   else
     [ -e /tmp/time.no-seconds ] && PATH=/usr:$PATH
     case $1 in

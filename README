@@ -1,5 +1,3 @@
-time (check 'which time'):
-
 #!/bin/sh
 if mkdir /tmp/time.lock 2>/dev/null; then
   killall time-write 2>/dev/null

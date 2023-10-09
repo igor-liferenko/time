@@ -13,6 +13,7 @@ $$\epsfbox{arduino.eps}$$
 @c
 @<Header files@>@;
 @<Type definitions@>@;
+@<Global variables@>@;
 @<Character images@>@;
 @<Functions@>@;
 @<Create ISR for connecting to USB host@>@;

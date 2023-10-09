@@ -13,20 +13,37 @@ syscall is without |O_CREAT|.
 @c
 @<Header files@>@;
 
-void main(void)
+void main(int argc, char **argv)
 {
+  uint8_t init = 1;
+  char brightness[8] = {'A'};
+  if (argc == 2) { /* when brightness.ch is used */
+    if (*argv[1] == '-') init = 0; /* keep existing brightness */
+    else brightness[1] = atoi(argv[1]);
+  }
+  else init = 0;
   int fd = -1;
   while (1) {
     if (serial_port_closed())
       @<Try to open serial port@>@;
-    if (serial_port_opened())
-      @<Write time to serial port@>@;
+    if (serial_port_opened()) {
+      if (init) {
+        init = 0;
+        @<Write brightness to serial port@>@;
+      }
+      else
+        @<Write time to serial port@>@;
+    }
     sleep(1);
   }
 }
 
 @ @<Try to open serial port@>=
 fd = open("/dev/ttyACM0", O_WRONLY);
+
+@ @<Write brightness to serial port@>=
+if (write(fd, brightness, 8) == -1)
+  close(fd), fd = -1;
 
 @ @<Write time to serial port@>= {
   time_t $ = time(NULL);

@@ -11,10 +11,27 @@
 @z
 
 @x
+        @<Write time to serial port@>@;     
+    }
+@y
+        @<Write time to serial port@>@;
+    }
+    else close(fd), fd = -1, close(fd2);
+@z
+
+@x
 fd = open("/dev/ttyACM0", O_WRONLY);
 @y
 fd = open("/dev/ttyACM0", O_WRONLY),
 fd2 = open("/dev/ttyACM1", O_WRONLY);
+@z
+
+@x
+if (write(fd, brightness, 8) == -1)
+  close(fd), fd = -1;
+@y
+if (write(fd, brightness, 8) == -1 || write(fd2, brightness, 8) == -1)
+  close(fd), fd = -1, close(fd2);
 @z
 
 @x
@@ -26,5 +43,4 @@ fd2 = open("/dev/ttyACM1", O_WRONLY);
   if (write(fd, c, 8) == -1 || write(fd2, c, 8) == -1)
     close(fd), fd = -1, close(fd2);
 }
-else close(fd), fd = -1, close(fd2);
 @z

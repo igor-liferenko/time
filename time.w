@@ -298,13 +298,23 @@ const uint8_t chr_colon[8][6]
 
 @ No other requests except {\caps set control line state} come
 after connection is established. These are sent automatically by the driver when
-TTY is opened and closed. Just discard the data.
+TTY is opened and closed. We use the close event to blank the display.
+
+See \S6.2.14 in CDC spec.
 
 @<If there is a request on |EP0|, handle it@>=
 UENUM = EP0;
 if (UEINTX & 1 << RXSTPI) {
+  (void) UEDATX; @+ (void) UEDATX;
+  int dtr_rts = UEDATX | UEDATX << 8;
   UEINTX &= ~(1 << RXSTPI);
   UEINTX &= ~(1 << TXINI); /* STATUS stage */
+  if (!dtr_rts) {
+    for (uint8_t row = 0; row < 8; row++)
+      for (uint8_t col = 0; col < NUM_DEVICES*8; col++)
+        buffer[row][col] = 0x00;
+    @<Display buffer@>@;
+  }
 }
 
 @i ../usb/OUT-endpoint-management.w

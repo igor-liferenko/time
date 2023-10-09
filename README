@@ -1,0 +1,27 @@
+time (check 'which time'):
+
+#!/bin/sh
+if mkdir /tmp/time.lock 2>/dev/null; then
+  killall time-write 2>/dev/null
+  #while pgrep time-write... - see cweb/Makefile
+  if [ $1 = seconds ] || [ $1 = no-seconds ]; then
+    if [ $1 = no-seconds ]; then
+      touch /tmp/time.no-seconds
+      PATH=...:$PATH
+    else
+      rm -f /tmp/time.no-seconds
+    fi
+    time-write -
+  else
+    [ -e /tmp/time.no-seconds ] && PATH=...:$PATH
+    case $1 in
+    1)
+      time-write 0
+      ;;
+    2)
+      time-write 15
+      ;; 
+    esac
+  fi
+  rmdir /tmp/time.lock
+fi

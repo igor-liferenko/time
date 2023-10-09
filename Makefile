@@ -11,22 +11,10 @@ c.2:
 	ctangle time time
 	@make --no-print-directory time
 
-v:
+kitchen:
 	tie -c time.ch time.w reverse.ch brightness.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
-
-t:
-	ctangle time brightness
-	@make --no-print-directory time
-
-u:
-	ctangle time brightness
-	@make --no-print-directory time
-
-m:
-	ctangle time reverse
-	@make --no-print-directory time  
 
 time:
 	avr-gcc -mmcu=atmega32u4 -DF_CPU=16000000UL -g -Os -o fw.elf time.c

@@ -11,7 +11,7 @@
 @z
 
 @x
-        @<Write time to serial port@>@;     
+        @<Write time to serial port@>@;
     }
 @y
         @<Write time to serial port@>@;

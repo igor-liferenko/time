@@ -78,13 +78,15 @@ display_write4(0x0A, 0x0F);
 display_write4(0x0B, 0x07);
 display_write4(0x0C, 0x01);
 
+@ @<Global variables@>=
+uint8_t buffer[8][NUM_DEVICES*8];
+
 @ First we assemble the images of received characters in buffer, then we display parts
 of buffer corresponding to each device.
 
 @d NUM_DEVICES 4
 
 @<Show |time|@>=
-uint8_t buffer[8][NUM_DEVICES*8];
 @<Fill buffer@>@;
 @<Display buffer@>@;
 
@@ -310,7 +312,6 @@ if (UEINTX & 1 << RXSTPI) {
   UEINTX &= ~(1 << RXSTPI);
   UEINTX &= ~(1 << TXINI); /* STATUS stage */
   if (!dtr_rts) {
-    uint8_t buffer[8][NUM_DEVICES*8];
     for (uint8_t row = 0; row < 8; row++)
       for (uint8_t col = 0; col < NUM_DEVICES*8; col++)
         buffer[row][col] = 0x00;

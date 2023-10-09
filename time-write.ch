@@ -1,3 +1,5 @@
+Write seconds.
+
 @x
 @d serial_port_opened() fd != -1
 @y

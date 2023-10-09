@@ -15,7 +15,7 @@ syscall is without |O_CREAT|.
 
 void main(int argc, char **argv)
 {
-  uint8_t init = 1;
+  bool init = 1;
   char brightness[8] = {'A'};
   if (argc == 2) /* when brightness.ch is used */
     brightness[1] = atoi(argv[1]);
@@ -51,5 +51,7 @@ if (write(fd, brightness, 8) == -1)
 
 @ @<Header files@>=
 #include <fcntl.h>
+#include <stdbool.h>
+#include <stdlib.h>
 #include <time.h>
 #include <unistd.h>

@@ -17,10 +17,8 @@ void main(int argc, char **argv)
 {
   uint8_t init = 1;
   char brightness[8] = {'A'};
-  if (argc == 2) { /* when brightness.ch is used */
-    if (*argv[1] == '-') init = 0; /* keep existing brightness */
-    else brightness[1] = atoi(argv[1]);
-  }
+  if (argc == 2) /* when brightness.ch is used */
+    brightness[1] = atoi(argv[1]);
   else init = 0;
   int fd = -1;
   while (1) {

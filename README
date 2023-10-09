@@ -11,7 +11,7 @@ if mkdir /tmp/time.lock 2>/dev/null; then
     else
       rm -f /tmp/time.no-seconds
     fi
-    time-write -
+    time-write
   else
     [ -e /tmp/time.no-seconds ] && PATH=...:$PATH
     case $1 in

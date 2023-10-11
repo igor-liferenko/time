@@ -1,0 +1,15 @@
+========= If it will be necessary to fill buffer with two stripes ==========
+
+in seconds.ch change
+  @<Initialize display@>@;
+into
+  @<Initialize display@>=
+
+create detect.ch
+@x
+@<Initialize display@>@;
+@y
+<Fill buffer: top and botom rows with 1, the rest with 0>
+@<Initialize display@>@;
+@<Display buffer@>@;
+@z

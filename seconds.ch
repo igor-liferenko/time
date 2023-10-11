@@ -3,7 +3,7 @@
 @y
   @<Initialize display@>@;
   for (uint8_t row = 0; row < 8; row++)
-    for (uint8_t col = 0; col < NUM_DEVICES*8; col++)
+    for (uint8_t col = 19; col < NUM_DEVICES*8; col++)
       buffer[row][col] = 0x00;
 @z
 

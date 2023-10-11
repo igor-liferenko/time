@@ -7,17 +7,30 @@ if mkdir /tmp/time.lock 2>/dev/null; then
       touch /tmp/time.no-seconds
       PATH=/usr:$PATH
     else
+      brightness=`cat /tmp/time.no-seconds 2>/dev/null`
       rm -f /tmp/time.no-seconds
     fi
-    [ "$was_running" ] && time-write
+    if [ "$was_running" ]; then
+      if [ "$brightness" ]; then
+        time-write $brightness &
+      else
+        time-write &
+      fi
+    fi
   else
     [ -e /tmp/time.no-seconds ] && PATH=/usr:$PATH
     case $1 in
     1)
-      time-write 0
+      time-write 0 &
+      if [ -e /tmp/time.no-seconds ]; then
+        echo 0 >/tmp/time.no-seconds
+      fi
       ;;
     2)
-      time-write 15
+      time-write 15 &
+      if [ -e /tmp/time.no-seconds ]; then
+        echo 15 >/tmp/time.no-seconds
+      fi
       ;;
     esac
   fi

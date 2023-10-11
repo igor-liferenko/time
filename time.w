@@ -25,7 +25,8 @@ void main(void)
   @<Initialize display@>@;
 
   while (1) {
-    @<If there is a request on |EP0|, handle it@>@;
+    UENUM = EP0;
+    @<Handle {\caps set control line state}@>@;
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
@@ -34,6 +35,10 @@ void main(void)
       while (rx_counter--)
         time[7-rx_counter] = UEDATX;
       UEINTX &= ~(1 << FIFOCON);
+      if (time[0] == 'A') {
+        display_write4(0x0A, time[1]); /* set brightness */
+        continue;
+      }
       time[5] = '\0';
       @<Show |time|@>@;
     }
@@ -300,18 +305,17 @@ const uint8_t chr_colon[8][6]
 
 @ No other requests except {\caps set control line state} come
 after connection is established. These are sent automatically by the driver when
-TTY is opened and closed. We use the close event to blank the display.
+TTY is opened and closed, and manually via \\{ioctl}.
 
 See \S6.2.14 in CDC spec.
 
-@<If there is a request on |EP0|, handle it@>=
-UENUM = EP0;
+@<Handle {\caps set control line state}@>=
 if (UEINTX & 1 << RXSTPI) {
   (void) UEDATX; @+ (void) UEDATX;
   int dtr_rts = UEDATX | UEDATX << 8;
   UEINTX &= ~(1 << RXSTPI);
   UEINTX &= ~(1 << TXINI); /* STATUS stage */
-  if (dtr_rts == 0) {
+  if (dtr_rts == 0) { /* blank the display when TTY is closed */
     for (uint8_t row = 0; row < 8; row++)
       for (uint8_t col = 0; col < NUM_DEVICES*8; col++)
         buffer[row][col] = 0x00;

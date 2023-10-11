@@ -36,3 +36,5 @@ if mkdir /tmp/time.lock 2>/dev/null; then
   fi
   rmdir /tmp/time.lock
 fi
+
+# if you need not to show seconds by default, in build script put no-seconds binary to /bin/ and seconds binary to /usr/ and in this script add PATH=/usr:$PATH to beginning and change PATH=/usr:$PATH into PATH=/bin:$PATH

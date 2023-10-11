@@ -2,18 +2,15 @@ all:
 	@echo run "'make hostname'"
 
 c.1:
-	tie -c time.ch time.w reverse.ch brightness.ch >/dev/null
-	ctangle time time
+	ctangle time reverse
 	@make --no-print-directory time
 
 c.2:
-	tie -c time.ch time.w seconds.ch brightness.ch >/dev/null
-	ctangle time time
+	ctangle time seconds
 	@make --no-print-directory time
 
 kitchen:
-	tie -c time.ch time.w reverse.ch brightness.ch >/dev/null
-	ctangle time time
+	ctangle time reverse
 	@make --no-print-directory time
 
 time:
@@ -29,10 +26,10 @@ eps:
 
 .PHONY: $(wildcard *.eps)
 
-INKSCAPE=inkscape --export-type=eps --export-ps-level=2 -T -o $@ 2>/dev/null
-
 arduino.eps:
-	@$(INKSCAPE) arduino.svg
+	@$(inkscape) arduino.svg
 
 time.eps:
-	@$(INKSCAPE) time.svg
+	@$(inkscape) time.svg
+
+inkscape=inkscape --export-type=eps --export-ps-level=2 -T -o $@ 2>/dev/null

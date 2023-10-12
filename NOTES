@@ -9,6 +9,7 @@ and in time-write.ch in signal handler for SIGUSR2 use
   int rts = TIOCM_RTS;
   if (serial_port_opened()) ioctl(fd, TIOCMSET, &rts), ioctl(fd2, TIOCMSET, &rts);
 (in time-write.w omit fd2 part)
+(see tel.w)
 
 ========= If it will be necessary to fill buffer with two stripes ==========
 

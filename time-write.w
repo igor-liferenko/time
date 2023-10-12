@@ -13,13 +13,35 @@ syscall is without |O_CREAT|.
 @c
 @<Header files@>@;
 
+volatile int fd = -1;
+
+void handler1(int signum)
+{
+  int dtr = TIOCM_DTR;
+  if (serial_port_opened()) ioctl(fd, TIOCMSET, &dtr);
+}
+void handler2(int signum)
+{
+  int rts = TIOCM_RTS;
+  if (serial_port_opened()) ioctl(fd, TIOCMSET, &rts);
+}
+
 void main(int argc, char **argv)
 {
+  struct sigаction sa;
+  sigemptyset(&sa.sa_mask);
+  sa.sa_flags = 0;
+
+  sa.sa_handler = handler1;
+  sigaction(SIGUSR1, &sa, NULL);
+
+  sa.sa_handler = handler2;
+  sigaction(SIGUSR2, &sa, NULL);
+
   bool init = 1;
   char brightness[8] = {'A'};
   if (argc == 2) brightness[1] = atoi(argv[1]);
   else init = 0;
-  int fd = -1;
   while (1) {
     if (serial_port_closed())
       @<Try to open serial port@>@;
@@ -50,6 +72,7 @@ if (write(fd, brightness, 8) == -1)
 
 @ @<Header files@>=
 #include <fcntl.h>
+#include <signal.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>

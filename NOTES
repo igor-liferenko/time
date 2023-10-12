@@ -1,16 +1,3 @@
-when you add signal handlers for SIGUSR1,SIGUSR2 to send DTR/RTS, in time-write.ch add
-  volatile
-before
-  int fd = -1, fd2 = -1;
-and in time-write.ch in signal handler for SIGUSR1 use
-  int dtr = TIOCM_DTR;
-  if (serial_port_opened()) ioctl(fd, TIOCMSET, &dtr), ioctl(fd2, TIOCMSET, &dtr);
-and in time-write.ch in signal handler for SIGUSR2 use
-  int rts = TIOCM_RTS;
-  if (serial_port_opened()) ioctl(fd, TIOCMSET, &rts), ioctl(fd2, TIOCMSET, &rts);
-(in time-write.w omit fd2 part)
-(see tel.w)
-
 ========= If it will be necessary to fill buffer with two stripes ==========
 
 in seconds.ch change

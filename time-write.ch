@@ -7,9 +7,21 @@ Write seconds.
 @z
 
 @x
-  int fd = -1;
+volatile int fd = -1;
 @y
-  int fd = -1, fd2 = -1;
+volatile int fd = -1, fd2 = -1;
+@z
+
+@x
+  if (serial_port_opened()) ioctl(fd, TIOCMSET, &dtr);
+@y
+  if (serial_port_opened()) ioctl(fd, TIOCMSET, &dtr), ioctl(fd2, TIOCMSET, &dtr);
+@z
+
+@x
+  if (serial_port_opened()) ioctl(fd, TIOCMSET, &dtr);
+@y
+  if (serial_port_opened()) ioctl(fd, TIOCMSET, &dtr), ioctl(fd2, TIOCMSET, &dtr);
 @z
 
 @x

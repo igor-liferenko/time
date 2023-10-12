@@ -12,8 +12,7 @@ village.2:
 	@make --no-print-directory time
 
 kitchen:
-	tie -c time.ch time.w reverse.ch gps.ch >/dev/null
-	ctangle time time
+	ctangle time reverse
 	@make --no-print-directory time
 
 town.1:

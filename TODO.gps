@@ -1,0 +1,10 @@
+On 10.0.0.12 in rc.local run daemon that starts timer for 5 seconds, opens gpspipe -r and reads from it and when it
+reads end of NMEA string, it calls alarm(0) and does this:
+if (blinking == 1) system("killall -USR2 time-write; ssh -y 10.0.0.11 killall -USR2 time-write"); // stop blinking
+blinking = 0;
+
+SIGALRM handler does this:
+if (blinking == 0) system("killall -USR1 time-write; ssh -y 10.0.0.11 killall -USR1 time-write"); // start blinking
+blinking = 1;
+
+(Use global variable `volatile int blinking;'.)

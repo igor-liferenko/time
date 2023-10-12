@@ -5,7 +5,7 @@ if mkdir /tmp/time.lock 2>/dev/null; then
   if [ $1 = seconds ] || [ $1 = no-seconds ]; then
     if [ $1 = no-seconds ]; then
       touch /tmp/time.no-seconds
-      PATH=/usr:$PATH
+      PATH=/bin/no-seconds:$PATH
     else
       brightness=`cat /tmp/time.no-seconds 2>/dev/null`
       rm -f /tmp/time.no-seconds
@@ -18,7 +18,7 @@ if mkdir /tmp/time.lock 2>/dev/null; then
       fi
     fi
   else
-    [ -e /tmp/time.no-seconds ] && PATH=/usr:$PATH
+    [ -e /tmp/time.no-seconds ] && PATH=/bin/no-seconds:$PATH
     case $1 in
     1)
       time-write 0 &
@@ -36,5 +36,3 @@ if mkdir /tmp/time.lock 2>/dev/null; then
   fi
   rmdir /tmp/time.lock
 fi
-
-# if you need not to show seconds by default, in build script put no-seconds binary to /bin/ and seconds binary to /usr/ and in this script add PATH=/usr:$PATH to beginning and change PATH=/usr:$PATH into PATH=/bin:$PATH

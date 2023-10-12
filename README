@@ -1,0 +1,2 @@
+ls -l /sys/class/tty/ttyACM*
+must show numbers in increasing order - beginning with mm:hh, then :ss, then gps (if used)

@@ -1,3 +1,8 @@
+when you add signal handlers for SIGUSR1,SIGUSR2 to send DTR/RTS, in time-write.ch add
+  volatile
+before
+  int fd = -1, fd2 = -1;
+
 ========= If it will be necessary to fill buffer with two stripes ==========
 
 in seconds.ch change

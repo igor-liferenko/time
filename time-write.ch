@@ -9,7 +9,7 @@ Write seconds.
 @x
   int fd = -1;
 @y
-  int fd = -1, fd2;
+  int fd = -1, fd2 = -1;
 @z
 
 @x
@@ -18,7 +18,7 @@ Write seconds.
 @y
         @<Write time to serial port@>@;
     }
-    else close(fd), fd = -1, close(fd2);
+    else close(fd), fd = -1, close(fd2), fd2 = -1;
 @z
 
 @x
@@ -33,7 +33,7 @@ if (write(fd, brightness, 8) == -1)
   close(fd), fd = -1;
 @y
 if (write(fd, brightness, 8) == -1 || write(fd2, brightness, 8) == -1)
-  close(fd), fd = -1, close(fd2);
+  close(fd), fd = -1, close(fd2), fd2 = -1;
 @z
 
 @x
@@ -43,6 +43,6 @@ if (write(fd, brightness, 8) == -1 || write(fd2, brightness, 8) == -1)
 @y
   char *c = ctime(&$) + 11;
   if (write(fd, c, 8) == -1 || write(fd2, c, 8) == -1)
-    close(fd), fd = -1, close(fd2);
+    close(fd), fd = -1, close(fd2), fd2 = -1;
 }
 @z

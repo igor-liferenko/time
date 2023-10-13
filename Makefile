@@ -2,17 +2,18 @@ all:
 	@echo run "'make hostname'"
 
 village.1:
-	tie -c time.ch time.w reverse.ch gps.ch >/dev/null
+	tie -c time.ch time.w reverse.ch blink.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 
 village.2:
-	tie -c time.ch time.w seconds.ch gps.ch >/dev/null
+	tie -c time.ch time.w seconds.ch blink.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 
 kitchen:
-	ctangle time reverse
+	tie -c time.ch time.w reverse.ch blink.ch >/dev/null
+	ctangle time time
 	@make --no-print-directory time
 
 town.1:

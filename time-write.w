@@ -75,5 +75,6 @@ if (write(fd, brightness, 8) == -1)
 #include <signal.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <sys/ioctl.h>
 #include <time.h>
 #include <unistd.h>

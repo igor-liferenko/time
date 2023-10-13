@@ -1,2 +1,11 @@
-ls -l /sys/class/tty/ttyACM*
-must show numbers in increasing order - beginning with mm:hh, then :ss, then gps (if used)
+If two or 3 USB devices are used, insert them to different ports one by one until:
+
+1.
+  ttyACM0 belongs to device showing mm:hh
+  ttyACM1 belongs to device showing :ss
+  ttyACM2 belongs to gps device
+
+2.
+  the following command shows bus numbers in increasing consequtive order
+
+    ls -l /sys/class/tty/ttyACM*  

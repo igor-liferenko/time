@@ -1,36 +1,26 @@
 #!/bin/sh
 if mkdir /tmp/time.lock 2>/dev/null; then
-  killall time-write 2>/dev/null && was_running=1
+  brightness=$(cat /proc/`pgrep time-write || echo ..`/cmdline 2>/dev/null | grep -o '[0-9]*')
+  killall time-write 2>/dev/null
   while pgrep time-write >/dev/null; do true; done
   if [ $1 = seconds ] || [ $1 = no-seconds ]; then
     if [ $1 = no-seconds ]; then
       touch /tmp/time.no-seconds
-      PATH=/bin/no-seconds:$PATH
     else
-      brightness=`cat /tmp/time.no-seconds 2>/dev/null`
       rm -f /tmp/time.no-seconds
     fi
-    if [ "$was_running" ]; then
-      if [ "$brightness" ]; then
-        time-write $brightness &
-      else
-        time-write &
-      fi
+    if [ "$brightness" ]; then
+      [ -e /tmp/time.no-seconds ] && PATH=/bin/no-seconds:$PATH
+      time-write $brightness &
     fi
   else
     [ -e /tmp/time.no-seconds ] && PATH=/bin/no-seconds:$PATH
     case $1 in
     1)
       time-write 0 &
-      if [ -e /tmp/time.no-seconds ]; then
-        echo 0 >/tmp/time.no-seconds
-      fi
       ;;
     2)
       time-write 15 &
-      if [ -e /tmp/time.no-seconds ]; then
-        echo 15 >/tmp/time.no-seconds
-      fi
       ;;
     esac
   fi

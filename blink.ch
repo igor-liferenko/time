@@ -8,14 +8,16 @@
 @x
       @<Show |time|@>@;
 @y
-      if (dtr_rts == ?) show = !show;
+      if (dtr_rts == 1) show = !show;
       @<Show |time|@>@;
 @z
 
 @x
 @<Fill buffer@>@;
 @y
-if (show) @<Fill buffer@>@;
+if (show) {
+  @<Fill buffer@>@;
+}
 else {
   for (uint8_t row = 0; row < 8; row++)
     for (uint8_t col = 0; col < NUM_DEVICES*8; col++)
@@ -26,6 +28,6 @@ else {
 @x
   if (dtr_rts == 0) { /* blank the display when TTY is closed */
 @y
-  if (dtr_rts == ??) show = 1;
+  if (dtr_rts == 2) show = 1;
   if (dtr_rts == 0) { /* blank the display when TTY is closed */
 @z

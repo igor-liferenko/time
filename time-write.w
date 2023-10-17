@@ -3,10 +3,6 @@ Serial port is done via USB, so it appears and disappears dynamically;
 to cope with this, |open| is attempted in a loop and |write| status
 is checked and if it failed, |close| is called.
 
-TTY device file must not be created if it does not
-already exist. This is similar to `\.{cat >}', but |open|
-syscall is without |O_CREAT|.
-
 @d serial_port_closed() fd == -1
 @d serial_port_opened() fd != -1
 
@@ -28,6 +24,8 @@ void handler2(int signum)
 
 void main(int argc, char **argv)
 {
+  if (argc != 2) return;
+
   struct sigаction sa;
   sigemptyset(&sa.sa_mask);
   sa.sa_flags = 0;
@@ -39,9 +37,10 @@ void main(int argc, char **argv)
   sigaction(SIGUSR2, &sa, NULL);
 
   bool init = 1;
+
   char brightness[8] = {'A'};
-  if (argc == 2) brightness[1] = atoi(argv[1]);
-  else init = 0;
+  brightness[1] = atoi(argv[1]);
+
   while (1) {
     if (serial_port_closed())
       @<Try to open serial port@>@;

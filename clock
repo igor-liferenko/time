@@ -1,8 +1,13 @@
 #!/bin/sh
+# FIXME: maybe maintain pid in a file via $! instead of pgrep;
+#        and wait process termination using some other method instead of pgrep
 if mkdir /tmp/time.lock 2>/dev/null; then
-  brightness=$(cat /proc/`pgrep time-write || echo ..`/cmdline 2>/dev/null | grep -o '[0-9]*')
-  killall time-write 2>/dev/null
-  while pgrep time-write >/dev/null; do true; done
+  pid=`pgrep time-write`
+  if [ "$pid" ]; then
+    brightness=`grep -o '[0-9]*' /proc/$pid/cmdline`
+    kill $pid
+    while pgrep time-write >/dev/null; do true; done
+  fi
   if [ $1 = seconds ] || [ $1 = no-seconds ]; then
     if [ $1 = no-seconds ]; then
       touch /tmp/time.no-seconds

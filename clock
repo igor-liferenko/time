@@ -1,6 +1,4 @@
 #!/bin/sh
-# FIXME: maybe maintain pid in a file via $! instead of pgrep;
-#        and wait process termination using some other method instead of pgrep
 if mkdir /tmp/time.lock 2>/dev/null; then
   pid=`pgrep time-write`
   if [ "$pid" ]; then

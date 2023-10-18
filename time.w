@@ -20,7 +20,7 @@ $$\epsfbox{arduino.eps}$$
 
 void main(void)
 {
-  @<Connect to USB host (must be called first; |sei| is called here)@>@;
+  @<Connect to USB host@>@;
 
   @<Initialize display@>@;
 
@@ -334,15 +334,8 @@ if (UEINTX & 1 << RXSTPI) {
 \secpagedepth=1 % index on current page
 
 @<Header files@>=
-#include <avr/boot.h> /* |@!boot_signature_byte_get| */
-#include <avr/interrupt.h> /* |@!@.ISR@>@t\.{ISR}@>|,
-  |@!@.USB\_GEN\_vect@>@t\.{USB\_GEN\_vect}@>|, |@!sei| */
-#include <avr/io.h> /* |@!ADDEN|, |@!ALLOC|, |@!DDRB|, |@!DETACH|, |@!EORSTE|, |@!EORSTI|,
-  |@!EPDIR|, |@!EPEN|, |@!EPSIZE1|, |@!EPTYPE0|, |@!EPTYPE1|, |@!FIFOCON|, |@!FRZCLK|,
-  |@!MCUSR|, |@!MSTR|, |@!OTGPADE|, |@!PB0|, |@!PB1|, |@!PB2|, |@!PB6|, |@!PINDIV|,
-  |@!PLLCSR|, |@!PLLE|, |@!PLOCK|, |@!PORTB|, |@!RXOUTI|, |@!RXSTPI|, |@!SPCR|, |@!SPDR|,
-  |@!SPE|, |@!SPIF|, |@!SPR1|, |@!SPSR|, |@!STALLRQ|, |@!TXINI|, |@!UDADDR|, |@!UDCON|, |@!UDIEN|,
-  |@!UDINT|, |@!UEBCLX|, |@!UECFG0X|, |@!UECFG1X|, |@!UECONX|, |@!UEDATX|, |@!UEINTX|, |@!UENUM|,
-  |@!UHWCON|, |@!USBCON|, |@!USBE|, |@!UVREGE|, |@!WDCE|, |@!WDE|, |@!WDRF|, |@!WDTCSR| */
-#include <avr/pgmspace.h> /* |@!pgm_read_byte| */
-#include <util/delay.h> /* |@!_delay_us| */
+#include <avr/boot.h>
+#include <avr/interrupt.h>
+#include <avr/io.h>
+#include <avr/pgmspace.h>
+#include <util/delay.h>

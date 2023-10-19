@@ -1,79 +1,41 @@
 @* Intro.
-Serial port is done via USB, so it appears and disappears dynamically;
-to cope with this, |open| is attempted in a loop and |write| status
-is checked and if it failed, |close| is called.
-
-@d serial_port_closed() fd == -1
-@d serial_port_opened() fd != -1
 
 @c
 @<Header files@>@;
 
-volatile int fd = -1;
+int fd;
 
-void handler1(int signum)
+int main(int argc, char **argv)
 {
-  int dtr = TIOCM_DTR;
-  if (serial_port_opened()) ioctl(fd, TIOCMSET, &dtr);
-}
-void handler2(int signum)
-{
-  int rts = TIOCM_RTS;
-  if (serial_port_opened()) ioctl(fd, TIOCMSET, &rts);
-}
-
-void main(int argc, char **argv)
-{
-  if (argc != 2) return;
-
-  struct sigаction sa;
-  sigemptyset(&sa.sa_mask);
-  sa.sa_flags = 0;
-
-  sa.sa_handler = handler1;
-  sigaction(SIGUSR1, &sa, NULL);
-
-  sa.sa_handler = handler2;
-  sigaction(SIGUSR2, &sa, NULL);
-
-  bool init = 1;
-
-  char brightness[8] = {'A'};
-  brightness[1] = atoi(argv[1]);
-
+  if (argc == 1) return 2;
+  @<Open serial port@>@;
+  @<Write args to serial port@>@;
   while (1) {
-    if (serial_port_closed())
-      @<Try to open serial port@>@;
-    if (serial_port_opened()) {
-      if (init) {
-        init = 0;
-        @<Write brightness to serial port@>@;
-      }
-      else
-        @<Write time to serial port@>@;
-    }
+    @<Write time to serial port@>@;
     sleep(1);
   }
+  return 0;
 }
 
-@ @<Try to open serial port@>=
-fd = open("/dev/ttyACM0", O_WRONLY);
+@ @<Open serial port@>=
+if ((fd = open("/dev/ttyACM0", O_WRONLY)) == -1)
+  return 1;
 
-@ @<Write brightness to serial port@>=
-if (write(fd, brightness, 8) == -1)
-  close(fd), fd = -1;
+@ @<Write args to serial port@>=
+char args[8] = {'A'};
+args[1] = atoi(argv[1]);
+if (argc == 3) args[7] = 'B';
+if (write(fd, args, 8) == -1)
+  return 1;
 
 @ @<Write time to serial port@>= {
   time_t $ = time(NULL);
   if (write(fd, ctime(&$) + 11, 8) == -1)
-    close(fd), fd = -1;
+    return 1;
 }
 
 @ @<Header files@>=
-#include <fcntl.h>
-#include <signal.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <sys/ioctl.h>
-#include <time.h>
-#include <unistd.h>
+//#include <fcntl.h>
+//#include <stdlib.h>
+//#include <time.h>
+//#include <unistd.h>

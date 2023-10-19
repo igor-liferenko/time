@@ -303,9 +303,6 @@ const uint8_t chr_colon[8][6]
 @t\2@> { 0, 0, 0, 0, 0, 0 } @/
 };
 
-@ @<Global variables@>=
-int dtr_rts;
-
 @ No other requests except {\caps set control line state} come
 after connection is established. These are sent automatically by the driver when
 TTY is opened and closed, and manually via \\{ioctl}.
@@ -315,7 +312,7 @@ See \S6.2.14 in CDC spec.
 @<Handle {\caps set control line state}@>=
 if (UEINTX & 1 << RXSTPI) {
   (void) UEDATX; @+ (void) UEDATX;
-  dtr_rts = UEDATX | UEDATX << 8;
+  int dtr_rts = UEDATX | UEDATX << 8;
   UEINTX &= ~(1 << RXSTPI);
   UEINTX &= ~(1 << TXINI); /* STATUS stage */
   if (dtr_rts == 0) { /* blank the display when TTY is closed */
@@ -330,8 +327,6 @@ if (UEINTX & 1 << RXSTPI) {
 @i ../usb/USB.w
 
 @* Headers.
-
-\secpagedepth=1 % index on current page
 
 @<Header files@>=
 #include <avr/boot.h>

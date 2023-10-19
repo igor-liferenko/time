@@ -23,12 +23,12 @@ if mkdir /tmp/time.lock 2>/dev/null; then
     esac
     if [ "$brightness" ]; then
       [ -e /tmp/time.no-seconds ] && PATH=/bin/no-seconds:$PATH
-      [ -e /tmp/time.blink ] && blink=1
+      [ -e /tmp/time.blink ] && blink=B
       time-write $brightness $blink &
     fi
   else
     [ -e /tmp/time.no-seconds ] && PATH=/bin/no-seconds:$PATH
-    [ -e /tmp/time.blink ] && blink=1
+    [ -e /tmp/time.blink ] && blink=B
     case $1 in
     1)
       time-write 0 $blink &

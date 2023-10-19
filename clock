@@ -28,7 +28,7 @@ if mkdir /tmp/time.lock 2>/dev/null; then
     fi
   else
     [ -e /tmp/time.no-seconds ] && PATH=/bin/no-seconds:$PATH
-    [ -e /tmp/time.blink ] && blink=1 
+    [ -e /tmp/time.blink ] && blink=1
     case $1 in
     1)
       time-write 0 $blink &

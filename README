@@ -8,9 +8,9 @@ them to different ports one by one until two conditions are met:
 
 2.
   in the output of the following command bus number for ttyACM0 is the smallest
-  and for ttyACM2 is the greatest 
+  and for ttyACM2 is the greatest
 
-    ls -l /sys/class/tty/ttyACM*  
+    ls -l /sys/class/tty/ttyACM*
 
 NOTE: on raspberry pi the sequence of ports is:
 

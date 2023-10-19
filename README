@@ -1,4 +1,5 @@
-If two or 3 USB devices are used, insert them to different ports one by one until:
+If two or 3 USB devices are used, in order that they will be named properly, insert
+them to different ports one by one until two conditions are met:
 
 1.
   ttyACM0 belongs to device showing mm:hh
@@ -6,6 +7,29 @@ If two or 3 USB devices are used, insert them to different ports one by one unti
   ttyACM2 belongs to gps device
 
 2.
-  the following command shows bus numbers in increasing consequtive order
+  in the output of the following command bus number for ttyACM0 is the smallest
+  and for ttyACM2 is the greatest 
 
     ls -l /sys/class/tty/ttyACM*  
+
+NOTE: on raspberry pi the sequence of ports is:
+
++---+ +---+
+| A | | C |
++---+ +---+
++---+ +---+
+| B | | D |
++---+ +---+
+
+==========================================================
+
+Connect programmator as:
+
+( ) (G) (O) (.) ( ) ( ) ( ) ( ) (B) (G) (V) (.)
+
+(G) = Gray
+(O) = Orange
+(B) = Brown
+(V) = Violet
+( ) = no pin
+(.) = unused pin

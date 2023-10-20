@@ -11,7 +11,7 @@ if ((fd = open("/dev/ttyACM0", O_WRONLY)) == -1)
 @y
 fd = open("/dev/ttyACM0", O_WRONLY);
 fd2 = open("/dev/ttyACM1", O_WRONLY);
-if (fd == -1 || fd2 == -1) return 1;
+if (fd == -1 || fd2 == -1)
 @z
 
 @x

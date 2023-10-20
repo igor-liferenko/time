@@ -17,7 +17,7 @@ if (fd == -1 || fd2 == -1) return 1;
 @x
 if (write(fd, args, 8) == -1)
 @y
-if (write(fd, args, 8) == -1 || write(fd2, brightness, 8) == -1)
+if (write(fd, args, 8) == -1 || write(fd2, args, 8) == -1)
 @z
 
 @x

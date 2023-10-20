@@ -305,7 +305,7 @@ const uint8_t chr_colon[8][6]
 
 @ No other requests except {\caps set control line state} come
 after connection is established. These are sent automatically by the driver when
-TTY is opened and closed, and manually via \\{ioctl}.
+TTY is opened and closed.
 
 See \S6.2.14 in CDC spec.
 

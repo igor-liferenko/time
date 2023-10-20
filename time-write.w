@@ -35,7 +35,7 @@ if (write(fd, args, 8) == -1)
 }
 
 @ @<Header files@>=
-//#include <fcntl.h>
-//#include <stdlib.h>
-//#include <time.h>
-//#include <unistd.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>

@@ -10,3 +10,8 @@ and depending on result, use first in rc.local and second in cron.
 On 10.0.0.11 do the same, and if not works (due to absence of ntpd
 package) - try both `ntpdate -d 10.0.0.12' and `ntpdate -q' in
 each case.
+
+----------------
+
+use this in cron?
+* * * * * if [ "$(ntpq -np | perl -a -nle print@F[6] | tail -n1)" = "377" ]; then clock no-blink; else clock blink; fi 

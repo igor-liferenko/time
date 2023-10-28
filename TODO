@@ -1,4 +1,4 @@
-From Mineberg pdf find out what this command from ntpd.hotplug-helper (its contents are in the end of README) does:
+From Mineberg pdf find out what this command from /usr/sbin/ntpd.hotplug-helper (its contents are in the end of README) does:
 
         STATUS="$(/usr/sbin/ntpq -c 'rv 0 stratum'|awk -F '=' '{ print $2 }')"
 

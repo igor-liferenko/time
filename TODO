@@ -1,25 +1,27 @@
-On 10.0.0.12 right after reboot try
+send this to ub0ali:
 
-  ntpq -c cv|grep 'timecode="'
+according to that pdf file find out what this command does:
 
-and
+        STATUS="$(/usr/sbin/ntpq -c 'rv 0 stratum'|awk -F '=' '{ print $2 }')"
 
-  ntpq -p | grep '^\*'
+and if it can be used instead of ntpq -p | grep '^\*'
 
-and depending on result, use first in rc.local and second in cron.
-On 10.0.0.11 do the same, and if not works (due to absence of ntpd
-package) - try both `ntpdate -d 10.0.0.12' and `ntpdate -q' in
-each case.
+------------------------
+
+emit "server 127.127.28.0"
+emit "fudge 127.127.28.0 flag1 1"
+alternatively, try -g and -G options to /sbin/ntpd
+
+------------------
+
+find out from dnsmasq source:
+[ -f "$TIMEVALIDFILE" ] || {
+	echo "ntpd says time is valid" >$TIMEVALIDFILE
+	/etc/init.d/dnsmasq enabled && {
+		procd_send_signal dnsmasq '*' INT
+	}
+}
 
 ----------------
 
-use this in cron?
-* * * * * if [ "$(ntpq -np | perl -a -nle print@F[6] | tail -n1)" = "377" ]; then [ -e /tmp/time.blink ] && clock no-blink; else [ -e /tmp/time.blink ] || clock blink; fi 
-
------------------
-
-in ConnectBot add entry to show/hide seconds (followed by return):
-
-    if [ -e /tmp/time.no-seconds ]; then clock seconds; else clock no-seconds; fi; exit
-
-and enable "close when connection disappears" in the entry properties
+NOTE: installing ntpd deletes /usr/sbin/ntpd, so /etc/init.d/sysntpd just becomes no-op, thus it need not be disabled

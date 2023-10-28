@@ -1,4 +1,4 @@
-According Mineberg pdf find out what this command from ntpd.hotplug-helper does:
+According Mineberg pdf find out what this command from ntpd.hotplug-helper (its contents are below) does:
 
         STATUS="$(/usr/sbin/ntpq -c 'rv 0 stratum'|awk -F '=' '{ print $2 }')"
 
@@ -15,6 +15,24 @@ alternatively, try -g and -G options to /sbin/ntpd
 
 ------------------
 
-Find out from dnsmasq source what does this command from ntpd.hotplug-helper:
+Find out from dnsmasq source what does this command from ntpd.hotplug-helper (its contents are below):
 
     procd_send_signal dnsmasq '*' INT
+
+--------------------------------------------------------
+
+#!/bin/sh
+
+SLEEPTIME=10
+
+while true
+do
+	STATUS="$(/usr/sbin/ntpq -c 'rv 0 stratum'|awk -F '=' '{ print $2 }')"
+
+	if [[ -n "$STATUS" && "$STATUS" -lt "16" ]]
+	then
+		ACTION="stratum" /sbin/hotplug-call ntp
+		SLEEPTIME=660
+	fi
+	sleep $SLEEPTIME
+done

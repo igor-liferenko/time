@@ -45,7 +45,7 @@ and enable "close when connection disappears" in the entry properties
 ---------------------
 
 ntpd.hotplug-helper is running as daemon (its contents are below).
-NOTE: installing ntpd deletes /usr/sbin/ntpd, so /etc/init.d/sysntpd just becomes no-op, thus it never calls ntpd-hotplug
+NOTE: installing ntpd deletes /usr/sbin/ntpd, so /etc/init.d/sysntpd just becomes no-op, thus it never calls ntpd-hotplug, thus '/sbin/hotplug-call ntp' is called only by ntpd.hotplug-helper
 Modify it as follows:
 
 Before the line

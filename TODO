@@ -1,8 +1,8 @@
-According Mineberg pdf find out what this command from ntpd.hotplug-helper (its contents are below) does:
+From Mineberg pdf find out what this command from ntpd.hotplug-helper (its contents are in the end of README) does:
 
         STATUS="$(/usr/sbin/ntpq -c 'rv 0 stratum'|awk -F '=' '{ print $2 }')"
 
-and if it can be used instead of ntpq -p | grep '^\*'
+and if it can be used instead of ntpq -p | grep '^\*' for checking non-initial status
 
 ------------------------
 
@@ -15,7 +15,8 @@ alternatively, try -g and -G options to /sbin/ntpd
 
 ------------------
 
-Find out from dnsmasq source what does this command from ntpd.hotplug-helper (its contents are below):
+Find out from dnsmasq source what does this command from /etc/hotplug.d/ntp/25-dnsmasqsec (its contents are below),
+which is called by '/sbin/hotplug-call ntp':
 
     procd_send_signal dnsmasq '*' INT
 
@@ -23,16 +24,15 @@ Find out from dnsmasq source what does this command from ntpd.hotplug-helper (it
 
 #!/bin/sh
 
-SLEEPTIME=10
+. /lib/functions/procd.sh
 
-while true
-do
-	STATUS="$(/usr/sbin/ntpq -c 'rv 0 stratum'|awk -F '=' '{ print $2 }')"
+TIMEVALIDFILE="/var/state/dnsmasqsec"
 
-	if [[ -n "$STATUS" && "$STATUS" -lt "16" ]]
-	then
-		ACTION="stratum" /sbin/hotplug-call ntp
-		SLEEPTIME=660
-	fi
-	sleep $SLEEPTIME
-done
+[ "$ACTION" = stratum ] || exit 0
+
+[ -f "$TIMEVALIDFILE" ] || {
+	echo "ntpd says time is valid" >$TIMEVALIDFILE
+	/etc/init.d/dnsmasq enabled && {
+		procd_send_signal dnsmasq '*' INT
+	}
+}

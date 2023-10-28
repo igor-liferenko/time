@@ -1,6 +1,4 @@
-send this to ub0ali:
-
-according to that pdf file find out what this command does:
+According Mineberg pdf find out what this command from ntpd.hotplug-helper does:
 
         STATUS="$(/usr/sbin/ntpq -c 'rv 0 stratum'|awk -F '=' '{ print $2 }')"
 
@@ -8,20 +6,15 @@ and if it can be used instead of ntpq -p | grep '^\*'
 
 ------------------------
 
-emit "server 127.127.28.0"
-emit "fudge 127.127.28.0 flag1 1"
+If non-gps sync will not work, try to add flag1 like for gps:
+
+server 127.127.28.0
+fudge 127.127.28.0 flag1 1
+
 alternatively, try -g and -G options to /sbin/ntpd
 
 ------------------
 
-find out from dnsmasq source:
-[ -f "$TIMEVALIDFILE" ] || {
-	echo "ntpd says time is valid" >$TIMEVALIDFILE
-	/etc/init.d/dnsmasq enabled && {
-		procd_send_signal dnsmasq '*' INT
-	}
-}
+Find out from dnsmasq source what does this command from ntpd.hotplug-helper:
 
-----------------
-
-NOTE: installing ntpd deletes /usr/sbin/ntpd, so /etc/init.d/sysntpd just becomes no-op, thus it need not be disabled
+    procd_send_signal dnsmasq '*' INT

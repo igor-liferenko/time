@@ -54,7 +54,7 @@ Before the line
 
 we add:
 
-		[ -f /var/state/dnsmasqsec ] || clock no-blink
+		[ -f /var/state/dnsmasqsec ] || clock no-blink # time becomes valid; see rc.local
 
 Before the line
 

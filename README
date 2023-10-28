@@ -33,3 +33,63 @@ Connect programmator as:
 (V) = Violet
 ( ) = no pin
 (.) = unused pin
+-------------------------
+
+In ConnectBot add entry to show/hide seconds (followed by return):
+
+    if [ -e /tmp/time.no-seconds ]; then clock seconds; else clock no-seconds; fi; exit
+
+and enable "close when connection disappears" in the entry properties
+
+---------------------
+
+ntpd.hotplug-helper is running as daemon (its contents are below).
+Modify it as follows:
+
+Before the line
+
+		ACTION="stratum" /sbin/hotplug-call ntp
+
+we add:
+
+		[ -f /var/state/dnsmasqsec ] || clock no-blink
+
+Before the line
+
+		SLEEPTIME=660
+
+we add:
+
+		if [ -f /var/state/dnsmasqsec ]; then
+			[ -e /tmp/time.blink ] && clock no-blink
+		fi
+
+After the line
+
+		SLEEPTIME=660
+
+we add:
+
+	else
+		if [ -f /var/state/dnsmasqsec ]; then
+			[ -e /tmp/time.blink ] || clock blink
+		fi
+		SLEEPTIME=10
+
+----------------------------------------------------------------------------------------
+
+#!/bin/sh
+
+SLEEPTIME=10
+
+while true
+do
+	STATUS="$(/usr/sbin/ntpq -c 'rv 0 stratum'|awk -F '=' '{ print $2 }')"
+
+	if [[ -n "$STATUS" && "$STATUS" -lt "16" ]]
+	then
+		ACTION="stratum" /sbin/hotplug-call ntp
+		SLEEPTIME=660
+	fi
+	sleep $SLEEPTIME
+done

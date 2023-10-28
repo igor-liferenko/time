@@ -14,4 +14,12 @@ each case.
 ----------------
 
 use this in cron?
-* * * * * if [ "$(ntpq -np | perl -a -nle print@F[6] | tail -n1)" = "377" ]; then clock no-blink; else clock blink; fi 
+* * * * * if [ "$(ntpq -np | perl -a -nle print@F[6] | tail -n1)" = "377" ]; then [ -e /tmp/time.blink ] && clock no-blink; else [ -e /tmp/time.blink ] || clock blink; fi 
+
+-----------------
+
+in ConnectBot add entry to show/hide seconds (followed by return):
+
+    if [ -e /tmp/time.no-seconds ]; then clock seconds; else clock no-seconds; fi; exit
+
+and enable "close when connection disappears" in the entry properties

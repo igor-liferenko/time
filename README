@@ -34,64 +34,32 @@ Connect programmator as:
 ( ) = no pin
 (.) = unused pin
 
+Connect display as:
+
+Arduino: ( ) (1) (.) (2) ( ) ( ) ( ) ( ) (3) (.) (4) (5)
+Display: (?) (?) (?) (?) (?)
+
+(1) = black
+(2) = red
+(3) = ?
+(4) = ?
+(5) = ?
+
 -------------------------
 
-In ConnectBot add entry to show/hide seconds (followed by return):
+In ConnectBot add entry to show/hide seconds using this for "run on connect":
 
     if [ -e /tmp/time.no-seconds ]; then clock seconds; else clock no-seconds; fi; exit
+    <empty line>
 
-and enable "close when connection disappears" in the entry properties
+and enable "close when connection disappears"
 
 ---------------------
 
-/usr/sbin/ntpd.hotplug-helper is running as daemon (its contents are below).
-NOTE: installing ntpd deletes /usr/sbin/ntpd, so /etc/init.d/sysntpd just becomes no-op, thus it never calls /usr/sbin//usr/sbin/ntpd.hotplug, thus '/sbin/hotplug-call ntp' is called only by /usr/sbin/ntpd.hotplug-helper
-Modify it as follows:
+/usr/sbin/ntpd.hotplug-helper is started as daemon in /etc/init.d/ntpd
+It is used for checking synchronization.
+https://kb.meinbergglobal.com/kb/time_sync/ntp/ntp_debugging/ntp_debugging_with_shared_memory_refclock
+--------------------------------------
 
-Before the line
-
-		ACTION="stratum" /sbin/hotplug-call ntp
-
-we add:
-
-		[ -f /var/state/dnsmasqsec ] || clock no-blink # time becomes valid; see rc.local
-
-Before the line
-
-		SLEEPTIME=660
-
-we add:
-
-		if [ -f /var/state/dnsmasqsec ]; then
-			[ -e /tmp/time.blink ] && clock no-blink
-		fi
-
-After the line
-
-		SLEEPTIME=660
-
-we add:
-
-	else
-		if [ -f /var/state/dnsmasqsec ]; then
-			[ -e /tmp/time.blink ] || clock blink
-		fi
-		SLEEPTIME=10
-
-----------------------------------------------------------------------------------------
-
-#!/bin/sh
-
-SLEEPTIME=10
-
-while true
-do
-	STATUS="$(/usr/sbin/ntpq -c 'rv 0 stratum'|awk -F '=' '{ print $2 }')"
-
-	if [[ -n "$STATUS" && "$STATUS" -lt "16" ]]
-	then
-		ACTION="stratum" /sbin/hotplug-call ntp
-		SLEEPTIME=660
-	fi
-	sleep $SLEEPTIME
-done
+post-install script of ntpd package deletes /usr/sbin/ntpd
+(see /etc/init.d/sysntpd)

@@ -37,13 +37,15 @@ Connect programmator as:
 Connect display as:
 
 Arduino: ( ) (1) (.) (2) ( ) ( ) ( ) ( ) (3) (.) (4) (5)
-Display: (?) (?) (?) (?) (?)
+Display: (3) (5) (4) (1) (2)
 
 (1) = black
 (2) = red
-(3) = ?
-(4) = ?
-(5) = ?
+(3) = orange
+(4) = green
+(5) = yellow
+( ) = no pin
+(.) = unused pin
 
 -------------------------
 
@@ -55,11 +57,6 @@ In ConnectBot add entry to show/hide seconds using this for "run on connect":
 and enable "close when connection disappears"
 
 ---------------------
-
-/usr/sbin/ntpd.hotplug-helper is started as daemon in /etc/init.d/ntpd
-It is used for checking synchronization.
-https://kb.meinbergglobal.com/kb/time_sync/ntp/ntp_debugging/ntp_debugging_with_shared_memory_refclock
---------------------------------------
 
 post-install script of ntpd package deletes /usr/sbin/ntpd
 (see /etc/init.d/sysntpd)

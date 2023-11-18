@@ -50,5 +50,7 @@ and enable "close when connection disappears"
 
 ---------------------
 
-post-install script of ntpd package deletes /usr/sbin/ntpd
-(see /etc/init.d/sysntpd)
+Post-install script of ntpd package deletes /usr/sbin/ntpd
+(this effectively turns /etc/init.d/sysntpd into a no-op).
+Post-remove script of ntpd package restores /usr/sbin/ntpd
+(/usr/sbin/ntpd is symlink to busybox).

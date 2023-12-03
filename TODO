@@ -1,5 +1,6 @@
 1) in rc.local before 'clock 2' add 'clock blink'
 2) in /usr/sbin/ntpd.hotplug-helper change 'SLEEPTIME=660' to 'break' and add to end of file:
+prev_reach=0
 while true; do
   <get 'reach' field from 'ntpq -pn'>
   if [ $reach = 377 ]; then

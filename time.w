@@ -25,7 +25,7 @@ void main(void)
   @<Initialize display@>@;
 
   while (1) {
-    UENUM = EP0;
+    @<USB endpoint number@> = @<Endpoint 0@>;
     @<Handle {\caps set control line state}@>@;
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
@@ -334,3 +334,6 @@ if (UEINTX & 1 << RXSTPI) {
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include <util/delay.h>
+
+@ @<USB endpoint number@>=UENUM
+@ @<Endpoint 0@>=EP0

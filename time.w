@@ -335,5 +335,5 @@ if (UEINTX & 1 << RXSTPI) {
 #include <avr/pgmspace.h>
 #include <util/delay.h>
 
-@ @<USB endpoint number@>=UENUM
+@ @<USB endpoint number@>=@+UENUM
 @ @<Endpoint 0@>=@+EP0

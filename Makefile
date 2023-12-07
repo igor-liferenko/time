@@ -1,12 +1,12 @@
 all:
 	@echo run "'make hostname'"
 
-c.1:
+x.1:
 	tie -c time.ch time.w reverse.ch blink.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 
-c.2:
+x.2:
 	tie -c time.ch time.w seconds.ch blink.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time

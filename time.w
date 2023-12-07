@@ -25,8 +25,9 @@ void main(void)
   @<Initialize display@>@;
 
   while (1) {
-    @[@<USB endpoint number@>@] = @[@<Endpoint 0@>@];
-    @<Handle {\caps set control line state}@>@;
+    UENUM = EP0;
+    if (UEINTX & 1 << RXSTPI)
+      @<Process SETUP request@>@;
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI) {
       UEINTX &= ~(1 << RXOUTI);
@@ -303,15 +304,12 @@ const uint8_t chr_colon[8][6]
 @t\2@> { 0, 0, 0, 0, 0, 0 } @/
 };
 
-@ No other requests except {\caps set control line state} come
-after connection is established. These are sent automatically by the driver when
+@ {\caps set control line state} requests are sent automatically by the driver when
 TTY is opened and closed.
 
 See \S6.2.14 in CDC spec.
 
 @<Handle {\caps set control line state}@>=
-if (UEINTX & 1 << RXSTPI) {
-  (void) UEDATX; @+ (void) UEDATX;
   int dtr_rts = UEDATX | UEDATX << 8;
   UEINTX &= ~(1 << RXSTPI);
   UEINTX &= ~(1 << TXINI); /* STATUS stage */
@@ -321,12 +319,37 @@ if (UEINTX & 1 << RXSTPI) {
         buffer[row][col] = 0x00;
     @<Display buffer@>@;
   }
-}
 
 @i ../usb/OUT-endpoint-management.w
 @i ../usb/USB.w
 
 @* Headers.
+
+\halign{\.{#}\hfil&#\hfil\cr
+\noalign{\kern10pt}
+%
+EORSTE  & End Of Reset Interrupt Enable \cr
+EORSTI  & End Of Reset Interrupt \cr
+\noalign{\medskip}
+FIFOCON & FIFO Control \cr
+PLLCSR  & PLL Control and Status Register \cr
+RXOUTI  & Received OUT Interrupt \cr
+RXSTPI  & Received SETUP Interrupt \cr
+\noalign{\medskip}
+UDIEN   & USB Device Interrupt Enable \cr
+UDINT   & USB Device Interrupt \cr
+\noalign{\medskip}
+UECFG1X & USB Endpoint-X Configuration 1 \cr
+UEDATX  & USB Endpoint-X Data \cr
+\noalign{\medskip}
+UEIENX  & USB Endpoint-X Interrupt Enable \cr
+UEINTX  & USB Endpoint-X Interrupt \cr
+\noalign{\medskip}
+UENUM   & USB endpoint number \cr
+USBCON  & USB Control \cr
+USBINT  & USB General Interrupt \cr
+%
+\noalign{\kern10pt}}
 
 @<Header files@>=
 #include <avr/boot.h>
@@ -334,6 +357,3 @@ if (UEINTX & 1 << RXSTPI) {
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include <util/delay.h>
-
-@ @<USB endpoint number@>=@+UENUM
-@ @<Endpoint 0@>=@+EP0

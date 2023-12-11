@@ -29,7 +29,12 @@ void main(void)
     if (UEINTX & 1 << RXSTPI)
       @<Process SETUP request@>@;
     UENUM = EP2;
-    if (UEINTX & 1 << RXOUTI) {
+    if (UEINTX & 1 << RXOUTI)
+      @<xxx@>@;
+  }
+}
+
+@ @<xxx@>= {
       UEINTX &= ~(1 << RXOUTI);
       char time[8];
       int rx_counter = UEBCLX;
@@ -43,8 +48,6 @@ void main(void)
       time[5] = '\0';
       @<Show |time|@>@;
     }
-  }
-}
 
 @ Initialization of all registers must be done, because they may contain garbage.
 First make sure that test mode is disabled, because it overrides all registers.
@@ -303,22 +306,6 @@ const uint8_t chr_colon[8][6]
   { 0, 0, 0, 0, 0, 0 }, @/
 @t\2@> { 0, 0, 0, 0, 0, 0 } @/
 };
-
-@ {\caps set control line state} requests are sent automatically by the driver when
-TTY is opened and closed.
-
-See \S6.2.14 in CDC spec.
-
-@<Handle {\caps set control line state}@>=
-  int dtr_rts = UEDATX | UEDATX << 8;
-  UEINTX &= ~(1 << RXSTPI);
-  UEINTX &= ~(1 << TXINI); /* STATUS stage */
-  if (dtr_rts == 0) { /* blank the display when TTY is closed */
-    for (uint8_t row = 0; row < 8; row++)
-      for (uint8_t col = 0; col < NUM_DEVICES*8; col++)
-        buffer[row][col] = 0x00;
-    @<Display buffer@>@;
-  }
 
 @i ../usb/OUT-endpoint-management.w
 @i ../usb/USB.w

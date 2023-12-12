@@ -35,14 +35,14 @@ void main(void)
   while (1) {
     UENUM = EP0;
     if (UEINTX & 1 << RXSTPI)
-      @<Process SETUP request@>@;
+      @<Process CONTROL packet@>@;
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI)
-      @<Process new packet@>@;
+      @<Process OUT packet@>@;
   }
 }
 
-@ @<Process new packet@>= {
+@ @<Process OUT packet@>= {
       UEINTX &= ~(1 << RXOUTI);
       char time[8];
       int rx_counter = UEBCLX;

@@ -1,3 +1,5 @@
+% TODO: change `1 << BIT' to `_BV(BIT)'
+
 \datethis
 \input epsf
 \input ../usb/USB
@@ -20,7 +22,13 @@ $$\epsfbox{arduino.eps}$$
 
 void main(void)
 {
-  @<Connect to USB host@>@;
+  @<Setup USB@>@;
+  sei();
+  UDCON &= ~(1 << DETACH); /* attach after we prepared interrupts, because
+    USB\_RESET will arrive only after attach, and before it arrives, all interrupts
+    must be already set up; also, there is no need to detect when VBUS becomes
+    high ---~USB\_RESET can arrive only after VBUS is operational anyway, and
+    USB\_RESET is detected via interrupt */
 
   @<Initialize display@>@;
 
@@ -30,11 +38,11 @@ void main(void)
       @<Process SETUP request@>@;
     UENUM = EP2;
     if (UEINTX & 1 << RXOUTI)
-      @<xxx@>@;
+      @<Process new packet@>@;
   }
 }
 
-@ @<xxx@>= {
+@ @<Process new packet@>= {
       UEINTX &= ~(1 << RXOUTI);
       char time[8];
       int rx_counter = UEBCLX;

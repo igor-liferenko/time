@@ -1,4 +1,5 @@
 % TODO: change `1 << BIT' to `_BV(BIT)'
+% TODO: change `EP0' to `0' etc. and delete `@d EP...'
 
 \datethis
 \input epsf
@@ -22,7 +23,7 @@ $$\epsfbox{arduino.eps}$$
 
 void main(void)
 {
-  @<Setup USB@>@;
+  @<Setup USB Controller@>@;
   sei();
   UDCON &= ~(1 << DETACH); /* attach after we prepared interrupts, because
     USB\_RESET will arrive only after attach, and before it arrives, all interrupts

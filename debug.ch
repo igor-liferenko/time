@@ -8,9 +8,9 @@
 @z
 
 @x
-  UDINT &= ~_BV(EORSTI); /* for the interrupt handler to be called for next USB\_RESET */
+  UDINT &= ~_BV(EORSTI);
 @y
-  UDINT &= ~_BV(EORSTI); /* for the interrupt handler to be called for next USB\_RESET */
+  UDINT &= ~_BV(EORSTI);
   UDR1 = '!'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
@@ -55,9 +55,9 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
 @x
-UEINTX &= ~_BV(RXSTPI);
+UEINTX &= ~(1 << RXSTPI);
 @y
-UEINTX &= ~_BV(RXSTPI);
+UEINTX &= ~(1 << RXSTPI);
 UDR1='q'; while (!(UCSR1A & 1 << UDRE1)) { } // qualifier
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
@@ -65,9 +65,9 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
 @x
-UEINTX &= ~_BV(RXSTPI);
+UEINTX &= ~(1 << RXSTPI);
 @y
-UEINTX &= ~_BV(RXSTPI);
+UEINTX &= ~(1 << RXSTPI);
 UDR1='c'; while (!(UCSR1A & 1 << UDRE1)) { } // configuration
 Hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
@@ -120,9 +120,9 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
 @x
-UEINTX &= ~_BV(RXSTPI);
+UEINTX &= ~(1 << RXSTPI);
 @y
-UEINTX &= ~_BV(RXSTPI);
+UEINTX &= ~(1 << RXSTPI);
 UDR1='z'; while (!(UCSR1A & 1 << UDRE1)) { } // set configuration
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }

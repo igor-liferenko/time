@@ -3,6 +3,7 @@ use this change-file with usb commit decd1b4
 @x
   @<Setup USB Controller@>@;
 @y
+  U16 aa;
   UBRR1 = 34; // table 18-12 in datasheet
   UCSR1A |= 1 << U2X1;
   UCSR1B |= 1 << TXEN1;
@@ -39,6 +40,8 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='a'; while (!(UCSR1A & 1 << UDRE1)) { } // address
+UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
+aa = ((UDADDR & 0x7f) << 8); Hex(aa);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -49,6 +52,8 @@ UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << RXSTPI);
 UDR1='d'; while (!(UCSR1A & 1 << UDRE1)) { } // device
 Hex(wLength);
+UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
+aa = ((UDADDR & 0x7f) << 8); Hex(aa);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -58,6 +63,8 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='q'; while (!(UCSR1A & 1 << UDRE1)) { } // qualifier
+UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
+aa = ((UDADDR & 0x7f) << 8); Hex(aa);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -68,6 +75,8 @@ UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << RXSTPI);
 UDR1='c'; while (!(UCSR1A & 1 << UDRE1)) { } // configuration
 Hex(wLength);
+UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
+aa = ((UDADDR & 0x7f) << 8); Hex(aa);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -78,6 +87,8 @@ UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << RXSTPI);
 UDR1='l'; while (!(UCSR1A & 1 << UDRE1)) { } // language
 Hex(wLength);
+UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
+aa = ((UDADDR & 0x7f) << 8); Hex(aa);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -88,6 +99,8 @@ UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << RXSTPI);
 UDR1='m'; while (!(UCSR1A & 1 << UDRE1)) { } // manufacturer
 Hex(wLength);
+UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
+aa = ((UDADDR & 0x7f) << 8); Hex(aa);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -98,6 +111,8 @@ UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << RXSTPI);
 UDR1='p'; while (!(UCSR1A & 1 << UDRE1)) { } // product
 Hex(wLength);
+UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
+aa = ((UDADDR & 0x7f) << 8); Hex(aa);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -108,6 +123,8 @@ UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << RXSTPI);
 UDR1='s'; while (!(UCSR1A & 1 << UDRE1)) { } // serial
 Hex(wLength);
+UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
+aa = ((UDADDR & 0x7f) << 8); Hex(aa);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -117,6 +134,8 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='z'; while (!(UCSR1A & 1 << UDRE1)) { } // set configuration
+UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
+aa = ((UDADDR & 0x7f) << 8); Hex(aa);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -130,6 +149,8 @@ UDR1='y'; while (!(UCSR1A & 1 << UDRE1)) { } // set line coding
 Hex(wLength);
 while (!(UEINTX & 1 << RXOUTI)) ; /* wait for DATA stage */
 Hex(UEBCLX); // check that it is equal to wLength
+UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
+aa = ((UDADDR & 0x7f) << 8); Hex(aa);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -139,6 +160,8 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='x'; while (!(UCSR1A & 1 << UDRE1)) { } // set control line state
+UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
+aa = ((UDADDR & 0x7f) << 8); Hex(aa);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z

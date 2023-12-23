@@ -40,7 +40,7 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='a'; while (!(UCSR1A & 1 << UDRE1)) { } // address
-UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
+UDR1='='; while (!(UCSR1A & 1 << UDRE1)) { }
 aa = wValue; Hex(aa);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
@@ -52,7 +52,7 @@ UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << RXSTPI);
 UDR1='d'; while (!(UCSR1A & 1 << UDRE1)) { } // device
 Hex(wLength);
-if (UDADDR & 0x80) { UDR1='+'; while (!(UCSR1A & 1 << UDRE1)) { } }
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -62,7 +62,7 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='q'; while (!(UCSR1A & 1 << UDRE1)) { } // qualifier
-if (UDADDR & 0x80) { UDR1='+'; while (!(UCSR1A & 1 << UDRE1)) { } }
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -73,7 +73,7 @@ UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << RXSTPI);
 UDR1='c'; while (!(UCSR1A & 1 << UDRE1)) { } // configuration
 Hex(wLength);
-if (UDADDR & 0x80) { UDR1='+'; while (!(UCSR1A & 1 << UDRE1)) { } }
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -84,7 +84,7 @@ UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << RXSTPI);
 UDR1='l'; while (!(UCSR1A & 1 << UDRE1)) { } // language
 Hex(wLength);
-if (UDADDR & 0x80) { UDR1='+'; while (!(UCSR1A & 1 << UDRE1)) { } }
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -95,7 +95,7 @@ UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << RXSTPI);
 UDR1='m'; while (!(UCSR1A & 1 << UDRE1)) { } // manufacturer
 Hex(wLength);
-if (UDADDR & 0x80) { UDR1='+'; while (!(UCSR1A & 1 << UDRE1)) { } }
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -106,7 +106,7 @@ UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << RXSTPI);
 UDR1='p'; while (!(UCSR1A & 1 << UDRE1)) { } // product
 Hex(wLength);
-if (UDADDR & 0x80) { UDR1='+'; while (!(UCSR1A & 1 << UDRE1)) { } }
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -117,7 +117,7 @@ UEINTX &= ~(1 << RXSTPI);
 UEINTX &= ~(1 << RXSTPI);
 UDR1='s'; while (!(UCSR1A & 1 << UDRE1)) { } // serial
 Hex(wLength);
-if (UDADDR & 0x80) { UDR1='+'; while (!(UCSR1A & 1 << UDRE1)) { } }
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -127,7 +127,7 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='z'; while (!(UCSR1A & 1 << UDRE1)) { } // set configuration
-if (UDADDR & 0x80) { UDR1='+'; while (!(UCSR1A & 1 << UDRE1)) { } }
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -141,7 +141,7 @@ UDR1='y'; while (!(UCSR1A & 1 << UDRE1)) { } // set line coding
 Hex(wLength);
 while (!(UEINTX & 1 << RXOUTI)) ; /* wait for DATA stage */
 Hex(UEBCLX); // check that it is equal to wLength
-if (UDADDR & 0x80) { UDR1='+'; while (!(UCSR1A & 1 << UDRE1)) { } }
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
@@ -151,7 +151,7 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='x'; while (!(UCSR1A & 1 << UDRE1)) { } // set control line state
-if (UDADDR & 0x80) { UDR1='+'; while (!(UCSR1A & 1 << UDRE1)) { } }
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z

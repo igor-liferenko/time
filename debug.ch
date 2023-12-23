@@ -10,18 +10,18 @@ use this change-file with usb commit decd1b4
 @z
 
 @x
+  UDINT &= ~(1 << EORSTI); /* for the interrupt handler to be called for next USB\_RESET */
+@y
+  UDINT &= ~(1 << EORSTI); /* for the interrupt handler to be called for next USB\_RESET */
+  UDR1 = '!'; while (!(UCSR1A & 1 << UDRE1)) { }
+@z
+
+@x
 @* Connection protocol.
 @y
 @* Connection protocol.
 @d HEX(c) UDR1 = ((c)<10 ? (c)+'0' : (c)-10+'A'); while (!(UCSR1A & 1 << UDRE1)) { }
 @d Hex(c) HEX((c >> 4) & 0x0f); HEX(c & 0x0f);
-@z
-
-@x
-  UDINT &= ~(1 << EORSTI); /* for the interrupt handler to be called for next USB\_RESET */
-@y
-  UDINT &= ~(1 << EORSTI); /* for the interrupt handler to be called for next USB\_RESET */
-  UDR1 = '!'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
 @x

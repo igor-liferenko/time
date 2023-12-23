@@ -34,10 +34,10 @@ void main(void)
   @<Initialize display@>@;
 
   while (1) {
-    UENUM = EP0;
+    UENUM = 0;
     if (UEINTX & 1 << RXSTPI)
       @<Process CONTROL packet@>@;
-    UENUM = EP2;
+    UENUM = 2;
     if (UEINTX & 1 << RXOUTI)
       @<Process OUT packet@>@;
   }

@@ -1,5 +1,4 @@
 % TODO: change `1 << BIT' to `_BV(BIT)'
-% TODO: change `EP0' to `0' etc. and delete `@@d EP...'
 
 \datethis
 \input epsf

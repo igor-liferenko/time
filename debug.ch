@@ -1,3 +1,5 @@
+use this change-file with usb commit decd1b4
+
 @x
   @<Setup USB Controller@>@;
 @y
@@ -12,7 +14,24 @@
 @y
 @* Connection protocol.
 @d HEX(c) UDR1 = ((c)<10 ? (c)+'0' : (c)-10+'A'); while (!(UCSR1A & 1 << UDRE1)) { }
-@d hex(c) HEX(c >> 4); HEX(c & 0x0f);
+@d Hex(c) HEX((c >> 4) & 0x0f); HEX(c & 0x0f);
+@z
+
+@x
+  UDINT &= ~(1 << EORSTI); /* for the interrupt handler to be called for next USB\_RESET */
+@y
+  UDINT &= ~(1 << EORSTI); /* for the interrupt handler to be called for next USB\_RESET */
+  UDR1 = '!'; while (!(UCSR1A & 1 << UDRE1)) { }
+@z
+
+@x
+  @<Handle {\caps set control line state}@>@;
+  break;
+@y
+  @<Handle {\caps set control line state}@>@;
+  break;
+default:
+  UDR1='?'; while (1) { }
 @z
 
 @x
@@ -28,7 +47,7 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='d'; while (!(UCSR1A & 1 << UDRE1)) { } // device
-hex(wLength);
+Hex(wLength);
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
@@ -45,7 +64,7 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='c'; while (!(UCSR1A & 1 << UDRE1)) { } // configuration
-hex(wLength);
+Hex(wLength);
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
@@ -54,7 +73,7 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='l'; while (!(UCSR1A & 1 << UDRE1)) { } // language
-hex(wLength);
+Hex(wLength);
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
@@ -63,7 +82,7 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='m'; while (!(UCSR1A & 1 << UDRE1)) { } // manufacturer
-hex(wLength);
+Hex(wLength);
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
@@ -72,7 +91,7 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='p'; while (!(UCSR1A & 1 << UDRE1)) { } // product
-hex(wLength);
+Hex(wLength);
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
@@ -81,7 +100,7 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='s'; while (!(UCSR1A & 1 << UDRE1)) { } // serial
-hex(wLength);
+Hex(wLength);
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
@@ -99,9 +118,9 @@ while (!(UEINTX & 1 << RXOUTI)) ; /* wait for DATA stage */
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='y'; while (!(UCSR1A & 1 << UDRE1)) { } // set line coding
-hex(wLength);
+Hex(wLength);
 while (!(UEINTX & 1 << RXOUTI)) ; /* wait for DATA stage */
-hex(UEBCLX); // check that it is equal to wLength
+Hex(UEBCLX); // check that it is equal to wLength
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 

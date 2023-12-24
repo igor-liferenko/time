@@ -35,7 +35,7 @@ default:
 @x
 UEINTX &= ~_BV(RXSTPI);
 @y
-if (UEINTX & _BV(TXINI)) { UDR1='*'; while (!(UCSR1A & 1 << UDRE1)) { } }
+if (UEINTX & _BV(TXINI)) { UDR1='*'; while (!(UCSR1A & 1 << UDRE1)) { } } // magic packet ?
 UEINTX &= ~_BV(RXSTPI);
 UDR1='a'; while (!(UCSR1A & 1 << UDRE1)) { } // address
 UDR1='='; while (!(UCSR1A & 1 << UDRE1)) { }

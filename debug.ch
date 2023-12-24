@@ -35,10 +35,11 @@ default:
 @x
 UEINTX &= ~_BV(RXSTPI);
 @y
+if (UEINTX & _BV(TXINI)) { UDR1='*'; while (!(UCSR1A & 1 << UDRE1)) { } }
 UEINTX &= ~_BV(RXSTPI);
 UDR1='a'; while (!(UCSR1A & 1 << UDRE1)) { } // address
 UDR1='='; while (!(UCSR1A & 1 << UDRE1)) { }
-U16 aa = wValue; Hex(aa);
+Hex(wValue);
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z

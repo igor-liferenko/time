@@ -91,28 +91,6 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
-UDR1='m'; while (!(UCSR1A & 1 << UDRE1)) { } // manufacturer
-Hex(wLength);
-if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
-UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
-UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
-@z
-
-@x
-UEINTX &= ~_BV(RXSTPI);
-@y
-UEINTX &= ~_BV(RXSTPI);
-UDR1='p'; while (!(UCSR1A & 1 << UDRE1)) { } // product
-Hex(wLength);
-if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
-UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
-UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
-@z
-
-@x
-UEINTX &= ~_BV(RXSTPI);
-@y
-UEINTX &= ~_BV(RXSTPI);
 UDR1='s'; while (!(UCSR1A & 1 << UDRE1)) { } // serial
 Hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  

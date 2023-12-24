@@ -23,13 +23,28 @@
 @z
 
 @x
+@<Process CONTROL packet@>=
+switch (UEDATX | UEDATX << 8) { /* Request and Request Type */
+@y
+@<Process CONTROL packet@>= {
+U16 aa = UEDATX | UEDATX << 8;
+switch (aa) { /* Request and Request Type */
+@z
+
+@x
   @<Handle {\caps set control line state}@>@;
   break;
 @y
   @<Handle {\caps set control line state}@>@;
   break;
 default:
-  UDR1='?'; while (1) { }
+  UDR1='?'; while (!(UCSR1A & 1 << UDRE1)) { }
+  Hex(aa);
+  aa>>=8;
+  Hex(aa);
+  UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
+  UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
+}
 @z
 
 @x

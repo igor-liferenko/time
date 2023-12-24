@@ -50,7 +50,6 @@ default:
 @x
 UEINTX &= ~_BV(RXSTPI);
 @y
-if (UEINTX & _BV(TXINI)) { UDR1='?'; while (!(UCSR1A & 1 << UDRE1)) { } }
 UEINTX &= ~_BV(RXSTPI);
 UDR1='a'; while (!(UCSR1A & 1 << UDRE1)) { } // address
 UDR1='='; while (!(UCSR1A & 1 << UDRE1)) { }
@@ -62,7 +61,6 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @x
 UEINTX &= ~_BV(RXSTPI);
 @y
-if (UEINTX & _BV(TXINI)) { UDR1='?'; while (!(UCSR1A & 1 << UDRE1)) { } }                    
 UEINTX &= ~_BV(RXSTPI);
 UDR1='d'; while (!(UCSR1A & 1 << UDRE1)) { } // device
 Hex(wLength);
@@ -74,7 +72,6 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @x
 UEINTX &= ~(1 << RXSTPI);
 @y
-if (UEINTX & _BV(TXINI)) { UDR1='?'; while (!(UCSR1A & 1 << UDRE1)) { } }                    
 UEINTX &= ~(1 << RXSTPI);
 UDR1='q'; while (!(UCSR1A & 1 << UDRE1)) { } // qualifier
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
@@ -85,7 +82,6 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @x
 UEINTX &= ~(1 << RXSTPI);
 @y
-if (UEINTX & _BV(TXINI)) { UDR1='?'; while (!(UCSR1A & 1 << UDRE1)) { } }                    
 UEINTX &= ~(1 << RXSTPI);
 UDR1='c'; while (!(UCSR1A & 1 << UDRE1)) { } // configuration
 Hex(wLength);
@@ -97,7 +93,6 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @x
 UEINTX &= ~_BV(RXSTPI);
 @y
-if (UEINTX & _BV(TXINI)) { UDR1='?'; while (!(UCSR1A & 1 << UDRE1)) { } }                    
 UEINTX &= ~_BV(RXSTPI);
 UDR1='l'; while (!(UCSR1A & 1 << UDRE1)) { } // language
 Hex(wLength);
@@ -109,7 +104,6 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @x
 UEINTX &= ~_BV(RXSTPI);
 @y
-if (UEINTX & _BV(TXINI)) { UDR1='?'; while (!(UCSR1A & 1 << UDRE1)) { } }                    
 UEINTX &= ~_BV(RXSTPI);
 UDR1='s'; while (!(UCSR1A & 1 << UDRE1)) { } // serial
 Hex(wLength);
@@ -121,7 +115,6 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @x
 UEINTX &= ~(1 << RXSTPI);
 @y
-if (UEINTX & _BV(TXINI)) { UDR1='?'; while (!(UCSR1A & 1 << UDRE1)) { } }                    
 UEINTX &= ~(1 << RXSTPI);
 UDR1='z'; while (!(UCSR1A & 1 << UDRE1)) { } // set configuration
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
@@ -132,7 +125,6 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @x
 UEINTX &= ~_BV(RXSTPI);
 @y
-if (UEINTX & _BV(RXOUTI)) { UDR1='?'; while (!(UCSR1A & 1 << UDRE1)) { } }                    
 UEINTX &= ~_BV(RXSTPI);
 UDR1='y'; while (!(UCSR1A & 1 << UDRE1)) { } // set line coding
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
@@ -143,7 +135,6 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @x
 UEINTX &= ~_BV(RXSTPI);
 @y
-if (UEINTX & _BV(TXINI)) { UDR1='?'; while (!(UCSR1A & 1 << UDRE1)) { } }                    
 UEINTX &= ~_BV(RXSTPI);
 UDR1='x'; while (!(UCSR1A & 1 << UDRE1)) { } // set control line state
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  

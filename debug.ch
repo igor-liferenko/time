@@ -77,10 +77,15 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
 @x
+(void) UEDATX; @+ (void) UEDATX;
+wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
 @y
+wIndex = UEDATX | UEDATX << 8;
+wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
 UDR1='l'; while (!(UCSR1A & 1 << UDRE1)) { } // language
+if (wIndex) { UDR1='#'; while (!(UCSR1A & 1 << UDRE1)) { } } // lang id ?
 Hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
@@ -88,10 +93,15 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 @z
 
 @x
+(void) UEDATX; @+ (void) UEDATX;
+wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
 @y
+wIndex = UEDATX | UEDATX << 8;
+wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
 UDR1='s'; while (!(UCSR1A & 1 << UDRE1)) { } // serial
+if (wIndex) { UDR1='#'; while (!(UCSR1A & 1 << UDRE1)) { } } // lang id ?
 Hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }

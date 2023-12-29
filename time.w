@@ -3,7 +3,7 @@
 
 \datethis
 \input epsf
-\input ../usb/USB
+\input USB
 
 @s uint8_t int
 
@@ -314,7 +314,7 @@ const uint8_t chr_colon[8][6]
 @t\2@> { 0, 0, 0, 0, 0, 0 } @/
 };
 
-@i ../usb/USB.w
+@i USB.w
 
 @* Headers.
 

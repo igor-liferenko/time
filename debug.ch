@@ -23,13 +23,28 @@
 @z
 
 @x
+  default: @/
+    UECONX |= _BV(STALLRQ);
+    UEINTX &= ~_BV(RXSTPI);
+@y
+  case 0x0600: /* get descriptor device qualifier */
+    UECONX |= _BV(STALLRQ);
+    UEINTX &= ~_BV(RXSTPI);
+    break;
+  default:
+    UDR1='#'; while (!(UCSR1A & 1 << UDRE1)) { }
+    UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
+    UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
+@z
+
+@x
 default: @/
   UEINTX &= ~_BV(RXSTPI);
   while (!(UEINTX & _BV(RXOUTI))) { }
   UEINTX &= ~_BV(RXOUTI);
   UEINTX &= ~_BV(TXINI);
 @y
-case 0x2021:
+case 0x2021: /* set line coding */
   UEINTX &= ~_BV(RXSTPI);
   while (!(UEINTX & _BV(RXOUTI))) { }
   UEINTX &= ~_BV(RXOUTI);

@@ -37,16 +37,7 @@ U16 wLength;
 U16 size;
 const void *buf;
 
-@ The following big switch just dispatches SETUP request.
-If the name of request begins with {\caps set} - it is host to device.
-Data is sent via OUT in data stage.
-Confirmation is done via IN with no data.
-If the name of request begins with {\caps get} - it is device to host.
-Data is sent via IN in data stage.
-Confirmation is done via OUT with no data.
-If |wLength| is not read, it is zero (no data stage).
-
-@<Process CONTROL packet@>=
+@ @<Process CONTROL packet@>=
 switch (UEDATX | UEDATX << 8) { /* Request and Request Type */
 case 0x0500: @/
   @<Handle {\caps set address}@>@;

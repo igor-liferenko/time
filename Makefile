@@ -1,5 +1,5 @@
 all:
-	@echo run "'make hostname'"
+	@echo NoOp
 
 I:
 	tie -c time.ch time.w reverse.ch blink.ch >/dev/null

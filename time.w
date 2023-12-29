@@ -22,13 +22,11 @@ $$\epsfbox{arduino.eps}$$
 
 void main(void)
 {
+  @<Fill in |sn_desc| with serial number@>@;
   @<Setup USB Controller@>@;
   sei();
-  UDCON &= ~(1 << DETACH); /* attach after we prepared interrupts, because
-    USB\_RESET will arrive only after attach, and before it arrives, all interrupts
-    must be already set up; also, there is no need to detect when VBUS becomes
-    high ---~USB\_RESET can arrive only after VBUS is operational anyway, and
-    USB\_RESET is detected via interrupt */
+  UDCON &= ~(1 << DETACH); /* attach after we enabled interrupts, because
+    USB\_RESET (see interrupt handler) arrives after attach */
 
   @<Initialize display@>@;
 
@@ -315,7 +313,6 @@ const uint8_t chr_colon[8][6]
 @t\2@> { 0, 0, 0, 0, 0, 0 } @/
 };
 
-@i ../usb/OUT-endpoint-management.w
 @i ../usb/USB.w
 
 @* Headers.

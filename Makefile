@@ -35,4 +35,7 @@ arduino.eps:
 time.eps:
 	@$(inkscape) time.svg
 
+usb.eps:
+	@$(inkscape) usb.svg
+
 inkscape=inkscape --export-type=eps --export-ps-level=2 -T -o $@ 2>/dev/null

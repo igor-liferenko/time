@@ -1,4 +1,5 @@
 % TODO: change `1 << BIT' to `_BV(BIT)'
+% TODO: move USB.w to this file
 
 \datethis
 \input epsf
@@ -18,7 +19,7 @@ $$\epsfbox{arduino.eps}$$
 @<Global variables@>@;
 @<Character images@>@;
 @<Functions@>@;
-@<Create ISR for connecting to USB host@>@;
+@<Create ISR...@>@;
 
 void main(void)
 {
@@ -26,7 +27,7 @@ void main(void)
   @<Setup USB Controller@>@;
   sei();
   UDCON &= ~(1 << DETACH); /* attach after we enabled interrupts, because
-    USB\_RESET (see interrupt handler) arrives after attach */
+    USB\_RESET arrives after attach */
 
   @<Initialize display@>@;
 

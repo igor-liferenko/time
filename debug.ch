@@ -23,10 +23,20 @@
 @z
 
 @x
-  @<Handle {\caps set control line state}@>@;
-  break;
+default: @/
+  UEINTX &= ~_BV(RXSTPI);
+  while (!(UEINTX & _BV(RXOUTI))) { }
+  UEINTX &= ~_BV(RXOUTI);
+  UEINTX &= ~_BV(TXINI);
 @y
-  @<Handle {\caps set control line state}@>@;
+case 0x2021:
+  UEINTX &= ~_BV(RXSTPI);
+  while (!(UEINTX & _BV(RXOUTI))) { }
+  UEINTX &= ~_BV(RXOUTI);
+  UEINTX &= ~_BV(TXINI);
+  UDR1='@@'; while (!(UCSR1A & 1 << UDRE1)) { }
+  UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
+  UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
   break;
 default:
   UDR1='*'; while (!(UCSR1A & 1 << UDRE1)) { }
@@ -82,7 +92,7 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
-UDR1='s'; while (!(UCSR1A & 1 << UDRE1)) { } // serial
+UDR1='n'; while (!(UCSR1A & 1 << UDRE1)) { } // serial number
 Hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
@@ -93,17 +103,7 @@ UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
 UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
-UDR1='z'; while (!(UCSR1A & 1 << UDRE1)) { } // set configuration
-if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
-UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
-UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }
-@z
-
-@x
-UEINTX &= ~_BV(RXSTPI);
-@y
-UEINTX &= ~_BV(RXSTPI);
-UDR1='y'; while (!(UCSR1A & 1 << UDRE1)) { } // set line coding
+UDR1='s'; while (!(UCSR1A & 1 << UDRE1)) { } // set configuration
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & 1 << UDRE1)) { }  
 UDR1='\r'; while (!(UCSR1A & 1 << UDRE1)) { }
 UDR1='\n'; while (!(UCSR1A & 1 << UDRE1)) { }

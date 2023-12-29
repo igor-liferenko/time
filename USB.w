@@ -4,7 +4,7 @@
 
 @d EP0_SIZE 32 /* 32 bytes (max for atmega32u4) */
 
-@<Create ISR for connecting to USB host@>=
+@<Create ISR for USB\_RESET@>=
 @.ISR@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=ISR@>
   (@.USB\_GEN\_vect@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=USB_GEN_vect@>)
 {
@@ -19,14 +19,14 @@
 }
 
 @ @<Setup USB Controller@>=
-  UHWCON |= _BV(UVREGE);
-  USBCON |= _BV(USBE);
-  PLLCSR = _BV(PINDIV);
-  PLLCSR |= _BV(PLLE);
-  while (!(PLLCSR & _BV(PLOCK))) { }
-  USBCON &= ~_BV(FRZCLK);
-  USBCON |= _BV(OTGPADE);
-  UDIEN |= _BV(EORSTE);
+UHWCON |= _BV(UVREGE);
+USBCON |= _BV(USBE);
+PLLCSR = _BV(PINDIV);
+PLLCSR |= _BV(PLLE);
+while (!(PLLCSR & _BV(PLOCK))) { }
+USBCON &= ~_BV(FRZCLK);
+USBCON |= _BV(OTGPADE);
+UDIEN |= _BV(EORSTE);
 
 @* Connection protocol.
 
@@ -73,12 +73,14 @@ case 0x0680: @/
 case 0x0900: @/
   @<Handle {\caps set configuration}@>@;
   break;
-case 0x2021: @/
-  @<Handle {\caps set line coding}@>@;
-  break;
 case 0x2221: @/
   @<Handle {\caps set control line state}@>@;
   break;
+default: @/
+  UEINTX &= ~_BV(RXSTPI);
+  while (!(UEINTX & _BV(RXOUTI))) { }
+  UEINTX &= ~_BV(RXOUTI);
+  UEINTX &= ~_BV(TXINI);
 }
 
 @ @<Handle {\caps set address}@>=
@@ -191,16 +193,6 @@ UECFG1X = 1 << EPSIZE1; /* 32 bytes\footnote\ddag{Must correspond to |EP3_SIZE|.
 UECFG1X |= 1 << ALLOC;
 
 UENUM = 0;
-UEINTX &= ~_BV(TXINI);
-
-@ This is data (7 bytes): 80 25 00 00 00 00 08
-Just discard the data.
-This is the last request after attachment to host.
-
-@<Handle {\caps set line coding}@>=
-UEINTX &= ~_BV(RXSTPI);
-while (!(UEINTX & _BV(RXOUTI))) { }
-UEINTX &= ~_BV(RXOUTI);
 UEINTX &= ~_BV(TXINI);
 
 @ {\caps set control line state} requests are sent automatically by the driver when

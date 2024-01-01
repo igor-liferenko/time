@@ -4,13 +4,13 @@ prev_reach=0
 while true; do
   <get 'reach' field from 'ntpq -pn'>
   if [ $reach = 377 ]; then
-    clock no-blink
+    [ -e /tmp/time.blink ] && clock no-blink
   elif [ $reach = 0 ]; then
-    clock blink
+    [ -e /tmp/time.blink ] || clock blink
   elif [ $prev_reach -lt $reach ]; then
-    clock no-blink
+    [ -e /tmp/time.blink ] && clock no-blink
   elif [ $prev_reach -gt $reach ]; then
-    clock blink
+    [ -e /tmp/time.blink ] || clock blink
   fi
   prev_reach=$reach
   sleep 60

@@ -1,5 +1,7 @@
 % TODO: change `1 << BIT' to `_BV(BIT)'
-% TODO: move USB.w to this file
+% TODO: delete serial from USB.w and debug.ch
+% TODO: delete `/* 18 bytes\footnote... */'
+% TODO: move from USB.w to this file
 
 \datethis
 \input epsf

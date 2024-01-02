@@ -1,3 +1,5 @@
+cu -l /dev/ttyUSB0 -s 57600 (only RX and GND must be connected to arduino)
+
 @x
   @<Setup USB Controller@>@;
 @y

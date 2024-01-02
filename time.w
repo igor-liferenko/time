@@ -1,6 +1,5 @@
 % TODO: change `1 << BIT' to `_BV(BIT)'
 % TODO: delete serial from USB.w and debug.ch
-% TODO: delete `/* 18 bytes\footnote... */'
 % TODO: move from USB.w to this file
 
 \datethis
@@ -155,12 +154,12 @@ for (uint8_t row = 0; row < 8; row++) {
 }
 
 @ @<Functions@>=
-void display_push(uint8_t address, uint8_t data) 
+void display_push(uint8_t address, uint8_t data)
 {
   SPDR = address;
-  while (~SPSR & 1 << SPIF) ;
+  while (~SPSR & 1 << SPIF) { }
   SPDR = data;
-  while (~SPSR & 1 << SPIF) ; 
+  while (~SPSR & 1 << SPIF) { }
 }
 
 @ @<Functions@>=
@@ -201,7 +200,7 @@ const uint8_t chr_1[8][5]
 
 @ @<Char...@>=
 const uint8_t chr_2[8][5]
-@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/  
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
   { 0, 0, 0, 0, 1 }, @/
@@ -214,7 +213,7 @@ const uint8_t chr_2[8][5]
 
 @ @<Char...@>=
 const uint8_t chr_3[8][5]
-@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/  
+@t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 1, 1, 1, 1, 1 }, @/
   { 0, 0, 0, 1, 0 }, @/
   { 0, 0, 1, 0, 0 }, @/

@@ -93,8 +93,8 @@ else size = wLength;
 buf = &dev_desc;
 while (size) UEDATX = pgm_read_byte(buf++), size--;
 UEINTX &= ~_BV(TXINI);
-while (!(UEINTX & _BV(RXOUTI))) { } 
-UEINTX &= ~_BV(RXOUTI);                  
+while (!(UEINTX & _BV(RXOUTI))) { }
+UEINTX &= ~_BV(RXOUTI);
 
 @ @<Handle {\caps get descriptor configuration}@>=
 (void) UEDATX; @+ (void) UEDATX;
@@ -110,8 +110,8 @@ while (size) {
   for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
   UEINTX &= ~_BV(TXINI);
 }
-while (!(UEINTX & _BV(RXOUTI))) { } 
-UEINTX &= ~_BV(RXOUTI);                  
+while (!(UEINTX & _BV(RXOUTI))) { }
+UEINTX &= ~_BV(RXOUTI);
 
 @ @<Handle {\caps get descriptor string} (language)@>=
 (void) UEDATX; @+ (void) UEDATX;
@@ -153,6 +153,7 @@ see ``Communication Class notification endpoint notice'' in index).
 
 @<Handle {\caps set configuration}@>=
 UEINTX &= ~(1 << RXSTPI);
+UEINTX &= ~_BV(TXINI);
 
 UENUM = 1;
 UECONX &= ~(1 << EPEN);
@@ -180,9 +181,6 @@ UECFG0X = 1 << EPTYPE1 | 1 << EPTYPE0 | 1 << EPDIR; /* interrupt\footnote\dag{Mu
   correspond to |@<Initialize element 6 ...@>|.}, IN */
 UECFG1X = 1 << EPSIZE1; /* 32 bytes\footnote\ddag{Must correspond to |EP3_SIZE|.} */
 UECFG1X |= 1 << ALLOC;
-
-UENUM = 0;
-UEINTX &= ~_BV(TXINI);
 
 @ {\caps set control line state} requests are sent automatically by the driver when
 TTY is opened and closed.
@@ -390,7 +388,7 @@ typedef struct {
 
 @ Interrupt IN endpoint serves when device needs to interrupt host.
 Host sends IN tokens to device at a rate specified here (this endpoint is not used,
-so rate is maximum possible). 
+so rate is maximum possible).
 
 @d IN (1 << 7)
 

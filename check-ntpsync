@@ -1,0 +1,8 @@
+#!/bin/sh
+for i in `uci show system.ntp.server|cut -d= -f2|sed "s/'//g"`; do
+  if ping -c1 $i >/dev/null; then
+    [ -e /tmp/time.blink ] && clock no-blink
+  else
+    [ -e /tmp/time.blink ] || clock blink
+  fi
+done

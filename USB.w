@@ -388,7 +388,7 @@ typedef struct {
 
 @ Interrupt IN endpoint serves when device needs to interrupt host.
 Host sends IN tokens to device at a rate specified here (this endpoint is not used,
-so rate is maximum possible).
+so rate is minimum possible).
 
 @d IN (1 << 7)
 

@@ -106,9 +106,8 @@ if (wLength > sizeof conf_desc) size = sizeof conf_desc;
 else size = wLength;
 buf = &conf_desc;
 while (size) {
-  U8 nb_byte = 0;
   while (!(UEINTX & _BV(TXINI))) { }
-  while (size && nb_byte < EP0_SIZE) UEDATX = pgm_read_byte(buf++), size--, nb_byte++;
+  for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
   UEINTX &= ~_BV(TXINI);
 }
 while (!(UEINTX & _BV(RXOUTI))) { } 
@@ -138,9 +137,8 @@ if (wLength > sizeof sn_desc) size = sizeof sn_desc;
 else size = wLength;
 buf = &sn_desc;
 while (size) {
-  U8 nb_byte = 0;
   while (!(UEINTX & _BV(TXINI))) { }
-  while (size && nb_byte < EP0_SIZE) UEDATX = *(U8 *) buf++, size--, nb_byte++;
+  for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
   UEINTX &= ~_BV(TXINI);
 }
 while (!(UEINTX & _BV(RXOUTI))) { }

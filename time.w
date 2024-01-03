@@ -1,8 +1,6 @@
 % TODO: datasheet says that EP0_SIZE can be 64 bytes - try to do this
 % TODO: datasheet section 21.13 says that all endpoints can be configured before detach - try to do this
 % TODO: change uint8_t to U8
-% TODO: change `1 << BIT' to `_BV(BIT)'
-% TODO: delete serial from USB.w and debug.ch
 
 \datethis
 \input epsf
@@ -31,28 +29,28 @@ void main(void)
   @<Fill in |sn_desc| with serial number@>@;
   @<Setup USB Controller@>@;
   sei();
-  UDCON &= ~(1 << DETACH); /* attach after we enabled interrupts, because
+  UDCON &= ~_BV(DETACH); /* attach after we enabled interrupts, because
     USB\_RESET arrives after attach */
 
   @<Initialize display@>@;
 
   while (1) {
     UENUM = 0;
-    if (UEINTX & 1 << RXSTPI)
+    if (UEINTX & _BV(RXSTPI))
       @<Process CONTROL packet@>@;
     UENUM = 2;
-    if (UEINTX & 1 << RXOUTI)
+    if (UEINTX & _BV(RXOUTI))
       @<Process OUT packet@>@;
   }
 }
 
 @ @<Process OUT packet@>= {
-      UEINTX &= ~(1 << RXOUTI);
+      UEINTX &= ~_BV(RXOUTI);
       char time[8];
       int rx_counter = UEBCLX;
       while (rx_counter--)
         time[7-rx_counter] = UEDATX;
-      UEINTX &= ~(1 << FIFOCON);
+      UEINTX &= ~_BV(FIFOCON);
       if (time[0] == 'A') {
         display_write4(0x0A, time[1]); /* set brightness */
         continue;
@@ -77,12 +75,12 @@ Note, that segments are connected as this: clock and latch are in parallel,
 DIN goes through each segment to DOUT and then to DIN of next segment in the chain.
 
 @<Initialize display@>=
-PORTB |= 1 << PB0; /* on pro-micro led is inverted */
-DDRB |= 1 << PB0; /* disable SPI slave mode (\.{SS} port) */
-DDRB |= 1 << PB1; /* clock */
-DDRB |= 1 << PB2; /* data */
-DDRB |= 1 << PB6; /* latch */
-SPCR |= 1 << MSTR | 1 << SPR1 | 1 << SPE; /* \.{SPR1} means 250 kHz
+PORTB |= _BV(PB0); /* on pro-micro led is inverted */
+DDRB |= _BV(PB0); /* disable SPI slave mode (\.{SS} port) */
+DDRB |= _BV(PB1); /* clock */
+DDRB |= _BV(PB2); /* data */
+DDRB |= _BV(PB6); /* latch */
+SPCR |= _BV(MSTR) | _BV(SPR1) | _BV(SPE); /* \.{SPR1} means 250 kHz
   FIXME: does native wire work without SPR1? does long wire work without SPR1? */
 display_write4(0x0F, 0x00);
 display_write4(0x0C, 0x00);
@@ -154,16 +152,16 @@ for (uint8_t row = 0; row < 8; row++) {
         data |= 1 << 7-i;
     display_push(row+1, data);
   }
-  PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6); /* latch */
+  PORTB |= _BV(PB6); @+ _delay_us(1); @+ PORTB &= ~_BV(PB6); /* latch */
 }
 
 @ @<Functions@>=
 void display_push(uint8_t address, uint8_t data)
 {
   SPDR = address;
-  while (~SPSR & 1 << SPIF) { }
+  while (~SPSR & _BV(SPIF)) { }
   SPDR = data;
-  while (~SPSR & 1 << SPIF) { }
+  while (~SPSR & _BV(SPIF)) { }
 }
 
 @ @<Functions@>=
@@ -173,7 +171,7 @@ void display_write4(uint8_t address, uint8_t data)
   display_push(address, data);
   display_push(address, data);
   display_push(address, data);
-  PORTB |= 1 << PB6; @+ _delay_us(1); @+ PORTB &= ~(1 << PB6); /* latch */
+  PORTB |= _BV(PB6); @+ _delay_us(1); @+ PORTB &= ~_BV(PB6); /* latch */
 }
 
 @ @<Char...@>=
@@ -400,7 +398,7 @@ wValue = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(TXINI);
 UDADDR = wValue & 0x7f;
-while (!(UEINTX & 1 << TXINI)) { } /* see \S22.7 in datasheet */
+while (!(UEINTX & _BV(TXINI))) { } /* see \S22.7 in datasheet */
 UDADDR |= _BV(ADDEN);
 
 @ @<Handle {\caps get descriptor device}@>=
@@ -420,7 +418,7 @@ UEINTX &= ~_BV(RXOUTI);
 @ @<Handle {\caps get descriptor configuration}@>=
 (void) UEDATX; @+ (void) UEDATX;
 wLength = UEDATX | UEDATX << 8;
-UEINTX &= ~(1 << RXSTPI);
+UEINTX &= ~_BV(RXSTPI);
 if (wLength > sizeof conf_desc) size = sizeof conf_desc;
   /* 62 bytes\footnote*{It is not necessary to implment checking if ZLP from \S5.5.3 of USB
      spec needs to be sent.} */
@@ -473,35 +471,35 @@ see ``Communication Class notification endpoint notice'' in index).
 @d EP3_SIZE 32 /* 32 bytes\footnote\dag{Must correspond to |UECFG1X| of EP3.} */
 
 @<Handle {\caps set configuration}@>=
-UEINTX &= ~(1 << RXSTPI);
+UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(TXINI);
 
 UENUM = 1;
-UECONX &= ~(1 << EPEN);
-UECFG1X &= ~(1 << ALLOC);
-UECONX |= 1 << EPEN;
-UECFG0X = 1 << EPTYPE1 | 1 << EPDIR; /* bulk\footnote\dag{Must
+UECONX &= ~_BV(EPEN);
+UECFG1X &= ~_BV(ALLOC);
+UECONX |= _BV(EPEN);
+UECFG0X = _BV(EPTYPE1) | _BV(EPDIR); /* bulk\footnote\dag{Must
   correspond to |@<Initialize element 8 ...@>|.}, IN */
-UECFG1X = 1 << EPSIZE1; /* 32 bytes\footnote\ddag{Must correspond to |EP1_SIZE|.} */
-UECFG1X |= 1 << ALLOC;
+UECFG1X = _BV(EPSIZE1); /* 32 bytes\footnote\ddag{Must correspond to |EP1_SIZE|.} */
+UECFG1X |= _BV(ALLOC);
 
 UENUM = 2;
-UECONX &= ~(1 << EPEN);
-UECFG1X &= ~(1 << ALLOC);
-UECONX |= 1 << EPEN;
-UECFG0X = 1 << EPTYPE1; /* bulk\footnote\dag{Must
+UECONX &= ~_BV(EPEN);
+UECFG1X &= ~_BV(ALLOC);
+UECONX |= _BV(EPEN);
+UECFG0X = _BV(EPTYPE1); /* bulk\footnote\dag{Must
   correspond to |@<Initialize element 9 ...@>|.}, OUT */
-UECFG1X = 1 << EPSIZE1; /* 32 bytes\footnote\ddag{Must correspond to |EP2_SIZE|.} */
-UECFG1X |= 1 << ALLOC;
+UECFG1X = _BV(EPSIZE1); /* 32 bytes\footnote\ddag{Must correspond to |EP2_SIZE|.} */
+UECFG1X |= _BV(ALLOC);
 
 UENUM = 3;
-UECONX &= ~(1 << EPEN);
-UECFG1X &= ~(1 << ALLOC);
-UECONX |= 1 << EPEN;
-UECFG0X = 1 << EPTYPE1 | 1 << EPTYPE0 | 1 << EPDIR; /* interrupt\footnote\dag{Must
+UECONX &= ~_BV(EPEN);
+UECFG1X &= ~_BV(ALLOC);
+UECONX |= _BV(EPEN);
+UECFG0X = _BV(EPTYPE1) | _BV(EPTYPE0) | _BV(EPDIR); /* interrupt\footnote\dag{Must
   correspond to |@<Initialize element 6 ...@>|.}, IN */
-UECFG1X = 1 << EPSIZE1; /* 32 bytes\footnote\ddag{Must correspond to |EP3_SIZE|.} */
-UECFG1X |= 1 << ALLOC;
+UECFG1X = _BV(EPSIZE1); /* 32 bytes\footnote\ddag{Must correspond to |EP3_SIZE|.} */
+UECFG1X |= _BV(ALLOC);
 
 @ {\caps set control line state} requests are sent automatically by the driver when
 TTY is opened and closed.

@@ -4,8 +4,8 @@ cu -l /dev/ttyUSB0 -s 57600
   @<Setup USB Controller@>@;
 @y
   UBRR1 = 34; // table 18-12 in datasheet
-  UCSR1A |= 1 << U2X1;
-  UCSR1B |= 1 << TXEN1;
+  UCSR1A |= _BV(U2X1);
+  UCSR1B |= _BV(TXEN1);
   UDR1 = 'p'; while (!(UCSR1A & _BV(UDRE1))) { } /* this must appear when device is plugged in powered
     usb hub not connected to host (used to ensure that powered usb hub is indeed powered) */
   while (!(USBINT & _BV(VBUSTI))) { }

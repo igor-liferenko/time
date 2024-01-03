@@ -41,9 +41,8 @@ cu -l /dev/ttyUSB0 -s 57600
     UEINTX &= ~_BV(RXSTPI);
     break;
   default:
-    UDR1='#'; while (!(UCSR1A & _BV(UDRE1))) { }
-    UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-    UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
+    cli();
+    UDR1='#'; while (1) { }
 @z
 
 @x
@@ -53,7 +52,14 @@ default: @/
   UEINTX &= ~_BV(RXOUTI);
   UEINTX &= ~_BV(TXINI);
 @y
-case 0x2021: /* set line coding */
+case 0x2021: /* set line coding (this is the last request after attachment to host) */
+  (void) UEDATX; @+ (void) UEDATX;
+  (void) UEDATX; @+ (void) UEDATX;
+  wLength = UEDATX | UEDATX << 8;
+  if (wLength > EP0_SIZE) {
+    cli();
+    UDR1='^'; while (1) { }
+  }
   UEINTX &= ~_BV(RXSTPI);
   while (!(UEINTX & _BV(RXOUTI))) { }
   UEINTX &= ~_BV(RXOUTI);
@@ -63,9 +69,8 @@ case 0x2021: /* set line coding */
   UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
   break;
 default:
-  UDR1='*'; while (!(UCSR1A & _BV(UDRE1))) { }
-  UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-  UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
+  cli();
+  UDR1='*'; while (1) { }
 @z
 
 @x

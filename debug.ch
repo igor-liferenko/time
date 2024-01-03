@@ -79,6 +79,28 @@ default:
 UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
+UDR1='l'; while (!(UCSR1A & _BV(UDRE1))) { } // language
+Hex(wLength);
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
+@z
+
+@x
+UEINTX &= ~_BV(RXSTPI);
+@y
+UEINTX &= ~_BV(RXSTPI);
+UDR1='n'; while (!(UCSR1A & _BV(UDRE1))) { } // serial number
+Hex(wLength);
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
+@z
+
+@x
+UEINTX &= ~_BV(RXSTPI);
+@y
+UEINTX &= ~_BV(RXSTPI);
 UDR1='a'; while (!(UCSR1A & _BV(UDRE1))) { } // address
 UDR1='='; while (!(UCSR1A & _BV(UDRE1))) { }
 Hex(wValue);
@@ -102,28 +124,6 @@ UEINTX &= ~(1 << RXSTPI);
 @y
 UEINTX &= ~(1 << RXSTPI);
 UDR1='c'; while (!(UCSR1A & _BV(UDRE1))) { } // configuration
-Hex(wLength);
-if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
-@z
-
-@x
-UEINTX &= ~_BV(RXSTPI);
-@y
-UEINTX &= ~_BV(RXSTPI);
-UDR1='l'; while (!(UCSR1A & _BV(UDRE1))) { } // language
-Hex(wLength);
-if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
-@z
-
-@x
-UEINTX &= ~_BV(RXSTPI);
-@y
-UEINTX &= ~_BV(RXSTPI);
-UDR1='n'; while (!(UCSR1A & _BV(UDRE1))) { } // serial number
 Hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }

@@ -10,7 +10,9 @@ cu -l /dev/ttyUSB0 -s 57600
     usb hub not connected to host (used to ensure that powered usb hub is indeed powered) */
   while (!(USBINT & _BV(VBUSTI))) { }
   UDR1 = 'v'; while (!(UCSR1A & _BV(UDRE1))) { } /* TODO: check if this appears when device is plugged in
-    powered usb hub not connected to host - if it appears both when powered usb hub is connected and not connected to host - this VBUSTI check is useless, but if there is difference - use it to determine when detach can be done */
+    powered usb hub not connected to host - if it appears both when powered usb hub is connected and not
+    connected to host - this VBUSTI check is useless, but if there is difference - use it to determine
+    when detach can be done */
   while (!(USBSTA & _BV(VBUS))) { } /* TODO: what is this? Should this be used instead of VBUSTI? */
   UDR1 = 'u'; while (!(UCSR1A & _BV(UDRE1))) { }
   @<Setup USB Controller@>@;

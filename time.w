@@ -405,11 +405,10 @@ UDADDR |= _BV(ADDEN);
 (void) UEDATX; @+ (void) UEDATX;
 wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
+buf = &dev_desc; /* 18 bytes */
 if (wLength > sizeof dev_desc) size = sizeof dev_desc;
-  /* 18 bytes\footnote*{It is not necessary to implment checking if ZLP from \S5.5.3 of USB
-     spec needs to be sent.} */
-else size = wLength;
-buf = &dev_desc;
+  /* first part of second condition in \S5.5.3 of USB spec */
+else size = wLength; /* first condition in \S5.5.3 of USB spec */
 while (size) UEDATX = pgm_read_byte(buf++), size--;
 UEINTX &= ~_BV(TXINI);
 while (!(UEINTX & _BV(RXOUTI))) { }
@@ -419,11 +418,10 @@ UEINTX &= ~_BV(RXOUTI);
 (void) UEDATX; @+ (void) UEDATX;
 wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
+buf = &conf_desc; /* 62 bytes */
 if (wLength > sizeof conf_desc) size = sizeof conf_desc;
-  /* 62 bytes\footnote*{It is not necessary to implment checking if ZLP from \S5.5.3 of USB
-     spec needs to be sent.} */
-else size = wLength;
-buf = &conf_desc;
+  /* first part of second condition in \S5.5.3 of USB spec */
+else size = wLength; /* first condition in \S5.5.3 of USB spec */
 while (size) {
   while (!(UEINTX & _BV(TXINI))) { }
   for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
@@ -436,11 +434,10 @@ UEINTX &= ~_BV(RXOUTI);
 (void) UEDATX; @+ (void) UEDATX;
 wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
+buf = &lang_desc; /* 4 bytes */
 if (wLength > sizeof lang_desc) size = sizeof lang_desc;
-  /* 4 bytes\footnote*{It is not necessary to implment checking if ZLP from \S5.5.3 of USB
-     spec needs to be sent.} */
-else size = wLength;
-buf = &lang_desc;
+  /* first part of second condition in \S5.5.3 of USB spec */
+else size = wLength; /* first condition in \S5.5.3 of USB spec */
 while (size) UEDATX = pgm_read_byte(buf++), size--;
 UEINTX &= ~_BV(TXINI);
 while (!(UEINTX & _BV(RXOUTI))) { }
@@ -450,11 +447,10 @@ UEINTX &= ~_BV(RXOUTI);
 (void) UEDATX; @+ (void) UEDATX;
 wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
+buf = &sn_desc; /* 42 bytes */
 if (wLength > sizeof sn_desc) size = sizeof sn_desc;
-  /* 42 bytes\footnote*{It is not necessary to implment checking if ZLP from \S5.5.3 of USB
-     spec needs to be sent.} */
-else size = wLength;
-buf = &sn_desc;
+  /* first part of second condition in \S5.5.3 of USB spec */
+else size = wLength; /* first condition in \S5.5.3 of USB spec */
 while (size) {
   while (!(UEINTX & _BV(TXINI))) { }
   for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;

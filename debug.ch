@@ -120,9 +120,9 @@ UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
-UEINTX &= ~(1 << RXSTPI);
+UEINTX &= ~_BV(RXSTPI);
 @y
-UEINTX &= ~(1 << RXSTPI);
+UEINTX &= ~_BV(RXSTPI);
 UDR1='c'; while (!(UCSR1A & _BV(UDRE1))) { } // configuration
 Hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
@@ -131,9 +131,9 @@ UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
-UEINTX &= ~(1 << RXSTPI);
+UEINTX &= ~_BV(RXSTPI);
 @y
-UEINTX &= ~(1 << RXSTPI);
+UEINTX &= ~_BV(RXSTPI);
 UDR1='s'; while (!(UCSR1A & _BV(UDRE1))) { } // set configuration
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }

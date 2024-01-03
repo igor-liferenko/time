@@ -1,4 +1,4 @@
-cu -l /dev/ttyUSB0 -s 57600 (only RX and GND must be connected to arduino)
+cu -l /dev/ttyUSB0 -s 57600
 
 @x
   @<Setup USB Controller@>@;
@@ -6,6 +6,13 @@ cu -l /dev/ttyUSB0 -s 57600 (only RX and GND must be connected to arduino)
   UBRR1 = 34; // table 18-12 in datasheet
   UCSR1A |= 1 << U2X1;
   UCSR1B |= 1 << TXEN1;
+  UDR1 = 'p'; while (!(UCSR1A & _BV(UDRE1))) { } /* this must appear when device is plugged in powered
+    usb hub not connected to host */
+  while (!(USBINT & _BV(VBUSTI))) { }
+  UDR1 = 'v'; while (!(UCSR1A & _BV(UDRE1))) { } /* TODO: check if this appears when device is plugged in
+    powered usb hub not connected to host */
+  while (!(USBSTA & _BV(VBUS))) { } /* TODO: what is this? */
+  UDR1 = 'u'; while (!(UCSR1A & _BV(UDRE1))) { }
   @<Setup USB Controller@>@;
 @z
 

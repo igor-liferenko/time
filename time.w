@@ -1,3 +1,5 @@
+% TODO: datasheet says that EP0_SIZE can be 64 bytes - try to do this
+% TODO: change uint8_t to U8
 % TODO: change `1 << BIT' to `_BV(BIT)'
 % TODO: delete serial from USB.w and debug.ch
 % TODO: move from USB.w to this file

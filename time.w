@@ -3,11 +3,12 @@
 % TODO: change uint8_t to U8
 % TODO: change `1 << BIT' to `_BV(BIT)'
 % TODO: delete serial from USB.w and debug.ch
-% TODO: move from USB.w to this file
 
 \datethis
 \input epsf
-\input USB
+
+\font\caps=cmcsc10 at 9pt
+\font\greek=greekmu % \let\greek=\relax
 
 @s uint8_t int
 

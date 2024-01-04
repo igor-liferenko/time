@@ -3,6 +3,7 @@ cu -l /dev/ttyUSB0 -s 57600
 @x
   @<Setup USB Controller@>@;
 @y
+  char q_c = 0;
   UBRR1 = 34; // table 18-12 in datasheet
   UCSR1A |= _BV(U2X1);
   UCSR1B |= _BV(TXEN1);
@@ -23,6 +24,8 @@ cu -l /dev/ttyUSB0 -s 57600
 @y
   UDINT &= ~_BV(EORSTI);
   UDR1 = '!'; while (!(UCSR1A & _BV(UDRE1))) { }
+  UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
+  UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
@@ -41,6 +44,8 @@ cu -l /dev/ttyUSB0 -s 57600
   case 0x0600: /* get descriptor device qualifier */
     UECONX |= _BV(STALLRQ);
     UEINTX &= ~_BV(RXSTPI);
+    UDR1='.'; while (!(UCSR1A & _BV(UDRE1))) { }
+    if (++q_c == 3) { UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { } }
     break;
   default:
     cli();
@@ -67,8 +72,7 @@ case 0x2021: /* set line coding */
   UEINTX &= ~_BV(RXOUTI);
   UEINTX &= ~_BV(TXINI);
   UDR1='@@'; while (!(UCSR1A & _BV(UDRE1))) { }
-  UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-  UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
+  UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
   break;
 default:
   cli();
@@ -82,8 +86,7 @@ UEINTX &= ~_BV(RXSTPI);
 UDR1='l'; while (!(UCSR1A & _BV(UDRE1))) { } // language
 Hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
@@ -93,8 +96,7 @@ UEINTX &= ~_BV(RXSTPI);
 UDR1='n'; while (!(UCSR1A & _BV(UDRE1))) { } // serial number
 Hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
@@ -104,8 +106,7 @@ UEINTX &= ~_BV(RXSTPI);
 UDR1='a'; while (!(UCSR1A & _BV(UDRE1))) { } // address
 UDR1='='; while (!(UCSR1A & _BV(UDRE1))) { }
 Hex(wValue);
-UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
@@ -115,8 +116,7 @@ UEINTX &= ~_BV(RXSTPI);
 UDR1='d'; while (!(UCSR1A & _BV(UDRE1))) { } // device
 Hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
@@ -126,8 +126,7 @@ UEINTX &= ~_BV(RXSTPI);
 UDR1='c'; while (!(UCSR1A & _BV(UDRE1))) { } // configuration
 Hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
@@ -136,16 +135,15 @@ UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(RXSTPI);
 UDR1='s'; while (!(UCSR1A & _BV(UDRE1))) { } // set configuration
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
 UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
-UDR1='x'; while (!(UCSR1A & _BV(UDRE1))) { } // set control line state
-if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1='x'; while (!(UCSR1A & _BV(UDRE1))) { } // set control line state
+if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 @z

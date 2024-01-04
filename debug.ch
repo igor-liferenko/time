@@ -1,5 +1,7 @@
 cu -l /dev/ttyUSB0 -s 57600
 
+TODO: add CFGOK checks
+
 @x
   @<Setup USB Controller@>@;
 @y

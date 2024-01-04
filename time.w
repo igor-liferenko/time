@@ -155,9 +155,9 @@ for (U8 row = 0; row < 8; row++) {
 void display_push(U8 address, U8 data)
 {
   SPDR = address;
-  while (~SPSR & _BV(SPIF)) { }
+  while (!(SPSR & _BV(SPIF))) { }
   SPDR = data;
-  while (~SPSR & _BV(SPIF)) { }
+  while (!(SPSR & _BV(SPIF))) { }
 }
 
 @ @<Functions@>=

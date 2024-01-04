@@ -1,12 +1,8 @@
-% TODO: change uint8_t to U8
-
 \datethis
 \input epsf
 
 \font\caps=cmcsc10 at 9pt
 \font\greek=greekmu % \let\greek=\relax
-
-@s uint8_t int
 
 @* Program. Display time from USB using MAX7219 module.
 
@@ -21,6 +17,9 @@ $$\epsfbox{arduino.eps}$$
 @<Character images@>@;
 @<Functions@>@;
 @<Create ISR...@>@;
+
+typedef unsigned char U8;
+typedef unsigned short U16;
 
 void main(void)
 {
@@ -95,7 +94,7 @@ display_write4(0x0B, 0x07);
 display_write4(0x0C, 0x01);
 
 @ @<Global variables@>=
-uint8_t buffer[8][NUM_DEVICES*8];
+U8 buffer[8][NUM_DEVICES*8];
 
 @ First we assemble the images of received characters in buffer, then we display parts
 of buffer corresponding to each device.
@@ -107,13 +106,13 @@ of buffer corresponding to each device.
 @<Display buffer@>@;
 
 @ @d app(c) /* append image of specified character to buffer */
-for (uint8_t i = 0; i < sizeof
+for (U8 i = 0; i < sizeof
                                @t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##c / 8; i++)
   buffer[row][col++] = pgm_read_byte(&@t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##c[row][i])
 
 @<Fill buffer@>=
-for (uint8_t row = 0; row < 8; row++) {
-  uint8_t col = 0;
+for (U8 row = 0; row < 8; row++) {
+  U8 col = 0;
   buffer[row][col++] = 0x00;
   for (char *c = time; *c != '\0'; c++) {
     switch (*c)
@@ -140,11 +139,11 @@ Left device is set first, right device is set last.
 $$\epsfbox{time.eps}$$
 
 @<Display buffer@>=
-for (uint8_t row = 0; row < 8; row++) {
-  uint8_t data;
-  for (uint8_t n = 0; n < NUM_DEVICES; n++) {
+for (U8 row = 0; row < 8; row++) {
+  U8 data;
+  for (U8 n = 0; n < NUM_DEVICES; n++) {
     data = 0x00;
-    for (uint8_t i = 0; i < 8; i++)
+    for (U8 i = 0; i < 8; i++)
       if (buffer[row][n*8+i])
         data |= 1 << 7-i;
     display_push(row+1, data);
@@ -153,7 +152,7 @@ for (uint8_t row = 0; row < 8; row++) {
 }
 
 @ @<Functions@>=
-void display_push(uint8_t address, uint8_t data)
+void display_push(U8 address, U8 data)
 {
   SPDR = address;
   while (~SPSR & _BV(SPIF)) { }
@@ -162,7 +161,7 @@ void display_push(uint8_t address, uint8_t data)
 }
 
 @ @<Functions@>=
-void display_write4(uint8_t address, uint8_t data)
+void display_write4(U8 address, U8 data)
 {
   display_push(address, data);
   display_push(address, data);
@@ -172,7 +171,7 @@ void display_write4(uint8_t address, uint8_t data)
 }
 
 @ @<Char...@>=
-const uint8_t chr_0[8][5]
+const U8 chr_0[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -185,7 +184,7 @@ const uint8_t chr_0[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t chr_1[8][5]
+const U8 chr_1[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 1, 0, 0 }, @/
   { 0, 1, 1, 0, 0 }, @/
@@ -198,7 +197,7 @@ const uint8_t chr_1[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t chr_2[8][5]
+const U8 chr_2[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -211,7 +210,7 @@ const uint8_t chr_2[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t chr_3[8][5]
+const U8 chr_3[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 1, 1, 1, 1, 1 }, @/
   { 0, 0, 0, 1, 0 }, @/
@@ -224,7 +223,7 @@ const uint8_t chr_3[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t chr_4[8][5]
+const U8 chr_4[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 0, 1, 0 }, @/
   { 0, 0, 1, 1, 0 }, @/
@@ -237,7 +236,7 @@ const uint8_t chr_4[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t chr_5[8][5]
+const U8 chr_5[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 1, 1, 1, 1, 1 }, @/
   { 1, 0, 0, 0, 0 }, @/
@@ -250,7 +249,7 @@ const uint8_t chr_5[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t chr_6[8][5]
+const U8 chr_6[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 1, 1, 0 }, @/
   { 0, 1, 0, 0, 0 }, @/
@@ -263,7 +262,7 @@ const uint8_t chr_6[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t chr_7[8][5]
+const U8 chr_7[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 1, 1, 1, 1, 1 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -276,7 +275,7 @@ const uint8_t chr_7[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t chr_8[8][5]
+const U8 chr_8[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -289,7 +288,7 @@ const uint8_t chr_8[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t chr_9[8][5]
+const U8 chr_9[8][5]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 1, 1, 1, 0 }, @/
   { 1, 0, 0, 0, 1 }, @/
@@ -302,7 +301,7 @@ const uint8_t chr_9[8][5]
 };
 
 @ @<Char...@>=
-const uint8_t chr_colon[8][6]
+const U8 chr_colon[8][6]
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   { 0, 0, 0, 0, 0, 0 }, @/
   { 0, 0, 1, 1, 0, 0 }, @/
@@ -476,20 +475,13 @@ wValue = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(TXINI);
 if (wValue == 0) { /* blank the display when TTY is closed */
-  for (uint8_t row = 0; row < 8; row++)
-    for (uint8_t col = 0; col < NUM_DEVICES*8; col++)
+  for (U8 row = 0; row < 8; row++)
+    for (U8 col = 0; col < NUM_DEVICES*8; col++)
       buffer[row][col] = 0x00;
   @<Display buffer@>@;
 }
 
-@* USB stack.
-
-@s U8 int
-@s U16 int
-
-@<Type definitions@>=
-typedef unsigned char U8;
-typedef unsigned short U16;
+@* USB descriptors.
 
 @*1 Device descriptor.
 

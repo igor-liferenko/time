@@ -12,7 +12,7 @@ cu -l /dev/ttyUSB0 -s 57600
   @<Setup USB Controller@>@;
   if (USBSTA & _BV(VBUS)) {
     UDR1 = 'v'; while (!(UCSR1A & _BV(UDRE1))) { }
-    UDR1 = ' '; while (!(UCSR1A & _BV(UDRE1))) { }          
+    UDR1 = ' '; while (!(UCSR1A & _BV(UDRE1))) { }
   }
 @z
 

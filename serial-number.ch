@@ -48,11 +48,8 @@ buf = &sn_desc; /* 42 bytes */
 if (wLength > sizeof sn_desc) size = sizeof sn_desc;
   /* first part of second condition in \S5.5.3 of USB spec */
 else size = wLength; /* first condition in \S5.5.3 of USB spec */
-while (size) {
-  while (!(UEINTX & _BV(TXINI))) { }
-  for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
-  UEINTX &= ~_BV(TXINI);
-}
+while (size) UEDATX = pgm_read_byte(buf++), size--;
+UEINTX &= ~_BV(TXINI);
 while (!(UEINTX & _BV(RXOUTI))) { }
 UEINTX &= ~_BV(RXOUTI);
 

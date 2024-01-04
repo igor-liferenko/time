@@ -1,4 +1,3 @@
-% TODO: datasheet says that EP0_SIZE can be 64 bytes - try to do this
 % TODO: datasheet section 21.13 says that all endpoints can be configured before detach - try to do this
 % TODO: change uint8_t to U8
 
@@ -320,7 +319,7 @@ const uint8_t chr_colon[8][6]
 
 @ \.{USB\_RESET} signal is sent when device is attached and when USB host reboots.
 
-@d EP0_SIZE 32 /* 32 bytes (max for atmega32u4) */
+@d EP0_SIZE 64
 
 @<Create ISR for USB\_RESET@>=
 @.ISR@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=ISR@>
@@ -332,7 +331,7 @@ const uint8_t chr_colon[8][6]
   UECFG1X &= ~_BV(ALLOC);
   UECONX |= _BV(EPEN);
   UECFG0X = 0;
-  UECFG1X = _BV(EPSIZE1); /* 32 bytes\footnote\ddag{Must correspond to |EP0_SIZE|.} */
+  UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1); /* 64 bytes\footnote\ddag{Must correspond to |EP0_SIZE|.} */
   UECFG1X |= _BV(ALLOC);
 }
 
@@ -415,11 +414,8 @@ buf = &conf_desc; /* 62 bytes */
 if (wLength > sizeof conf_desc) size = sizeof conf_desc;
   /* first part of second condition in \S5.5.3 of USB spec */
 else size = wLength; /* first condition in \S5.5.3 of USB spec */
-while (size) {
-  while (!(UEINTX & _BV(TXINI))) { }
-  for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
-  UEINTX &= ~_BV(TXINI);
-}
+while (size) UEDATX = pgm_read_byte(buf++), size--;
+UEINTX &= ~_BV(TXINI);
 while (!(UEINTX & _BV(RXOUTI))) { }
 UEINTX &= ~_BV(RXOUTI);
 

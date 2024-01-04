@@ -54,7 +54,7 @@ default: @/
   UEINTX &= ~_BV(RXOUTI);
   UEINTX &= ~_BV(TXINI);
 @y
-case 0x2021: /* set line coding (this is the last request after attachment to host) */
+case 0x2021: /* set line coding */
   (void) UEDATX; @+ (void) UEDATX;
   (void) UEDATX; @+ (void) UEDATX;
   wLength = UEDATX | UEDATX << 8;

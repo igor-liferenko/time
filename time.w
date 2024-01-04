@@ -1,4 +1,3 @@
-% TODO: datasheet section 21.13 says that all endpoints can be configured before detach - try to do this
 % TODO: change uint8_t to U8
 
 \datethis
@@ -319,6 +318,9 @@ const uint8_t chr_colon[8][6]
 
 @ \.{USB\_RESET} signal is sent when device is attached and when USB host reboots.
 
+TODO: datasheet section 21.13 says that ep0 can be configured before detach - try to do this
+there instead of in ISR
+
 @d EP0_SIZE 64
 
 @<Create ISR for USB\_RESET@>=
@@ -326,6 +328,7 @@ const uint8_t chr_colon[8][6]
   (@.USB\_GEN\_vect@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=USB_GEN_vect@>)
 {
   UDINT &= ~_BV(EORSTI);
+  @#
   UENUM = 0;
   UECONX &= ~_BV(EPEN);
   UECFG1X &= ~_BV(ALLOC);
@@ -333,6 +336,18 @@ const uint8_t chr_colon[8][6]
   UECFG0X = 0;
   UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1); /* 64 bytes\footnote\ddag{Must correspond to |EP0_SIZE|.} */
   UECFG1X |= _BV(ALLOC);
+  @#
+  UENUM = 1;
+  UECONX &= ~_BV(EPEN);
+  UECFG1X &= ~_BV(ALLOC);
+  @#
+  UENUM = 2;
+  UECONX &= ~_BV(EPEN);
+  UECFG1X &= ~_BV(ALLOC);
+  @#
+  UENUM = 3;
+  UECONX &= ~_BV(EPEN);
+  UECFG1X &= ~_BV(ALLOC);
 }
 
 @ @<Setup USB Controller@>=
@@ -431,8 +446,6 @@ UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(TXINI);
 @#
 UENUM = 1;
-UECONX &= ~_BV(EPEN);
-UECFG1X &= ~_BV(ALLOC);
 UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1) | _BV(EPDIR); /* bulk\footnote\dag{Must
   correspond to |@<Initialize element 8 ...@>|.}, IN */
@@ -440,8 +453,6 @@ UECFG1X = 0; /* 8 bytes\footnote\ddag{Must correspond to |EP1_SIZE|.} */
 UECFG1X |= _BV(ALLOC);
 @#
 UENUM = 2;
-UECONX &= ~_BV(EPEN);
-UECFG1X &= ~_BV(ALLOC);
 UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1); /* bulk\footnote\dag{Must
   correspond to |@<Initialize element 9 ...@>|.}, OUT */
@@ -449,8 +460,6 @@ UECFG1X = 0; /* 8 bytes\footnote\ddag{Must correspond to |EP2_SIZE|.} */
 UECFG1X |= _BV(ALLOC);
 @#
 UENUM = 3;
-UECONX &= ~_BV(EPEN);
-UECFG1X &= ~_BV(ALLOC);
 UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1) | _BV(EPTYPE0) | _BV(EPDIR); /* interrupt\footnote\dag{Must
   correspond to |@<Initialize element 6 ...@>|.}, IN */

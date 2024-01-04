@@ -422,39 +422,39 @@ UEINTX &= ~_BV(RXOUTI);
 @ Endpoint 3 (interrupt IN) is not used, but it must be present (for more info
 see ``Communication Class notification endpoint notice'' in index).
 
-@d EP1_SIZE 32 /* 32 bytes\footnote\dag{Must correspond to |UECFG1X| of EP1.} */
-@d EP2_SIZE 32 /* 32 bytes\footnote\dag{Must correspond to |UECFG1X| of EP2.} */
-@d EP3_SIZE 32 /* 32 bytes\footnote\dag{Must correspond to |UECFG1X| of EP3.} */
+@d EP1_SIZE 8
+@d EP2_SIZE 8
+@d EP3_SIZE 8
 
 @<Handle {\caps set configuration}@>=
 UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(TXINI);
-
+@#
 UENUM = 1;
 UECONX &= ~_BV(EPEN);
 UECFG1X &= ~_BV(ALLOC);
 UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1) | _BV(EPDIR); /* bulk\footnote\dag{Must
   correspond to |@<Initialize element 8 ...@>|.}, IN */
-UECFG1X = _BV(EPSIZE1); /* 32 bytes\footnote\ddag{Must correspond to |EP1_SIZE|.} */
+UECFG1X = 0; /* 8 bytes\footnote\ddag{Must correspond to |EP1_SIZE|.} */
 UECFG1X |= _BV(ALLOC);
-
+@#
 UENUM = 2;
 UECONX &= ~_BV(EPEN);
 UECFG1X &= ~_BV(ALLOC);
 UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1); /* bulk\footnote\dag{Must
   correspond to |@<Initialize element 9 ...@>|.}, OUT */
-UECFG1X = _BV(EPSIZE1); /* 32 bytes\footnote\ddag{Must correspond to |EP2_SIZE|.} */
+UECFG1X = 0; /* 8 bytes\footnote\ddag{Must correspond to |EP2_SIZE|.} */
 UECFG1X |= _BV(ALLOC);
-
+@#
 UENUM = 3;
 UECONX &= ~_BV(EPEN);
 UECFG1X &= ~_BV(ALLOC);
 UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1) | _BV(EPTYPE0) | _BV(EPDIR); /* interrupt\footnote\dag{Must
   correspond to |@<Initialize element 6 ...@>|.}, IN */
-UECFG1X = _BV(EPSIZE1); /* 32 bytes\footnote\ddag{Must correspond to |EP3_SIZE|.} */
+UECFG1X = 0; /* 8 bytes\footnote\ddag{Must correspond to |EP3_SIZE|.} */
 UECFG1X |= _BV(ALLOC);
 
 @ {\caps set control line state} requests are sent automatically by the driver when

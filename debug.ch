@@ -3,20 +3,17 @@ cu -l /dev/ttyUSB0 -s 57600
 @x
   @<Setup USB Controller@>@;
 @y
+  UDR1 = 'p'; while (!(UCSR1A & _BV(UDRE1))) { } // power
+  UDR1 = ' '; while (!(UCSR1A & _BV(UDRE1))) { }
   char q_c = 0;
   UBRR1 = 34; // table 18-12 in datasheet
   UCSR1A |= _BV(U2X1);
   UCSR1B |= _BV(TXEN1);
-  UDR1 = 'p'; while (!(UCSR1A & _BV(UDRE1))) { } /* this must appear when device is plugged in powered
-    usb hub not connected to host (used to ensure that powered usb hub is indeed powered) */
-  while (!(USBINT & _BV(VBUSTI))) { }
-  UDR1 = 'v'; while (!(UCSR1A & _BV(UDRE1))) { } /* TODO: check if this appears when device is plugged in
-    powered usb hub not connected to host - if it appears both when powered usb hub is connected and not
-    connected to host - this VBUSTI check is useless, but if there is difference - use it to determine
-    when detach can be done */
-  while (!(USBSTA & _BV(VBUS))) { } /* TODO: what is this? Should this be used instead of VBUSTI? */
-  UDR1 = 'u'; while (!(UCSR1A & _BV(UDRE1))) { }
   @<Setup USB Controller@>@;
+  if (USBSTA & _BV(VBUS)) {
+    UDR1 = 'v'; while (!(UCSR1A & _BV(UDRE1))) { }
+    UDR1 = ' '; while (!(UCSR1A & _BV(UDRE1))) { }          
+  }
 @z
 
 @x

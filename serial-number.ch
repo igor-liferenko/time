@@ -1,15 +1,22 @@
 @x
-@c
+void main(void)
+{
 @y
-@d SERIAL_NUMBER 1
-@c
-@z
-
-@x
-  @<Setup USB Controller@>@;
-@y
-  @<Fill in |sn_desc| with serial number@>@;
-  @<Setup USB Controller@>@;
+void main(void)
+{
+  sn_desc.bLength = sizeof sn_desc;
+  sn_desc.bDescriptorType = 0x03;
+  U8 addr = DS_START_ADDRESS;
+  for (U8 i = 0; i < SN_LENGTH; i++) {
+    U8 c = boot_signature_byte_get(addr);
+    if (i & 1) { /* we divide each byte of signature into halves, each of
+                    which is represented by a hex number */
+      c >>= 4;
+      addr++;
+    }
+    else c &= 0x0F;
+    sn_desc.wString[i] = (c<10 ? c+'0' : c-10+'A');
+  }
 @z
 
 @x
@@ -25,7 +32,7 @@
 @z
 
 @x
-@ @<Handle {\caps set address}@>=
+@* USB descriptors.
 @y
 @ @<Handle {\caps get descriptor string} (language)@>=
 (void) UEDATX; @+ (void) UEDATX;
@@ -53,7 +60,7 @@ UEINTX &= ~_BV(TXINI);
 while (!(UEINTX & _BV(RXOUTI))) { }
 UEINTX &= ~_BV(RXOUTI);
 
-@ @<Handle {\caps set address}@>=
+@* USB descriptors.
 @z
 
 @x
@@ -84,6 +91,7 @@ struct {
 This one is different in that its content cannot be prepared in compile time,
 only in execution time. So, it cannot be stored in program memory.
 
+@d SERIAL_NUMBER 1
 @d DS_LENGTH 10 /* length of device signature */
 @d DS_START_ADDRESS 0x0E
 @d SN_LENGTH (DS_LENGTH * 2) /* length of serial number (multiply because each value in hex) */
@@ -94,23 +102,6 @@ struct {
   U8 bDescriptorType;
   int wString[SN_LENGTH];
 } sn_desc;
-
-@ @d hex(c) c<10 ? c+'0' : c-10+'A'
-
-@<Fill in |sn_desc| with serial number@>=
-sn_desc.bLength = sizeof sn_desc;
-sn_desc.bDescriptorType = 0x03;
-U8 addr = DS_START_ADDRESS;
-for (U8 i = 0; i < SN_LENGTH; i++) {
-  U8 c = boot_signature_byte_get(addr);
-  if (i & 1) { /* we divide each byte of signature into halves, each of
-                  which is represented by a hex number */
-    c >>= 4;
-    addr++;
-  }
-  else c &= 0x0F;
-  sn_desc.wString[i] = hex(c);
-}
 
 @* Headers.
 @z

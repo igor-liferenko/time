@@ -18,9 +18,6 @@ $$\epsfbox{arduino.eps}$$
 @<Functions@>@;
 @<Create ISR...@>@;
 
-typedef unsigned char U8;
-typedef unsigned short U16;
-
 void main(void)
 {
   @<Setup USB Controller@>@;
@@ -40,10 +37,14 @@ void main(void)
   }
 }
 
+@ @<Type definitions@>=
+typedef unsigned char U8;
+typedef unsigned short U16;
+
 @ @<Process OUT packet@>= {
       UEINTX &= ~_BV(RXOUTI);
-      char time[8];
-      int rx_counter = UEBCLX;
+      U8 time[8];
+      U8 rx_counter = UEBCLX;
       while (rx_counter--)
         time[7-rx_counter] = UEDATX;
       UEINTX &= ~_BV(FIFOCON);

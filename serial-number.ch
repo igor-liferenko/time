@@ -20,15 +20,19 @@ void main(void)
 @z
 
 @x
-  default: @/
+  case 0x0200: @/
+    @<Handle {\caps get descriptor configuration}@>@;
+    break;
 @y
+  case 0x0200: @/
+    @<Handle {\caps get descriptor configuration}@>@;
+    break;
   case 0x0300: @/
     @<Handle {\caps get descriptor string} (language)@>@;
     break;
   case 0x0300 | SERIAL_NUMBER: @/
     @<Handle {\caps get descriptor string} (serial)@>@;
     break;
-  default: @/
 @z
 
 @x

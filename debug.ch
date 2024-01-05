@@ -11,7 +11,8 @@ cu -l /dev/ttyUSB0 -s 57600
   UDR1 = '\n'; while (!(UCSR1A & _BV(UDRE1))) { }
   @<Setup USB Controller@>@;
   if (USBSTA & _BV(VBUS)) {
-    UDR1 = 'v'; while (!(UCSR1A & _BV(UDRE1))) { }
+    UDR1 = 'v'; while (!(UCSR1A & _BV(UDRE1))) { } // NOTE: 'v' is printed on powered usb hub
+                                                   // not connected to host
     UDR1 = '\r'; while (!(UCSR1A & _BV(UDRE1))) { }
     UDR1 = '\n'; while (!(UCSR1A & _BV(UDRE1))) { }
   }

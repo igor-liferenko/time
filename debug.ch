@@ -176,6 +176,7 @@ UEINTX &= ~_BV(RXSTPI);
 UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='x'; while (!(UCSR1A & _BV(UDRE1))) { } // set control line state
+UDR1='='; while (!(UCSR1A & _BV(UDRE1))) { }
 hex(wValue);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 @z

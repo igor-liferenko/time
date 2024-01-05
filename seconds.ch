@@ -8,9 +8,9 @@
 @z
 
 @x
-      char time[8];
+      U8 time[8];
 @y
-      char time[9];
+      U8 time[9];
 @z
 
 @x
@@ -21,7 +21,7 @@
 
 @x
   buffer[row][col++] = 0x00;
-  for (char *c = time; *c != '\0'; c++) {
+  for (U8 *c = time; *c != '\0'; c++) {
 @y
-  for (char *c = time+5; *c != '\0'; c++) {
+  for (U8 *c = time+5; *c != '\0'; c++) {
 @z

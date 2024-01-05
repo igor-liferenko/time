@@ -117,7 +117,7 @@ for (U8 i = 0; i < sizeof
 for (U8 row = 0; row < 8; row++) {
   U8 col = 0;
   buffer[row][col++] = 0x00;
-  for (char *c = time; *c != '\0'; c++) {
+  for (U8 *c = time; *c != '\0'; c++) {
     switch (*c)
     {
     case '0': app(0); @+ break;

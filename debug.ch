@@ -13,11 +13,7 @@ cu -l /dev/ttyUSB0 -s 57600
   UDINT &= ~_BV(EORSTI);
 @y
   UDINT &= ~_BV(EORSTI);
-  if (q_c) {
-    UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-    UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
-    q_c = 0;
-  }
+  q_c = 0;
   UDR1 = '!'; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 

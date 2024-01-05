@@ -46,9 +46,8 @@ typedef unsigned short U16;
 @ @<Process OUT packet@>= {
       UEINTX &= ~_BV(RXOUTI);
       U8 time[8];
-      U8 rx_counter = UEBCLX;
-      while (rx_counter--)
-        time[7-rx_counter] = UEDATX;
+      for (U8 c = 0; c < 8; c++)
+        time[c] = UEDATX;
       UEINTX &= ~_BV(FIFOCON);
       if (time[0] == 'A') {
         display_write4(0x0A, time[1]); /* set brightness */

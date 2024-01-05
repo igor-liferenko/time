@@ -4,6 +4,8 @@
 \font\caps=cmcsc10 at 9pt
 \font\greek=greekmu % \let\greek=\relax
 
+\secpagedepth=2
+
 @* Program. Display time from USB using MAX7219 module.
 
 $$\epsfbox{max4.eps}$$

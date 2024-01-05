@@ -6,18 +6,7 @@ cu -l /dev/ttyUSB0 -s 57600
   UBRR1 = 34; // table 18-12 in datasheet
   UCSR1A |= _BV(U2X1);
   UCSR1B |= _BV(TXEN1);
-  UDR1 = '\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-  UDR1 = '\n'; while (!(UCSR1A & _BV(UDRE1))) { }
-  UDR1 = 'p'; while (!(UCSR1A & _BV(UDRE1))) { } // power
-  UDR1 = '\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-  UDR1 = '\n'; while (!(UCSR1A & _BV(UDRE1))) { }
   @<Setup USB Controller@>@;
-  if (USBSTA & _BV(VBUS)) {
-    UDR1 = 'v'; while (!(UCSR1A & _BV(UDRE1))) { } // NOTE: 'v' is printed on powered usb hub
-                                                   // not connected to host
-    UDR1 = '\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-    UDR1 = '\n'; while (!(UCSR1A & _BV(UDRE1))) { }
-  }
 @z
 
 @x
@@ -113,7 +102,6 @@ UEINTX &= ~_BV(RXSTPI);
 UDR1='d'; while (!(UCSR1A & _BV(UDRE1))) { } // device
 hex(wLength);
 if (UDADDR & 0x80) {
-  UDR1='+'; while (!(UCSR1A & _BV(UDRE1))) { }
   UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 }
 else {
@@ -129,7 +117,6 @@ UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(RXSTPI);
 UDR1='c'; while (!(UCSR1A & _BV(UDRE1))) { } // configuration
 hex(wLength);
-if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
@@ -138,7 +125,6 @@ UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
 UDR1='s'; while (!(UCSR1A & _BV(UDRE1))) { } // set configuration
-if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
@@ -181,7 +167,7 @@ UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='x'; while (!(UCSR1A & _BV(UDRE1))) { } // set control line state
 UDR1='='; while (!(UCSR1A & _BV(UDRE1))) { }
 hex(wValue);
-if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
@@ -190,7 +176,6 @@ UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(RXSTPI);
 UDR1='l'; while (!(UCSR1A & _BV(UDRE1))) { } // language
 hex(wLength);
-if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
@@ -200,6 +185,5 @@ UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(RXSTPI);
 UDR1='n'; while (!(UCSR1A & _BV(UDRE1))) { } // serial number
 hex(wLength);
-if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z

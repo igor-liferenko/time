@@ -32,7 +32,7 @@ TODO: add CFGOK checks
 @y
 @* Connection protocol.
 @d HEX(c) UDR1 = ((c)<10 ? (c)+'0' : (c)-10+'A'); while (!(UCSR1A & _BV(UDRE1))) { }
-@d Hex(c) HEX((c >> 4) & 0x0f); HEX(c & 0x0f);
+@d hex(c) HEX((c >> 4) & 0x0f); HEX(c & 0x0f);
 @z
 
 @x
@@ -84,7 +84,7 @@ UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(RXSTPI);
 UDR1='a'; while (!(UCSR1A & _BV(UDRE1))) { } // address
 UDR1='='; while (!(UCSR1A & _BV(UDRE1))) { }
-Hex(wValue);
+hex(wValue);
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
@@ -93,7 +93,7 @@ UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
 UDR1='d'; while (!(UCSR1A & _BV(UDRE1))) { } // device
-Hex(wLength);
+hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
@@ -103,7 +103,7 @@ UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
 UDR1='c'; while (!(UCSR1A & _BV(UDRE1))) { } // configuration
-Hex(wLength);
+hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
@@ -124,7 +124,7 @@ UEINTX &= ~_BV(RXSTPI);
 UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='x'; while (!(UCSR1A & _BV(UDRE1))) { } // set control line state
-Hex(wValue);
+hex(wValue);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
@@ -133,7 +133,7 @@ UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
 UDR1='l'; while (!(UCSR1A & _BV(UDRE1))) { } // language
-Hex(wLength);
+hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
@@ -143,7 +143,7 @@ UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
 UDR1='n'; while (!(UCSR1A & _BV(UDRE1))) { } // serial number
-Hex(wLength);
+hex(wLength);
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z

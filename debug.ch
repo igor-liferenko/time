@@ -6,7 +6,6 @@ cu -l /dev/ttyUSB0 -s 57600
   UDR1 = 'p'; while (!(UCSR1A & _BV(UDRE1))) { } // power
   UDR1 = '\r'; while (!(UCSR1A & _BV(UDRE1))) { }
   UDR1 = '\n'; while (!(UCSR1A & _BV(UDRE1))) { }
-  char q_c = 0;
   UBRR1 = 34; // table 18-12 in datasheet
   UCSR1A |= _BV(U2X1);
   UCSR1B |= _BV(TXEN1);
@@ -43,6 +42,7 @@ cu -l /dev/ttyUSB0 -s 57600
 @x
 @* USB connection.
 @y
+@ @<Global...@>=U8 q_c=0;
 @* USB connection.
 @d HEX(c) UDR1 = ((c)<10 ? (c)+'0' : (c)-10+'A'); while (!(UCSR1A & _BV(UDRE1))) { }
 @d hex(c) HEX((c >> 4) & 0x0f); HEX(c & 0x0f);

@@ -316,7 +316,7 @@ const U8 chr_colon[8][6]
 @t\2@> { 0, 0, 0, 0, 0, 0 } @/
 };
 
-@* Establishing USB connection.
+@* USB setup.
 
 @ \.{USB\_RESET} signal is sent when device is attached and when USB host reboots.
 
@@ -362,7 +362,7 @@ USBCON &= ~_BV(FRZCLK);
 USBCON |= _BV(OTGPADE);
 UDIEN |= _BV(EORSTE);
 
-@* Connection protocol.
+@* USB connection.
 
 @<Global variables@>=
 U16 wValue;

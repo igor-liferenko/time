@@ -1,7 +1,5 @@
 cu -l /dev/ttyUSB0 -s 57600
 
-TODO: add CFGOK checks
-
 @x
   @<Setup USB Controller@>@;
 @y
@@ -28,9 +26,19 @@ TODO: add CFGOK checks
 @z
 
 @x
-@* Connection protocol.
+  UECFG1X |= _BV(ALLOC);
 @y
-@* Connection protocol.
+  UECFG1X |= _BV(ALLOC);
+  if (!(UESTA0X & _BV(CFGOK))) {
+    cli();
+    UDR1='0'; while (1) { }
+  }
+@z
+
+@x
+@* USB connection.
+@y
+@* USB connection.
 @d HEX(c) UDR1 = ((c)<10 ? (c)+'0' : (c)-10+'A'); while (!(UCSR1A & _BV(UDRE1))) { }
 @d hex(c) HEX((c >> 4) & 0x0f); HEX(c & 0x0f);
 @z
@@ -70,7 +78,7 @@ case 0x2021: /* set line coding */
   while (!(UEINTX & _BV(RXOUTI))) { }
   UEINTX &= ~_BV(RXOUTI);
   UEINTX &= ~_BV(TXINI);
-  UDR1='@@'; while (!(UCSR1A & _BV(UDRE1))) { }
+  UDR1='%'; while (!(UCSR1A & _BV(UDRE1))) { }
   UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
   break;
 default:
@@ -115,6 +123,36 @@ UEINTX &= ~_BV(RXSTPI);
 UDR1='s'; while (!(UCSR1A & _BV(UDRE1))) { } // set configuration
 if (UDADDR & 0x80) UDR1='+'; else UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
+@z
+
+@x
+UECFG1X |= _BV(ALLOC);
+@y
+UECFG1X |= _BV(ALLOC);
+if (!(UESTA0X & _BV(CFGOK))) {
+  cli();
+  UDR1='1'; while (1) { }
+}
+@z
+
+@x
+UECFG1X |= _BV(ALLOC);
+@y
+UECFG1X |= _BV(ALLOC);
+if (!(UESTA0X & _BV(CFGOK))) {
+  cli();
+  UDR1='2'; while (1) { }
+}
+@z
+
+@x
+UECFG1X |= _BV(ALLOC);
+@y
+UECFG1X |= _BV(ALLOC);
+if (!(UESTA0X & _BV(CFGOK))) {
+  cli();
+  UDR1='3'; while (1) { }
+}
 @z
 
 @x

@@ -30,7 +30,7 @@ cu -l /dev/ttyUSB0 -s 57600
 @x
 @* USB connection.
 @y
-@ @<Global...@>=U8 q_c=0;
+@ @<Global...@>=U8 q_c;
 @* USB connection.
 @d HEX(c) UDR1 = ((c)<10 ? (c)+'0' : (c)-10+'A'); while (!(UCSR1A & _BV(UDRE1))) { }
 @d hex(c) HEX((c >> 4) & 0x0f); HEX(c & 0x0f);

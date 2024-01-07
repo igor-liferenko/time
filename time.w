@@ -319,9 +319,6 @@ const U8 chr_colon[8][6]
 
 @ \.{USB\_RESET} signal is sent when device is attached and when USB host reboots.
 
-TODO: datasheet section 21.13 says that ep0 can be configured before detach - try to do this
-there instead of in ISR
-
 @d EP0_SIZE 64
 
 @<Create ISR for USB\_RESET@>=
@@ -330,6 +327,8 @@ there instead of in ISR
 {
   UDINT &= ~_BV(EORSTI);
   @#
+  /* TODO: datasheet section 21.13 says that ep0 can be configured before detach - try to do this
+     there instead of in ISR */
   UENUM = 0;
   UECONX &= ~_BV(EPEN);
   UECFG1X &= ~_BV(ALLOC);
@@ -338,6 +337,7 @@ there instead of in ISR
   UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1); /* 64 bytes\footnote\ddag{Must correspond to |EP0_SIZE|.} */
   UECFG1X |= _BV(ALLOC);
   @#
+  /* TODO: try to delete the following */
   UENUM = 1;
   UECONX &= ~_BV(EPEN);
   UECFG1X &= ~_BV(ALLOC);

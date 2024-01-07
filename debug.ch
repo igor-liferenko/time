@@ -97,7 +97,7 @@ UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(RXSTPI);
 UDR1='d'; while (!(UCSR1A & _BV(UDRE1))) { } // device
 hex(wLength);
-if (UDADDR & 0x80) {
+if (UDADDR & _BV(ADDEN)) {
   UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 }
 else {

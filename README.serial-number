@@ -1,6 +1,6 @@
-for i in /sys/bus/usb/devices/[0-9]-[0-9].[0-9]/serial; do
-  [ "$(cat $i)" = 7563031323635141C151 ] && first=/dev/`ls ${i%/*}:1.0/tty`
-  [ "$(cat $i)" = 757323235373516022A0 ] && second=/dev/`ls ${i%/*}:1.0/tty`
+for i in /sys/class/tty/ttyACM*/device/../serial; do
+  [ -e $i ] || break
+  tty=`echo $i | grep -o ttyACM[0-9]*`
+  [ "$(cat $i)" = 7563031323635141C151 ] && first=/dev/$tty
+  [ "$(cat $i)" = 757323235373516022A0 ] && second=/dev/$tty
 done
-
-TODO: use /sys/class/tty/ttyACM0/device/../serial

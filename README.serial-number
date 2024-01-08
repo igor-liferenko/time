@@ -1,5 +1,4 @@
-exec 2>/dev/null
 for i in /sys/class/tty/ttyACM*/device/../serial; do
-  [ "$(cat $i)" = 7563031323635141C151 ] && first=/dev/`echo $i|cut -d/ -f5`
-  [ "$(cat $i)" = 757323235373516022A0 ] && second=/dev/`echo $i|cut -d/ -f5`
+  grep -sq 7563031323635141C151 $i && first=/dev/`echo $i|cut -d/ -f5`
+  grep -sq 757323235373516022A0 $i && second=/dev/`echo $i|cut -d/ -f5`
 done

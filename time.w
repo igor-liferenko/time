@@ -404,8 +404,8 @@ default: @/
 @ @<Handle {\caps set address}@>=
 wValue = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
+UDADDR = wValue;
 UEINTX &= ~_BV(TXINI);
-UDADDR = wValue & 0x7f;
 while (!(UEINTX & _BV(TXINI))) { } /* see \S22.7 in datasheet */
 UDADDR |= _BV(ADDEN);
 

@@ -508,9 +508,9 @@ struct {
   U16 idVendor;
   U16 idProduct;
   U16 bcdDevice; /* device release number */
-  U8 iManufacturer; /* index of manu. string descriptor */
-  U8 iProduct; /* index of prod. string descriptor */
-  U8 iSerialNumber; /* index of S.N. string descriptor */
+  U8 iManufacturer;
+  U8 iProduct;
+  U8 iSerialNumber;
   U8 bNumConfigurations;
 } const dev_desc
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/

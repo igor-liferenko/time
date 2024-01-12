@@ -63,13 +63,13 @@ case 0x2021: /* set line coding */
   (void) UEDATX; @+ (void) UEDATX;
   (void) UEDATX; @+ (void) UEDATX;
   wLength = UEDATX | UEDATX << 8;
+  UEINTX &= ~_BV(RXSTPI);
+  while (!(UEINTX & _BV(RXOUTI))) { }
+  UEINTX &= ~_BV(RXOUTI);
   if (wLength > EP0_SIZE) {
     cli();
     UDR1='^'; while (1) { }
   }
-  UEINTX &= ~_BV(RXSTPI);
-  while (!(UEINTX & _BV(RXOUTI))) { }
-  UEINTX &= ~_BV(RXOUTI);
   UEINTX &= ~_BV(TXINI);
   UDR1='%'; while (!(UCSR1A & _BV(UDRE1))) { }
   UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
@@ -125,36 +125,6 @@ UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
-UECFG1X |= _BV(ALLOC);
-@y
-UECFG1X |= _BV(ALLOC);
-if (!(UESTA0X & _BV(CFGOK))) {
-  cli();
-  UDR1='1'; while (1) { }
-}
-@z
-
-@x
-UECFG1X |= _BV(ALLOC);
-@y
-UECFG1X |= _BV(ALLOC);
-if (!(UESTA0X & _BV(CFGOK))) {
-  cli();
-  UDR1='2'; while (1) { }
-}
-@z
-
-@x
-UECFG1X |= _BV(ALLOC);
-@y
-UECFG1X |= _BV(ALLOC);
-if (!(UESTA0X & _BV(CFGOK))) {
-  cli();
-  UDR1='3'; while (1) { }
-}
-@z
-
-@x
 UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
@@ -182,4 +152,34 @@ UEINTX &= ~_BV(RXSTPI);
 UDR1='n'; while (!(UCSR1A & _BV(UDRE1))) { } // serial number
 hex(wLength);
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
+@z
+
+@x
+UECFG1X |= _BV(ALLOC);
+@y
+UECFG1X |= _BV(ALLOC);
+if (!(UESTA0X & _BV(CFGOK))) {
+  cli();
+  UDR1='1'; while (1) { }
+}
+@z
+
+@x
+UECFG1X |= _BV(ALLOC);
+@y
+UECFG1X |= _BV(ALLOC);
+if (!(UESTA0X & _BV(CFGOK))) {
+  cli();
+  UDR1='2'; while (1) { }
+}
+@z
+
+@x
+UECFG1X |= _BV(ALLOC);
+@y
+UECFG1X |= _BV(ALLOC);
+if (!(UESTA0X & _BV(CFGOK))) {
+  cli();
+  UDR1='3'; while (1) { }
+}
 @z

@@ -1,4 +1,1 @@
-for i in /sys/class/tty/ttyACM*/device/../serial; do
-  grep -sq 7563031323635141C151 $i && first=/dev/`echo $i|cut -d/ -f5`
-  grep -sq 757323235373516022A0 $i && second=/dev/`echo $i|cut -d/ -f5`
-done
+grep -sl 7563031323635141C151 /sys/class/tty/ttyACM*/device/../serial | sed 's%sys/class/tty%dev%;s%/device.*%%'

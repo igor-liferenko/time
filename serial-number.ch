@@ -15,7 +15,7 @@ void main(void)
       addr++;
     }
     else c &= 0x0F;
-    sn_desc.wString[i] = (c<10 ? c+'0' : c-10+'A');
+    sn_desc.wString[i] = c<10 ? c+'0' : c-10+'A';
   }
 @z
 

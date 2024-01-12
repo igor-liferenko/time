@@ -320,6 +320,7 @@ const U8 chr_colon[8][6]
 @ \.{USB\_RESET} signal is sent when device is attached and when USB host reboots.
 
 @d EP0_SIZE 64
+@d EP0_SIZE_CFG (_BV(EPSIZE0) | _BV(EPSIZE1))
 
 @<Create ISR for USB\_RESET@>=
 @.ISR@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=ISR@>
@@ -328,13 +329,13 @@ const U8 chr_colon[8][6]
   UDINT &= ~_BV(EORSTI);
   @#
   /* TODO: datasheet section 21.13 says that ep0 can be configured before detach - try to do this
-     there instead of in ISR */
+     there instead of in ISR (and/or try to delete `de-configure' lines) */
   UENUM = 0;
-  UECONX &= ~_BV(EPEN);
-  UECFG1X &= ~_BV(ALLOC);
+  UECONX &= ~_BV(EPEN); /* de-configure */
+  UECFG1X &= ~_BV(ALLOC); /* de-configure */
   UECONX |= _BV(EPEN);
   UECFG0X = 0;
-  UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1); /* 64 bytes\footnote\ddag{Must correspond to |EP0_SIZE|.} */
+  UECFG1X = EP0_SIZE_CFG;
   UECFG1X |= _BV(ALLOC);
   @#
   /* TODO: try to delete the following */
@@ -435,37 +436,12 @@ UEINTX &= ~_BV(TXINI);
 while (!(UEINTX & _BV(RXOUTI))) { }
 UEINTX &= ~_BV(RXOUTI);
 
-@ Endpoint 3 (interrupt IN) is not used, but it must be present (for more info
-see ``Communication Class notification endpoint notice'' in index).
-
-@d EP1_SIZE 8
-@d EP2_SIZE 8
-@d EP3_SIZE 8
-
-@<Handle {\caps set configuration}@>=
+@ @<Handle {\caps set configuration}@>=
 UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(TXINI);
-@#
-UENUM = 1;
-UECONX |= _BV(EPEN);
-UECFG0X = _BV(EPTYPE1) | _BV(EPDIR); /* bulk\footnote\dag{Must
-  correspond to |@<Initialize element 8 ...@>|.}, IN */
-UECFG1X = 0; /* 8 bytes\footnote\ddag{Must correspond to |EP1_SIZE|.} */
-UECFG1X |= _BV(ALLOC);
-@#
-UENUM = 2;
-UECONX |= _BV(EPEN);
-UECFG0X = _BV(EPTYPE1); /* bulk\footnote\dag{Must
-  correspond to |@<Initialize element 9 ...@>|.}, OUT */
-UECFG1X = 0; /* 8 bytes\footnote\ddag{Must correspond to |EP2_SIZE|.} */
-UECFG1X |= _BV(ALLOC);
-@#
-UENUM = 3;
-UECONX |= _BV(EPEN);
-UECFG0X = _BV(EPTYPE1) | _BV(EPTYPE0) | _BV(EPDIR); /* interrupt\footnote\dag{Must
-  correspond to |@<Initialize element 6 ...@>|.}, IN */
-UECFG1X = 0; /* 8 bytes\footnote\ddag{Must correspond to |EP3_SIZE|.} */
-UECFG1X |= _BV(ALLOC);
+@<Configure EP1@>@;
+@<Configure EP2@>@;
+@<Configure EP3@>@;
 
 @ {\caps set control line state} requests are sent automatically by the driver when
 TTY is opened and closed.
@@ -486,15 +462,6 @@ if (wValue == 0) { /* blank the display when TTY is closed */
 @* USB descriptors.
 
 @*1 Device descriptor.
-
-Placeholder prefixes such as `b', `bcd', and `w' are used to denote placeholder type:
-
-\noindent\hskip40pt\hbox to0pt{\hskip-20pt\it b\hfil} bits or bytes; dependent on context \par
-\noindent\hskip40pt\hbox to0pt{\hskip-20pt\it bcd\hfil} binary-coded decimal \par
-\noindent\hskip40pt\hbox to0pt{\hskip-20pt\it bm\hfil} bitmap \par
-\noindent\hskip40pt\hbox to0pt{\hskip-20pt\it d\hfil} descriptor \par
-\noindent\hskip40pt\hbox to0pt{\hskip-20pt\it i\hfil} index \par
-\noindent\hskip40pt\hbox to0pt{\hskip-20pt\it w\hfil} word \par
 
 @<Global variables@>=
 struct {
@@ -535,11 +502,7 @@ struct {
 Abstract Control Model consists of two interfaces: Data Class interface
 and Communication Class interface.
 
-The Communication Class interface uses two endpoints\footnote*{Although
-CDC spec says that notification endpoint is optional, in Linux host
-driver refuses to work without it. Besides, notifocation endpoint (EP3) can
-be used for DSR signal.},
-@^Communication Class notification endpoint notice@>
+The Communication Class interface uses two endpoints,
 one to implement a notification element and the other to implement
 a management element. The management element uses the default endpoint
 for all standard and Communication Class-specific requests.
@@ -573,10 +536,10 @@ const S_configuration_descriptor conf_desc
   @<Initialize element 3 ...@>, @/
   @<Initialize element 4 ...@>, @/
   @<Initialize element 5 ...@>, @/
-  @<Initialize element 6 ...@>, @/
+  @<EP3 descriptor@>, @/
   @<Initialize element 7 ...@>, @/
-  @<Initialize element 8 ...@>, @/
-@t\2@> @<Initialize element 9 ...@> @/
+  @<EP1 descriptor@>, @/
+@t\2@> @<EP2 descriptor@> @/
 };
 
 @*2 Configuration header descriptor.
@@ -588,8 +551,7 @@ struct {
    U16 wTotalLength;
    U8 bNumInterfaces;
    U8 bConfigurationValue; /* number between 1 and |bNumConfigurations|, for
-     each configuration\footnote\dag{For some reason
-     configurations start numbering with `1', and interfaces and altsettings with `0'.} */
+     each configuration */
    U8 iConfiguration; /* index of string descriptor */
    U8 bmAttibutes;
    U8 MaxPower;
@@ -666,39 +628,53 @@ typedef struct {
 Host sends IN tokens to device at a rate specified here (this endpoint is not used,
 so rate is minimum possible).
 
-@d IN (1 << 7)
-
-@<Initialize element 6 in configuration descriptor@>= { @t\1@> @/
+@<EP3 descriptor@>= { @t\1@> @/
   7, /* size of this structure */
   0x05, /* endpoint */
-  IN | 3, /* this corresponds to `3' in `ep3' on picture */
-  0x03, /* transfers via interrupts\footnote\dag{Must correspond to
-    |UECFG0X| of EP3.} */
-  EP3_SIZE, @/
-@t\2@> 0xFF /* 256 (FIXME: is it `ms'?) */
+  3 | 0x80, /* endpoint number and direction (IN) */
+  0x03, /* transfer type (interrupt) */
+  8, /* size */
+@t\2@> 0xFF @/
 }
 
-@ @<Initialize element 8 in configuration descriptor@>= { @t\1@> @/
+@ @<Configure EP3@>=
+UENUM = 3;
+UECONX |= _BV(EPEN);
+UECFG0X = _BV(EPTYPE0) | _BV(EPTYPE1) | _BV(EPDIR);
+UECFG1X = 0;
+UECFG1X |= _BV(ALLOC);
+
+@ @<EP1 descriptor@>= { @t\1@> @/
   7, /* size of this structure */
   0x05, /* endpoint */
-  IN | 1, /* this corresponds to `1' in `ep1' on picture */
-  0x02, /* bulk transfers\footnote\dag{Must correspond to
-    |UECFG0X| of EP1.} */
-  EP1_SIZE, @/
+  1 | 0x80, /* endpoint number and direction (IN) */
+  0x02, /* transfer type (bulk) */
+  8, /* size */
 @t\2@> 0x00 /* not applicable */
 }
 
-@ @d OUT (0 << 7)
+@ @<Configure EP1@>=
+UENUM = 1;
+UECONX |= _BV(EPEN);
+UECFG0X = _BV(EPTYPE1) | _BV(EPDIR);
+UECFG1X = 0;
+UECFG1X |= _BV(ALLOC);
 
-@<Initialize element 9 in configuration descriptor@>= { @t\1@> @/
+@ @<EP2 descriptor@>= { @t\1@> @/
   7, /* size of this structure */
   0x05, /* endpoint */
-  OUT | 2, /* this corresponds to `2' in `ep2' on picture */
-  0x02, /* bulk transfers\footnote\dag{Must correspond to
-    |UECFG0X| of EP2.} */
-  EP2_SIZE, @/
+  2 | 0x00, /* endpoint number and direction (OUT) */
+  0x02, /* transfer type (bulk) */
+  8, /* size */
 @t\2@> 0x00 /* not applicable */
 }
+
+@ @<Configure EP2@>=
+UENUM = 2;
+UECONX |= _BV(EPEN);
+UECFG0X = _BV(EPTYPE1);
+UECFG1X = 0;
+UECFG1X |= _BV(ALLOC);
 
 @*2 Functional descriptors.
 

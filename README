@@ -4,6 +4,19 @@ Set fuses on new arduino via avrdude -c usbasp -p m32u4 -U efuse:w:0xcb:m -U hfu
 
 ########################################################
 
+If you check it on Gnome desktop, after inserting the device(s) run:
+
+    sudo mmcli --list-modems
+
+Output must be: No modems were found
+If it is not, find a way to disable probe. This may help:
+
+    sudo journalctl --unit ModemManager --follow
+
+(or simply run: sudo systemctl stop ModemManager)
+
+########################################################
+
 If two or 3 USB devices are used, in order that they will be named properly, insert
 them to different ports one by one until two conditions are met:
 

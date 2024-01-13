@@ -1,1 +1,2 @@
+Get device file name by serial number:
 grep -sl 7563031323635141C151 /sys/class/tty/ttyACM*/device/../serial | sed 's%sys/class/tty%dev%;s%/device.*%%'

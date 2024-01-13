@@ -137,24 +137,6 @@ UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
-UEINTX &= ~_BV(RXSTPI);
-@y
-UEINTX &= ~_BV(RXSTPI);
-UDR1='l'; while (!(UCSR1A & _BV(UDRE1))) { } // language
-hex(wLength);
-UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
-@z
-
-@x
-UEINTX &= ~_BV(RXSTPI);
-@y
-UEINTX &= ~_BV(RXSTPI);
-UDR1='n'; while (!(UCSR1A & _BV(UDRE1))) { } // serial number
-hex(wLength);
-UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
-@z
-
-@x
 UECFG1X |= _BV(ALLOC);
 @y
 UECFG1X |= _BV(ALLOC);

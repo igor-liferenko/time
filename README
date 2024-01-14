@@ -67,6 +67,16 @@ In ConnectBot add entry to show/hide seconds using this for "run on connect":
 
 and enable "close when connection disappears"
 
+For setting brightness use this (N is 0, 1 or 2):
+
+    clock N; exit
+    <empty line>
+
+For setting gps use this:
+
+    gpspipe -r
+    <empty line>
+
 ---------------------
 
 Post-install script of ntpd package deletes /usr/sbin/ntpd

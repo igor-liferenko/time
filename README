@@ -72,10 +72,11 @@ For setting brightness use this (N is 0, 1 or 2):
     clock N; exit
     <empty line>
 
-For setting gps use this:
+NOTE: in ConnectBot each entry must have different name (different color is not enough)
 
-    gpspipe -r
-    <empty line>
+---------------------
+
+For setting gps use: gpspipe -r
 
 ---------------------
 

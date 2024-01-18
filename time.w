@@ -463,54 +463,43 @@ if (wValue == 0) { /* blank the display when TTY is closed */
 
 @*1 Device descriptor.
 
+\S9.6.1 in USB spec; \S4.1, \S5.1.1 in CDC spec.
+
 @<Global variables@>=
 struct {
   U8 bLength;
   U8 bDescriptorType;
-  U16 bcdUSB; /* version */
-  U8 bDeviceClass; /* class code assigned by the USB */
-  U8 bDeviceSubClass; /* sub-class code assigned by the USB */
-  U8 bDeviceProtocol; /* protocol code assigned by the USB */
-  U8 bMaxPacketSize0; /* max packet size for EP0 */
+  U16 bcdUSB;
+  U8 bDeviceClass;
+  U8 bDeviceSubClass;
+  U8 bDeviceProtocol;
+  U8 bMaxPacketSize0;
   U16 idVendor;
   U16 idProduct;
-  U16 bcdDevice; /* device release number */
+  U16 bcdDevice;
   U8 iManufacturer;
   U8 iProduct;
   U8 iSerialNumber;
   U8 bNumConfigurations;
 } const dev_desc
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
-  18, /* size of this structure */
-  0x01, /* device */
-  0x0200, /* USB 2.0 */
-  0x02, /* CDC (\S4.1 in CDC spec) */
-  0, /* no subclass */
+  18, @/
+  0x01, @/
+  0x0200, @/
+  0x02, @/
+  0, @/
   0, @/
   EP0_SIZE, @/
-  0x03EB, /* VID (Atmel) */
-  0x2018, /* PID (CDC ACM) */
-  0x1000, /* device revision */
-  0, /* no manufacturer */
-  0, /* no product */
-  0, /* no serial number */
-@t\2@> 1 /* one configuration for this device */
+  0x03EB, @/
+  0x2018, @/
+  0x1000, @/
+  0, @/
+  0, @/
+  0, @/
+@t\2@> 1 @/
 };
 
 @*1 Configuration descriptor.
-
-Abstract Control Model consists of two interfaces: Data Class interface
-and Communication Class interface.
-
-The Communication Class interface uses two endpoints,
-one to implement a notification element and the other to implement
-a management element. The management element uses the default endpoint
-for all standard and Communication Class-specific requests.
-
-Theh Data Class interface consists of two endpoints to implement
-channels over which to carry data.
-
-\S3.4 in CDC spec.
 
 $$\epsfxsize 7cm \epsfbox{usb.eps}$$
 
@@ -527,110 +516,182 @@ struct {
   @<Endpoint descriptor@>@;
 } const conf_desc
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
-  @<Initialize configuration header descriptor@>, @/
-  @<Initialize Communication Class interface descriptor@>, @/
-  @<Initialize header functional descriptor@>, @/
+  @<Initialize Configuration header descriptor@>, @/
+  @<Initialize Communication Class Interface descriptor@>, @/
+  @<Initialize Header functional descriptor@>, @/
   @<Initialize Abstract Control Management functional descriptor@>, @/
-  @<Initialize union functional descriptor@>, @/
+  @<Initialize Union functional descriptor@>, @/
   @<Initialize EP3 descriptor@>, @/
-  @<Initialize Data Class interface descriptor@>, @/
+  @<Initialize Data Class Interface descriptor@>, @/
   @<Initialize EP1 descriptor@>, @/
 @t\2@> @<Initialize EP2 descriptor@> @/
 };
 
-@*2 Configuration header descriptor.
+@ Configuration header descriptor.
+
+\S9.6.3 in USB spec.
 
 @d CONFIGURATION_HEADER_DESCRIPTOR_SIZE 9
 
 @<Configuration header descriptor@>=
-   U8 bLength;
-   U8 bDescriptorType;
-   U16 wTotalLength;
-   U8 bNumInterfaces;
-   U8 bConfigurationValue; /* number between 1 and |bNumConfigurations|, for
-     each configuration */
-   U8 iConfiguration; /* index of string descriptor */
-   U8 bmAttibutes;
-   U8 MaxPower;
+U8 bLength;
+U8 bDescriptorType;
+U16 wTotalLength;
+U8 bNumInterfaces;
+U8 bConfigurationValue;
+U8 iConfiguration;
+U8 bmAttibutes;
+U8 MaxPower;
 
-@ @<Initialize configuration header descriptor@>=
-  CONFIGURATION_HEADER_DESCRIPTOR_SIZE, @/
-  0x02, /* configuration descriptor */
-  CONFIGURATION_HEADER_DESCRIPTOR_SIZE + @/
-  INTERFACE_DESCRIPTOR_SIZE + @/
-  HEADER_FUNCTIONAL_DESCRIPTOR_SIZE + @/
-  ACM_FUNCTIONAL_DESCRIPTOR_SIZE + @/
-  UNION_FUNCTIONAL_DESCRIPTOR_SIZE + @/
-  ENDPOINT_DESCRIPTOR_SIZE + @/
-  INTERFACE_DESCRIPTOR_SIZE + @/
-  ENDPOINT_DESCRIPTOR_SIZE + @/
-  ENDPOINT_DESCRIPTOR_SIZE, /* size of this structure */
-  2, /* two interfaces in this configuration */
-  1, /* this corresponds to `1' in `cfg1' on picture */
-  0, /* no string descriptor */
-  0x80, /* device is powered from bus */
-  0x32 /* device uses 100mA */
+@ Interface descriptor.
 
-@*2 Interface descriptor.
+\S9.6.5 in USB spec.
 
 @d INTERFACE_DESCRIPTOR_SIZE 9
 
 @<Interface descriptor@>=
-   U8 bLength;
-   U8 bDescriptorType;
-   U8 bInterfaceNumber; /* number between 0 and |bNumInterfaces-1|, for
-                           each interface */
-   U8 bAlternativeSetting; /* number starting from 0, for each interface */
-   U8 bNumEndpoints; /* number of EP except EP 0 */
-   U8 bInterfaceClass; /* class code assigned by the USB */
-   U8 bInterfaceSubClass; /* sub-class code assigned by the USB */
-   U8 bInterfaceProtocol; /* protocol code assigned by the USB */
-   U8 iInterface; /* index of string descriptor */
+U8 bLength;
+U8 bDescriptorType;
+U8 bInterfaceNumber;
+U8 bAlternativeSetting;
+U8 bNumEndpoints;
+U8 bInterfaceClass;
+U8 bInterfaceSubClass;
+U8 bInterfaceProtocol;
+U8 iInterface;
 
-@ @<Initialize Communication Class interface descriptor@>=
-  INTERFACE_DESCRIPTOR_SIZE, @/
-  0x04, /* interface descriptor */
-  0, /* this corresponds to `0' in `if0' on picture */
-  0, /* this corresponds to `0' in `alt0' on picture */
-  1, /* one endpoint is used */
-  0x02, /* CDC (\S4.2 in CDC spec) */
-  0x02, /* ACM (\S4.3 in CDC spec) */
-  0x01, /* AT command (\S4.4 in CDC spec) */
-  0 /* not used */
+@ Header functional descriptor.
 
-@ @<Initialize Data Class interface descriptor@>=
-  INTERFACE_DESCRIPTOR_SIZE, @/
-  0x04, /* interface descriptor */
-  1, /* this corresponds to `1' in `if1' on picture */
-  0, /* this corresponds to `0' in `alt0' on picture */
-  2, /* two endpoints are used */
-  0x0A, /* CDC data (\S4.5 in CDC spec) */
-  0x00, /* unused */
-  0x00, /* no protocol */
-  0 /* not used */
+\S5.2.3.1 in CDC spec.
 
-@*2 Endpoint descriptor.
+@d HEADER_FUNCTIONAL_DESCRIPTOR_SIZE 5
+
+@<Header functional descriptor@>=
+U8 bFunctionLength;
+U8 bDescriptorType;
+U8 bDescriptorSubtype;
+U16 bcdCDC;
+
+@ Abstract Control Management functional descriptor.
+
+\S5.2.3.3 in CDC spec.
+
+@d ACM_FUNCTIONAL_DESCRIPTOR_SIZE 4
+
+@<Abstract Control Management functional descriptor@>=
+U8 bFunctionLength;
+U8 bDescriptorType;
+U8 bDescriptorSubtype;
+U8 bmCapabilities;
+
+@ Union functional descriptor.
+
+\S5.2.3.8 in CDC spec.
+
+@d UNION_FUNCTIONAL_DESCRIPTOR_SIZE 5
+
+@<Union functional descriptor@>=
+U8 bFunctionLength;
+U8 bDescriptorType;
+U8 bDescriptorSubtype;
+U8 bMasterInterface;
+U8 bSlaveInterface;
+
+@ Endpoint descriptor.
+
+\S9.6.6 in USB spec.
 
 @d ENDPOINT_DESCRIPTOR_SIZE 7
 
 @<Endpoint descriptor@>=
-  U8 bLength;
-  U8 bDescriptorType;
-  U8 bEndpointAddress;
-  U8 bmAttributes;
-  U16 wMaxPacketSize;
-  U8 bInterval; /* interval for polling EP by host to determine if data is available */
+U8 bLength;
+U8 bDescriptorType;
+U8 bEndpointAddress;
+U8 bmAttributes;
+U16 wMaxPacketSize;
+U8 bInterval;
 
-@ Interrupt IN endpoint serves when device needs to interrupt host (this endpoint is not used).
-Host sends IN tokens to device at a rate specified here.
+@*2 Configuration header descriptor.
+
+\S9.6.3 in USB spec.
+
+@<Initialize Configuration header descriptor@>=
+CONFIGURATION_HEADER_DESCRIPTOR_SIZE, @/
+0x02, @/
+CONFIGURATION_HEADER_DESCRIPTOR_SIZE + @/
+INTERFACE_DESCRIPTOR_SIZE + @/
+HEADER_FUNCTIONAL_DESCRIPTOR_SIZE + @/
+ACM_FUNCTIONAL_DESCRIPTOR_SIZE + @/
+UNION_FUNCTIONAL_DESCRIPTOR_SIZE + @/
+ENDPOINT_DESCRIPTOR_SIZE + @/
+INTERFACE_DESCRIPTOR_SIZE + @/
+ENDPOINT_DESCRIPTOR_SIZE + @/
+ENDPOINT_DESCRIPTOR_SIZE, @/
+2, @/
+1, @/
+0, @/
+1 << 7, @/
+250
+
+@*2 Communication Class Interface descriptor.
+
+\S9.6.5 in USB spec; \S3.3.1, \S4.2, \S4.3, \S4.4 in CDC spec.
+
+@d CONTROL_INTERFACE_NUM 0
+
+@<Initialize Communication Class Interface descriptor@>=
+INTERFACE_DESCRIPTOR_SIZE, @/
+0x04, @/
+CONTROL_INTERFACE_NUM, @/
+0, @/
+1, @/
+0x02, @/
+0x02, @/
+0x01, @/
+0
+
+@*3 Header functional descriptor.
+
+\S5.2.3.1 in CDC spec.
+
+@<Initialize Header functional descriptor@>=
+HEADER_FUNCTIONAL_DESCRIPTOR_SIZE, @/
+0x24, @/
+0x00, @/
+0x0110
+
+@*3 Abstract Control Management functional descriptor.
+
+\S5.2.3.3 in CDC spec.
+
+@<Initialize Abstract Control Management functional descriptor@>=
+ACM_FUNCTIONAL_DESCRIPTOR_SIZE, @/
+0x24, @/
+0x02, @/
+1 << 1
+
+@*3 Union functional descriptor.
+
+\S5.2.3.8 in CDC spec.
+
+@<Initialize Union functional descriptor@>=
+UNION_FUNCTIONAL_DESCRIPTOR_SIZE, @/
+0x24, @/
+0x06, @/
+CONTROL_INTERFACE_NUM, @/
+DATA_INTERFACE_NUM
+
+@*3 EP3 descriptor.
+
+\S9.6.6 in USB spec; \S3.3.1 in CDC spec.
 
 @<Initialize EP3 descriptor@>=
-  ENDPOINT_DESCRIPTOR_SIZE, @/
-  0x05, /* endpoint */
-  3 | 0x80, /* endpoint number and direction (IN) */
-  0x03, /* transfer type (interrupt) */
-  8, /* size */
-  0xFF /* rate is minimum possible */
+ENDPOINT_DESCRIPTOR_SIZE, @/
+0x05, @/
+3 | 1 << 7, @/
+0x03, @/
+8, @/
+0xFF
 
 @ @<Configure EP3@>=
 UENUM = 3;
@@ -639,13 +700,34 @@ UECFG0X = _BV(EPTYPE0) | _BV(EPTYPE1) | _BV(EPDIR);
 UECFG1X = 0;
 UECFG1X |= _BV(ALLOC);
 
-@ @<Initialize EP1 descriptor@>=
-  ENDPOINT_DESCRIPTOR_SIZE, @/
-  0x05, /* endpoint */
-  1 | 0x80, /* endpoint number and direction (IN) */
-  0x02, /* transfer type (bulk) */
-  8, /* size */
-  0x00 /* not applicable for bulk */
+@*3 Data Class Interface descriptor.
+
+\S9.6.5 in USB spec; \S3.3.2, \S4.5 in CDC spec.
+
+@d DATA_INTERFACE_NUM 1
+
+@<Initialize Data Class Interface descriptor@>=
+INTERFACE_DESCRIPTOR_SIZE, @/
+0x04, @/
+DATA_INTERFACE_NUM, @/
+0, @/
+2, @/
+0x0A, @/
+0x00, @/
+0x00, @/
+0
+
+@*4 EP1 descriptor.
+
+\S9.6.6 in USB spec; \S3.3.1 in CDC spec.
+
+@<Initialize EP1 descriptor@>=
+ENDPOINT_DESCRIPTOR_SIZE, @/
+0x05, @/
+1 | 1 << 7, @/
+0x02, @/
+8, @/
+0
 
 @ @<Configure EP1@>=
 UENUM = 1;
@@ -654,13 +736,17 @@ UECFG0X = _BV(EPTYPE1) | _BV(EPDIR);
 UECFG1X = 0;
 UECFG1X |= _BV(ALLOC);
 
-@ @<Initialize EP2 descriptor@>=
-  ENDPOINT_DESCRIPTOR_SIZE, @/
-  0x05, /* endpoint */
-  2 | 0x00, /* endpoint number and direction (OUT) */
-  0x02, /* transfer type (bulk) */
-  8, /* size */
-  0x00 /* not applicable for bulk */
+@*4 EP2 descriptor.
+
+\S9.6.6 in USB spec; \S3.3.1 in CDC spec.
+
+@<Initialize EP2 descriptor@>=
+ENDPOINT_DESCRIPTOR_SIZE, @/
+0x05, @/
+2 | 0, @/
+0x02, @/
+8, @/
+0
 
 @ @<Configure EP2@>=
 UENUM = 2;
@@ -668,81 +754,6 @@ UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1);
 UECFG1X = 0;
 UECFG1X |= _BV(ALLOC);
-
-@*2 Header functional descriptor.
-
-The class-specific descriptor shall start with a header.
-It identifies the release of the USB Class Definitions for
-Communication Devices Specification with which this
-interface and its descriptors comply.
-
-\S5.2.3.1 in CDC spec.
-
-@d HEADER_FUNCTIONAL_DESCRIPTOR_SIZE 5
-
-@<Header functional descriptor@>=
-  U8 bFunctionLength;
-  U8 bDescriptorType;
-  U8 bDescriptorSubtype;
-  U16 bcdCDC;
-
-@ @<Initialize header functional descriptor@>=
-  HEADER_FUNCTIONAL_DESCRIPTOR_SIZE, @/
-  0x24, /* interface */
-  0x00, /* header */
-  0x0110 /* CDC 1.1 */
-
-@*2 Abstract Control Management functional descriptor.
-
-The Abstract Control Management functional descriptor
-describes the commands supported by the Communication
-Class interface, as defined in \S3.6.2 in CDC spec, with the
-SubClass code of Abstract Control Model.
-
-\S5.2.3.3 in CDC spec.
-
-@d ACM_FUNCTIONAL_DESCRIPTOR_SIZE 4
-
-@<Abstract Control Management functional descriptor@>=
-  U8 bFunctionLength;
-  U8 bDescriptorType;
-  U8 bDescriptorSubtype;
-  U8 bmCapabilities;
-
-@ @<Initialize Abstract Control Management functional descriptor@>=
-  ACM_FUNCTIONAL_DESCRIPTOR_SIZE, @/
-  0x24, /* interface */
-  0x02, /* ACM */
-  1 << 1
-
-@*2 Union functional descriptor.
-
-The Union functional descriptor describes the relationship between
-a group of interfaces that can be considered to form
-a functional unit. One of the interfaces in
-the group is designated as a master or controlling interface for
-the group, and certain class-specific messages can be
-sent to this interface to act upon the group as a whole. Similarly,
-notifications for the entire group can be sent from this
-interface but apply to the entire group of interfaces.
-
-\S5.2.3.8 in CDC spec.
-
-@d UNION_FUNCTIONAL_DESCRIPTOR_SIZE 5
-
-@<Union functional descriptor@>=
-  U8 bFunctionLength;
-  U8 bDescriptorType;
-  U8 bDescriptorSubtype;
-  U8 bMasterInterface;
-  U8 bSlaveInterface;
-
-@ @<Initialize union functional descriptor@>=
-  UNION_FUNCTIONAL_DESCRIPTOR_SIZE, @/
-  0x24, /* interface */
-  0x06, /* union */
-  0, /* number of CDC control interface */
-  1 /* number of CDC data interface */
 
 @* Headers.
 

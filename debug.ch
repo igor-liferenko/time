@@ -59,17 +59,10 @@ default: @/
   UEINTX &= ~_BV(RXOUTI);
   UEINTX &= ~_BV(TXINI);
 @y
-case 0x2021: /* set line coding */
-  (void) UEDATX; @+ (void) UEDATX;
-  (void) UEDATX; @+ (void) UEDATX;
-  wLength = UEDATX | UEDATX << 8;
+case 0x2021: /* set line coding (Table 50 in CDC spec) */
   UEINTX &= ~_BV(RXSTPI);
   while (!(UEINTX & _BV(RXOUTI))) { }
   UEINTX &= ~_BV(RXOUTI);
-  if (wLength > EP0_SIZE) {
-    cli();
-    UDR1='^'; while (1) { }
-  }
   UEINTX &= ~_BV(TXINI);
   UDR1='%'; while (!(UCSR1A & _BV(UDRE1))) { }
   UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }

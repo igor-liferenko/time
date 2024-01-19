@@ -38,38 +38,38 @@ cu -l /dev/ttyUSB0 -s 57600
 
 @x
   default: @/
-    UECONX |= _BV(STALLRQ);
-    UEINTX &= ~_BV(RXSTPI);
 @y
   case 0x0600: /* get descriptor device qualifier */
-    UECONX |= _BV(STALLRQ);
-    UEINTX &= ~_BV(RXSTPI);
+@z
+
+@x
+  }
+@y
     UDR1='.'; while (!(UCSR1A & _BV(UDRE1))) { }
     if (++q_c == 3) { UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { } }
     break;
   default:
     cli();
     UDR1='#'; while (1) { }
+  }
 @z
 
 @x
 default: @/
-  UEINTX &= ~_BV(RXSTPI);
-  while (!(UEINTX & _BV(RXOUTI))) { }
-  UEINTX &= ~_BV(RXOUTI);
-  UEINTX &= ~_BV(TXINI);
 @y
 case 0x2021: /* set line coding (Table 50 in CDC spec) */
-  UEINTX &= ~_BV(RXSTPI);
-  while (!(UEINTX & _BV(RXOUTI))) { }
-  UEINTX &= ~_BV(RXOUTI);
-  UEINTX &= ~_BV(TXINI);
+@z
+
+@x
+}
+@y
   UDR1='%'; while (!(UCSR1A & _BV(UDRE1))) { }
   UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
   break;
 default:
   cli();
   UDR1='*'; while (1) { }
+}
 @z
 
 @x

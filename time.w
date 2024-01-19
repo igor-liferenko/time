@@ -527,90 +527,6 @@ struct {
 @t\2@> @<Initialize EP2 descriptor@> @/
 };
 
-@ Configuration header descriptor.
-
-\S9.6.3 in USB spec.
-
-@d CONFIGURATION_HEADER_DESCRIPTOR_SIZE 9
-
-@<Configuration header descriptor@>=
-U8 bLength;
-U8 bDescriptorType;
-U16 wTotalLength;
-U8 bNumInterfaces;
-U8 bConfigurationValue;
-U8 iConfiguration;
-U8 bmAttibutes;
-U8 MaxPower;
-
-@ Interface descriptor.
-
-\S9.6.5 in USB spec.
-
-@d INTERFACE_DESCRIPTOR_SIZE 9
-
-@<Interface descriptor@>=
-U8 bLength;
-U8 bDescriptorType;
-U8 bInterfaceNumber;
-U8 bAlternativeSetting;
-U8 bNumEndpoints;
-U8 bInterfaceClass;
-U8 bInterfaceSubClass;
-U8 bInterfaceProtocol;
-U8 iInterface;
-
-@ Header functional descriptor.
-
-\S5.2.3.1 in CDC spec.
-
-@d HEADER_FUNCTIONAL_DESCRIPTOR_SIZE 5
-
-@<Header functional descriptor@>=
-U8 bFunctionLength;
-U8 bDescriptorType;
-U8 bDescriptorSubtype;
-U16 bcdCDC;
-
-@ Abstract Control Management functional descriptor.
-
-\S5.2.3.3 in CDC spec.
-
-@d ACM_FUNCTIONAL_DESCRIPTOR_SIZE 4
-
-@<Abstract Control Management functional descriptor@>=
-U8 bFunctionLength;
-U8 bDescriptorType;
-U8 bDescriptorSubtype;
-U8 bmCapabilities;
-
-@ Union functional descriptor.
-
-\S5.2.3.8 in CDC spec.
-
-@d UNION_FUNCTIONAL_DESCRIPTOR_SIZE 5
-
-@<Union functional descriptor@>=
-U8 bFunctionLength;
-U8 bDescriptorType;
-U8 bDescriptorSubtype;
-U8 bMasterInterface;
-U8 bSlaveInterface;
-
-@ Endpoint descriptor.
-
-\S9.6.6 in USB spec.
-
-@d ENDPOINT_DESCRIPTOR_SIZE 7
-
-@<Endpoint descriptor@>=
-U8 bLength;
-U8 bDescriptorType;
-U8 bEndpointAddress;
-U8 bmAttributes;
-U16 wMaxPacketSize;
-U8 bInterval;
-
 @*2 Configuration header descriptor.
 
 \S9.6.3 in USB spec.
@@ -754,6 +670,92 @@ UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1);
 UECFG1X = 0;
 UECFG1X |= _BV(ALLOC);
+
+@*2 \bf Configuration descriptor headers.
+
+@ Configuration header descriptor.
+
+\S9.6.3 in USB spec.
+
+@d CONFIGURATION_HEADER_DESCRIPTOR_SIZE 9
+
+@<Configuration header descriptor@>=
+U8 bLength;
+U8 bDescriptorType;
+U16 wTotalLength;
+U8 bNumInterfaces;
+U8 bConfigurationValue;
+U8 iConfiguration;
+U8 bmAttibutes;
+U8 MaxPower;
+
+@ Interface descriptor.
+
+\S9.6.5 in USB spec.
+
+@d INTERFACE_DESCRIPTOR_SIZE 9
+
+@<Interface descriptor@>=
+U8 bLength;
+U8 bDescriptorType;
+U8 bInterfaceNumber;
+U8 bAlternativeSetting;
+U8 bNumEndpoints;
+U8 bInterfaceClass;
+U8 bInterfaceSubClass;
+U8 bInterfaceProtocol;
+U8 iInterface;
+
+@ Header functional descriptor.
+
+\S5.2.3.1 in CDC spec.
+
+@d HEADER_FUNCTIONAL_DESCRIPTOR_SIZE 5
+
+@<Header functional descriptor@>=
+U8 bFunctionLength;
+U8 bDescriptorType;
+U8 bDescriptorSubtype;
+U16 bcdCDC;
+
+@ Abstract Control Management functional descriptor.
+
+\S5.2.3.3 in CDC spec.
+
+@d ACM_FUNCTIONAL_DESCRIPTOR_SIZE 4
+
+@<Abstract Control Management functional descriptor@>=
+U8 bFunctionLength;
+U8 bDescriptorType;
+U8 bDescriptorSubtype;
+U8 bmCapabilities;
+
+@ Union functional descriptor.
+
+\S5.2.3.8 in CDC spec.
+
+@d UNION_FUNCTIONAL_DESCRIPTOR_SIZE 5
+
+@<Union functional descriptor@>=
+U8 bFunctionLength;
+U8 bDescriptorType;
+U8 bDescriptorSubtype;
+U8 bMasterInterface;
+U8 bSlaveInterface;
+
+@ Endpoint descriptor.
+
+\S9.6.6 in USB spec.
+
+@d ENDPOINT_DESCRIPTOR_SIZE 7
+
+@<Endpoint descriptor@>=
+U8 bLength;
+U8 bDescriptorType;
+U8 bEndpointAddress;
+U8 bmAttributes;
+U16 wMaxPacketSize;
+U8 bInterval;
 
 @* Headers.
 

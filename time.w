@@ -499,12 +499,14 @@ struct {
   0, @/
   0, @/
   0, @/
-@t\2@> 1 /* only one configuration can be active at a time */
+@t\2@> 1 @/
 };
 
 @*1 Configuration descriptor.
 
 $$\epsfxsize 7cm \epsfbox{usb.eps}$$
+
+@d CONFIGURATION_NUM 1 /* 1-based (Descriptor Index is 0-based) */
 
 @<Global variables@>=
 struct {
@@ -533,8 +535,6 @@ struct {
 @*2 Configuration header descriptor.
 
 \S9.6.3 in USB spec.
-
-@d CONFIGURATION_NUM 1
 
 @<Initialize Configuration header descriptor@>=
 CONFIGURATION_HEADER_DESCRIPTOR_SIZE, @/

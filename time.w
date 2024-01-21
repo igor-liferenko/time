@@ -350,6 +350,14 @@ const U8 chr_colon[8][6]
   UENUM = 3;
   UECONX &= ~_BV(EPEN);
   UECFG1X &= ~_BV(ALLOC);
+  @#
+  UENUM = 4;
+  UECONX &= ~_BV(EPEN);
+  UECFG1X &= ~_BV(ALLOC);
+  @#
+  UENUM = 5;
+  UECONX &= ~_BV(EPEN);
+  UECFG1X &= ~_BV(ALLOC);
 }
 
 @ @<Setup USB Controller@>=
@@ -427,12 +435,15 @@ UEINTX &= ~_BV(RXOUTI);
 (void) UEDATX; @+ (void) UEDATX;
 wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
-buf = &conf_desc; /* 62 bytes */
+buf = &conf_desc; /* 86 bytes */
 if (wLength > sizeof conf_desc) size = sizeof conf_desc;
   /* first part of second condition in \S5.5.3 of USB spec */
 else size = wLength; /* first condition in \S5.5.3 of USB spec */
-while (size) UEDATX = pgm_read_byte(buf++), size--;
-UEINTX &= ~_BV(TXINI);
+while (size) {
+  while (!(UEINTX & _BV(TXINI))) { }
+  for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
+  UEINTX &= ~_BV(TXINI);
+}
 while (!(UEINTX & _BV(RXOUTI))) { }
 UEINTX &= ~_BV(RXOUTI);
 
@@ -442,6 +453,8 @@ UEINTX &= ~_BV(TXINI);
 @<Configure EP1@>@;
 @<Configure EP2@>@;
 @<Configure EP3@>@;
+@<Configure EP4@>@;
+@<Configure EP5@>@;
 
 @ {\caps set control line state} requests are sent automatically by the driver when
 TTY is opened and closed.
@@ -514,6 +527,9 @@ struct {
   @<Interface descriptor@>@;
   @<Endpoint descriptor@>@;
   @<Endpoint descriptor@>@;
+  @<Interface descriptor@>@;
+  @<Endpoint descriptor@>@;
+  @<Endpoint descriptor@>@;
 } const conf_desc
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   @<Initialize Configuration header descriptor@>, @/
@@ -521,10 +537,13 @@ struct {
   @<Initialize Header functional descriptor@>, @/
   @<Initialize Abstract Control Management functional descriptor@>, @/
   @<Initialize Union functional descriptor@>, @/
-  @<Initialize EP3 descriptor@>, @/
-  @<Initialize Data Class Interface descriptor@>, @/
+  @<Initialize EP5 descriptor@>, @/
+  @<Initialize first Data Class Interface descriptor@>, @/
   @<Initialize EP1 descriptor@>, @/
-@t\2@> @<Initialize EP2 descriptor@> @/
+  @<Initialize EP2 descriptor@>, @/
+  @<Initialize second Data Class Interface descriptor@>, @/
+  @<Initialize EP3 descriptor@>, @/
+@t\2@> @<Initialize EP4 descriptor@> @/
 };
 
 @*2 Configuration header descriptor.
@@ -539,6 +558,9 @@ INTERFACE_DESCRIPTOR_SIZE + @/
 HEADER_FUNCTIONAL_DESCRIPTOR_SIZE + @/
 ACM_FUNCTIONAL_DESCRIPTOR_SIZE + @/
 UNION_FUNCTIONAL_DESCRIPTOR_SIZE + @/
+ENDPOINT_DESCRIPTOR_SIZE + @/
+INTERFACE_DESCRIPTOR_SIZE + @/
+ENDPOINT_DESCRIPTOR_SIZE + @/
 ENDPOINT_DESCRIPTOR_SIZE + @/
 INTERFACE_DESCRIPTOR_SIZE + @/
 ENDPOINT_DESCRIPTOR_SIZE + @/
@@ -595,22 +617,23 @@ UNION_FUNCTIONAL_DESCRIPTOR_SIZE, @/
 0x24, @/
 0x06, @/
 CONTROL_INTERFACE_NUM, @/
-DATA_INTERFACE_NUM
+DATA_INTERFACE1_NUM, @/
+DATA_INTERFACE2_NUM
 
-@*3 EP3 descriptor.
+@*3 EP5 descriptor.
 
 \S9.6.6 in USB spec; \S3.3.1 in CDC spec.
 
-@<Initialize EP3 descriptor@>=
+@<Initialize EP5 descriptor@>=
 ENDPOINT_DESCRIPTOR_SIZE, @/
 0x05, @/
-3 | 1 << 7, @/
+5 | 1 << 7, @/
 0x03, @/
 8, @/
 0xFF
 
-@ @<Configure EP3@>=
-UENUM = 3;
+@ @<Configure EP5@>=
+UENUM = 5;
 UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE0) | _BV(EPTYPE1) | _BV(EPDIR);
 UECFG1X = 0;
@@ -620,12 +643,12 @@ UECFG1X |= _BV(ALLOC);
 
 \S9.6.5 in USB spec; \S3.3.2, \S4.5 in CDC spec.
 
-@d DATA_INTERFACE_NUM 1
+@d DATA_INTERFACE1_NUM 1
 
-@<Initialize Data Class Interface descriptor@>=
+@<Initialize first Data Class Interface descriptor@>=
 INTERFACE_DESCRIPTOR_SIZE, @/
 0x04, @/
-DATA_INTERFACE_NUM, @/
+DATA_INTERFACE1_NUM, @/
 0, @/
 2, @/
 0x0A, @/
@@ -666,6 +689,61 @@ ENDPOINT_DESCRIPTOR_SIZE, @/
 
 @ @<Configure EP2@>=
 UENUM = 2;
+UECONX |= _BV(EPEN);
+UECFG0X = _BV(EPTYPE1);
+UECFG1X = 0;
+UECFG1X |= _BV(ALLOC);
+
+@*3 Data Class Interface descriptor.
+
+\S9.6.5 in USB spec; \S3.3.2, \S4.5 in CDC spec.
+
+@d DATA_INTERFACE2_NUM 2
+
+@<Initialize second Data Class Interface descriptor@>=
+INTERFACE_DESCRIPTOR_SIZE, @/
+0x04, @/
+DATA_INTERFACE2_NUM, @/
+0, @/
+2, @/
+0x0A, @/
+0x00, @/
+0x00, @/
+0
+
+@*4 EP3 descriptor.
+
+\S9.6.6 in USB spec; \S3.3.1 in CDC spec.
+
+@<Initialize EP3 descriptor@>=
+ENDPOINT_DESCRIPTOR_SIZE, @/
+0x05, @/
+3 | 1 << 7, @/
+0x02, @/
+8, @/
+0
+
+@ @<Configure EP3@>=
+UENUM = 3;
+UECONX |= _BV(EPEN);
+UECFG0X = _BV(EPTYPE1) | _BV(EPDIR);
+UECFG1X = 0;
+UECFG1X |= _BV(ALLOC);
+
+@*4 EP4 descriptor.
+
+\S9.6.6 in USB spec; \S3.3.1 in CDC spec.
+
+@<Initialize EP4 descriptor@>=
+ENDPOINT_DESCRIPTOR_SIZE, @/
+0x05, @/
+4 | 0, @/
+0x02, @/
+8, @/
+0
+
+@ @<Configure EP4@>=
+UENUM = 4;
 UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1);
 UECFG1X = 0;
@@ -734,14 +812,15 @@ U8 bmCapabilities;
 
 \S5.2.3.8 in CDC spec.
 
-@d UNION_FUNCTIONAL_DESCRIPTOR_SIZE 5
+@d UNION_FUNCTIONAL_DESCRIPTOR_SIZE 6
 
 @<Union functional descriptor@>=
 U8 bFunctionLength;
 U8 bDescriptorType;
 U8 bDescriptorSubtype;
 U8 bMasterInterface;
-U8 bSlaveInterface;
+U8 bSlaveInterface0;
+U8 bSlaveInterface1;
 
 @ Endpoint descriptor.
 

@@ -584,7 +584,7 @@ HEADER_FUNCTIONAL_DESCRIPTOR_SIZE, @/
 ACM_FUNCTIONAL_DESCRIPTOR_SIZE, @/
 0x24, @/
 0x02, @/
-1 << 1
+0
 
 @*3 Union functional descriptor.
 

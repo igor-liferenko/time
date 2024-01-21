@@ -158,23 +158,3 @@ if (!(UESTA0X & _BV(CFGOK))) {
   UDR1='3'; while (1) { }
 }
 @z
-
-@x
-UECFG1X |= _BV(ALLOC);
-@y
-UECFG1X |= _BV(ALLOC);
-if (!(UESTA0X & _BV(CFGOK))) {
-  cli();
-  UDR1='4'; while (1) { }
-}
-@z
-
-@x
-UECFG1X |= _BV(ALLOC);
-@y
-UECFG1X |= _BV(ALLOC);
-if (!(UESTA0X & _BV(CFGOK))) {
-  cli();
-  UDR1='5'; while (1) { }
-}
-@z

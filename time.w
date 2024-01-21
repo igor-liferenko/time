@@ -437,11 +437,14 @@ while (!(UEINTX & _BV(RXOUTI))) { }
 UEINTX &= ~_BV(RXOUTI);
 
 @ @<Handle {\caps set configuration}@>=
+wValue = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(TXINI);
-@<Configure EP1@>@;
-@<Configure EP2@>@;
-@<Configure EP3@>@;
+if (wValue == CONFIGURATION_NUM) {
+  @<Configure EP1@>@;
+  @<Configure EP2@>@;
+  @<Configure EP3@>@;
+}
 
 @ {\caps set control line state} requests are sent automatically by the driver when
 TTY is opened and closed.
@@ -496,7 +499,7 @@ struct {
   0, @/
   0, @/
   0, @/
-@t\2@> 1 @/
+@t\2@> 1 /* only one configuration can be active at a time */
 };
 
 @*1 Configuration descriptor.
@@ -531,6 +534,8 @@ struct {
 
 \S9.6.3 in USB spec.
 
+@d CONFIGURATION_NUM 1
+
 @<Initialize Configuration header descriptor@>=
 CONFIGURATION_HEADER_DESCRIPTOR_SIZE, @/
 0x02, @/
@@ -544,7 +549,7 @@ INTERFACE_DESCRIPTOR_SIZE + @/
 ENDPOINT_DESCRIPTOR_SIZE + @/
 ENDPOINT_DESCRIPTOR_SIZE, @/
 2, @/
-1, @/
+CONFIGURATION_NUM, @/
 0, @/
 1 << 7, @/
 250

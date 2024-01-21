@@ -114,6 +114,8 @@ UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
 UDR1='s'; while (!(UCSR1A & _BV(UDRE1))) { } // set configuration
+UDR1='='; while (!(UCSR1A & _BV(UDRE1))) { }
+hex(wValue);
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 

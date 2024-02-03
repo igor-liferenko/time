@@ -464,7 +464,7 @@ if (wValue == 0) { /* blank the display when TTY is closed */
 
 @*1 Device descriptor.
 
-\S9.6.1 in USB spec; \S4.1, \S5.1.1 in CDC spec.
+\S9.6.1 in USB spec; \S5.1.1 in CDC spec.
 
 @<Global variables@>=
 struct {
@@ -487,9 +487,9 @@ struct {
   18, @/
   0x01, @/
   0x0200, @/
-  0x02, @/
-  0, @/
-  0, @/
+  0x02, /* Communication Device class */
+  0x00, /* unused */
+  0x00, /* unused */
   EP0_SIZE, @/
   0x03EB, @/
   0x2018, @/
@@ -504,7 +504,7 @@ struct {
 
 @<Global variables@>=
 struct {
-  @<Configuration header descriptor@>@;
+  @<Configuration descriptor@>@;
   @<Interface descriptor@>@;
   @<Header functional descriptor@>@;
   @<Abstract Control Management functional descriptor@>@;
@@ -515,7 +515,7 @@ struct {
   @<Endpoint descriptor@>@;
 } const conf_desc
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
-  @<Initialize Configuration header descriptor@>, @/
+  @<Initialize Configuration descriptor@>, @/
   @<Initialize Communication Class Interface descriptor@>, @/
   @<Initialize Header functional descriptor@>, @/
   @<Initialize Abstract Control Management functional descriptor@>, @/
@@ -526,13 +526,13 @@ struct {
 @t\2@> @<Initialize EP2 descriptor@> @/
 };
 
-@*2 Configuration header descriptor.
+@*2 Configuration descriptor.
 
 \S9.6.3 in USB spec.
 
 @d CONF_NUM 1 /* see last parameter in |dev_desc| */
 
-@<Initialize Configuration header descriptor@>=
+@<Initialize Configuration descriptor@>=
 CONFIGURATION_HEADER_DESCRIPTOR_SIZE, @/
 0x02, @/
 CONFIGURATION_HEADER_DESCRIPTOR_SIZE + @/
@@ -544,7 +544,7 @@ ENDPOINT_DESCRIPTOR_SIZE + @/
 INTERFACE_DESCRIPTOR_SIZE + @/
 ENDPOINT_DESCRIPTOR_SIZE + @/
 ENDPOINT_DESCRIPTOR_SIZE, @/
-2, @/
+2, /* two interfaces (Comunication and Data) */
 CONF_NUM, @/
 0, @/
 1 << 7, @/
@@ -562,10 +562,10 @@ INTERFACE_DESCRIPTOR_SIZE, @/
 CTRL_IFACE_NUM, @/
 0, /* no alternate settings */
 1, /* one endpoint (notification) */
-0x02, @/
-0x02, @/
-0x01, @/
-0
+0x02, /* Communication Interface class */
+0x02, /* Abstract Control Model */
+0x00, /* no protocol */
+0 /* no string */
 
 @*3 Header functional descriptor.
 
@@ -600,7 +600,7 @@ DATA_IFACE_NUM
 
 @*3 EP3 descriptor.
 
-\S9.6.6 in USB spec; \S3.3.1 in CDC spec.
+\S9.6.6 in USB spec.
 
 @<Initialize EP3 descriptor@>=
 ENDPOINT_DESCRIPTOR_SIZE, @/
@@ -629,14 +629,14 @@ INTERFACE_DESCRIPTOR_SIZE, @/
 DATA_IFACE_NUM, @/
 0, /* no alternate settings */
 2, /* two endpoints (IN and OUT) */
-0x0A, @/
-0x00, @/
-0x00, @/
-0
+0x0A, /* Data Interface class */
+0x00, /* permanent value */
+0x00, /* no protocol */
+0 /* no string */
 
 @*4 EP1 descriptor.
 
-\S9.6.6 in USB spec; \S3.3.1 in CDC spec.
+\S9.6.6 in USB spec.
 
 @<Initialize EP1 descriptor@>=
 ENDPOINT_DESCRIPTOR_SIZE, @/
@@ -655,7 +655,7 @@ UECFG1X |= _BV(ALLOC);
 
 @*4 EP2 descriptor.
 
-\S9.6.6 in USB spec; \S3.3.1 in CDC spec.
+\S9.6.6 in USB spec.
 
 @<Initialize EP2 descriptor@>=
 ENDPOINT_DESCRIPTOR_SIZE, @/
@@ -674,13 +674,13 @@ UECFG1X |= _BV(ALLOC);
 
 @*2 \bf Configuration descriptor headers.
 
-@ Configuration header descriptor.
+@ Configuration descriptor.
 
 \S9.6.3 in USB spec.
 
-@d CONFIGURATION_HEADER_DESCRIPTOR_SIZE 9
+@d CONFIGURATION_DESCRIPTOR_SIZE 9
 
-@<Configuration header descriptor@>=
+@<Configuration descriptor@>=
 U8 bLength;
 U8 bDescriptorType;
 U16 wTotalLength;
@@ -688,7 +688,7 @@ U8 bNumInterfaces;
 U8 bConfigurationValue;
 U8 iConfiguration;
 U8 bmAttibutes;
-U8 MaxPower;
+U8 bMaxPower;
 
 @ Interface descriptor.
 

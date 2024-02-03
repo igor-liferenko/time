@@ -488,8 +488,8 @@ struct {
   1, /* DEVICE */
   0x0200, /* 2.0 */
   0x02, /* Communication Device class */
-  0x00, /* unused */
-  0x00, /* unused */
+  0x00, /* constant */
+  0x00, /* constant */
   EP0_SIZE, @/
   0x03EB, @/
   0x2018, @/
@@ -630,7 +630,7 @@ DATA_IFACE_NUM, @/
 0, /* no alternate settings */
 2, /* two endpoints (IN and OUT) */
 0x0A, /* Data Interface class */
-0x00, /* permanent value */
+0x00, /* constant */
 0x00, /* no protocol */
 0 /* no string */
 

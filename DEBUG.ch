@@ -100,15 +100,6 @@ else {
 }
 @z
 
-@x configuration
-UEINTX &= ~_BV(RXSTPI);
-@y
-UEINTX &= ~_BV(RXSTPI);
-UDR1='c'; while (!(UCSR1A & _BV(UDRE1))) { }
-hex(wLength);
-UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
-@z
-
 @x dev_desc
 while (size) UEDATX = pgm_read_byte(buf++), size--;
 @y
@@ -123,6 +114,15 @@ while (size) UEDATX = pgm_read_byte(buf++), size--;
 //   for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
 //   UEINTX &= ~_BV(TXINI);
 // }
+@z
+
+@x configuration
+UEINTX &= ~_BV(RXSTPI);
+@y
+UEINTX &= ~_BV(RXSTPI);
+UDR1='c'; while (!(UCSR1A & _BV(UDRE1))) { }
+hex(wLength);
+UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x conf_desc

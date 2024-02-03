@@ -46,6 +46,9 @@ if ((blink && (time[7] % 2)) || !show) {
 @z
 
 @x
+wValue = UEDATX | UEDATX << 8;
+UEINTX &= ~_BV(RXSTPI);
+UEINTX &= ~_BV(TXINI);
 if (wValue == 0) { /* blank the display when TTY is closed */
   for (U8 row = 0; row < 8; row++)
     for (U8 col = 0; col < NUM_DEVICES*8; col++)
@@ -53,4 +56,6 @@ if (wValue == 0) { /* blank the display when TTY is closed */
   @<Display buffer@>@;
 }
 @y
+UEINTX &= ~_BV(RXSTPI);
+UEINTX &= ~_BV(TXINI);
 @z

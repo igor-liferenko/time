@@ -2,7 +2,6 @@
 \input epsf
 
 \font\caps=cmcsc10 at 9pt
-\font\greek=greekmu % \let\greek=\relax
 
 \secpagedepth=2
 

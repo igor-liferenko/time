@@ -46,6 +46,7 @@ if ((blink && (time[7] % 2)) || !show) {
 @z
 
 @x
+@<Handle {\caps set control line state}@>=
 wValue = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(TXINI);
@@ -56,6 +57,7 @@ if (wValue == 0) { /* blank the display when TTY is closed */
   @<Display buffer@>@;
 }
 @y
+@<Handle {\caps set control line state}@>=
 UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(TXINI);
 @z

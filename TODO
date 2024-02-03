@@ -1,1 +1,6 @@
+do big panel on 'c' and delete comments about ports from build-c.sh and change ttyACM2 to ttyACM1 in two places of build-c.sh and delete seconds.ch and time-write.ch and rename files with capital letters and
+re-do time-write as shell script because time-write.ch will not be used
+---------
+move "if (time[0] == 'A') {" part from time.w to change-file
+---------
 check /proc/<pid of time-write>/stat - 7th field must be 0 (controlling terminal - man 5 proc)

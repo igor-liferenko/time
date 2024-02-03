@@ -1,5 +1,4 @@
-do big panel on 'c' and delete comments about ports from build-c.sh and change ttyACM2 to ttyACM1 in two places of build-c.sh and delete seconds.ch and time-write.ch and rename files with capital letters and
-re-do time-write as shell script because time-write.ch will not be used
+do big panel on 'c' and delete comments about ports from build-c.sh and change ttyACM2 to ttyACM1 in two places of build-c.sh and delete seconds.ch and time-write.ch and rename files with capital letters (delete 'clock') and re-do time-write as shell script because time-write.ch will not be used and change build-u.sh accordingly
 ---------
 move "if (time[0] == 'A') {" part from time.w to change-file
 ---------

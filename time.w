@@ -381,7 +381,7 @@ case 0x0680: @/
   case 0x0100: @/
     @<Handle {\caps get descriptor device}@>@;
     break;
-  case 0x0200: @/
+  case 0x0200 | CONF_NUM - 1: @/
     @<Handle {\caps get descriptor configuration}@>@;
     break;
   default: @/
@@ -414,10 +414,9 @@ UDADDR |= _BV(ADDEN);
 (void) UEDATX; @+ (void) UEDATX;
 wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
-buf = &dev_desc; /* 18 bytes */
+buf = &dev_desc;
 if (wLength > sizeof dev_desc) size = sizeof dev_desc;
-  /* first part of second condition in \S5.5.3 of USB spec */
-else size = wLength; /* first condition in \S5.5.3 of USB spec */
+else size = wLength;
 while (size) UEDATX = pgm_read_byte(buf++), size--;
 UEINTX &= ~_BV(TXINI);
 while (!(UEINTX & _BV(RXOUTI))) { }
@@ -427,10 +426,9 @@ UEINTX &= ~_BV(RXOUTI);
 (void) UEDATX; @+ (void) UEDATX;
 wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
-buf = &conf_desc; /* 62 bytes */
+buf = &conf_desc;
 if (wLength > sizeof conf_desc) size = sizeof conf_desc;
-  /* first part of second condition in \S5.5.3 of USB spec */
-else size = wLength; /* first condition in \S5.5.3 of USB spec */
+else size = wLength;
 while (size) UEDATX = pgm_read_byte(buf++), size--;
 UEINTX &= ~_BV(TXINI);
 while (!(UEINTX & _BV(RXOUTI))) { }
@@ -440,7 +438,7 @@ UEINTX &= ~_BV(RXOUTI);
 wValue = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(TXINI);
-if (wValue == CONFIGURATION_NUM) {
+if (wValue == CONF_NUM) {
   @<Configure EP1@>@;
   @<Configure EP2@>@;
   @<Configure EP3@>@;
@@ -496,17 +494,13 @@ struct {
   0x03EB, @/
   0x2018, @/
   0x1000, @/
-  0, @/
-  0, @/
-  0, @/
-@t\2@> 1 @/
+  0, /* no string */
+  0, /* no string */
+  0, /* no string */
+@t\2@> 1 /* see |CONF_NUM| */
 };
 
 @*1 Configuration descriptor.
-
-$$\epsfxsize 7cm \epsfbox{usb.eps}$$
-
-@d CONFIGURATION_NUM 1 /* 1-based (Descriptor Index is 0-based) */
 
 @<Global variables@>=
 struct {
@@ -536,6 +530,8 @@ struct {
 
 \S9.6.3 in USB spec.
 
+@d CONF_NUM 1 /* see last parameter in |dev_desc| */
+
 @<Initialize Configuration header descriptor@>=
 CONFIGURATION_HEADER_DESCRIPTOR_SIZE, @/
 0x02, @/
@@ -549,23 +545,23 @@ INTERFACE_DESCRIPTOR_SIZE + @/
 ENDPOINT_DESCRIPTOR_SIZE + @/
 ENDPOINT_DESCRIPTOR_SIZE, @/
 2, @/
-CONFIGURATION_NUM, @/
+CONF_NUM, @/
 0, @/
 1 << 7, @/
-250
+250 /* 500 mA */
 
 @*2 Communication Class Interface descriptor.
 
-\S9.6.5 in USB spec; \S3.3.1, \S4.2, \S4.3, \S4.4 in CDC spec.
+\S9.6.5 in USB spec; \S5.1.3 in CDC spec.
 
-@d CONTROL_INTERFACE_NUM 0
+@d CTRL_IFACE_NUM 0
 
 @<Initialize Communication Class Interface descriptor@>=
 INTERFACE_DESCRIPTOR_SIZE, @/
 0x04, @/
-CONTROL_INTERFACE_NUM, @/
-0, @/
-1, @/
+CTRL_IFACE_NUM, @/
+0, /* no alternate settings */
+1, /* one endpoint (notification) */
 0x02, @/
 0x02, @/
 0x01, @/
@@ -599,8 +595,8 @@ ACM_FUNCTIONAL_DESCRIPTOR_SIZE, @/
 UNION_FUNCTIONAL_DESCRIPTOR_SIZE, @/
 0x24, @/
 0x06, @/
-CONTROL_INTERFACE_NUM, @/
-DATA_INTERFACE_NUM
+CTRL_IFACE_NUM, @/
+DATA_IFACE_NUM
 
 @*3 EP3 descriptor.
 
@@ -623,16 +619,16 @@ UECFG1X |= _BV(ALLOC);
 
 @*3 Data Class Interface descriptor.
 
-\S9.6.5 in USB spec; \S3.3.2, \S4.5 in CDC spec.
+\S9.6.5 in USB spec; \S5.1.3 in CDC spec.
 
-@d DATA_INTERFACE_NUM 1
+@d DATA_IFACE_NUM 1
 
 @<Initialize Data Class Interface descriptor@>=
 INTERFACE_DESCRIPTOR_SIZE, @/
 0x04, @/
-DATA_INTERFACE_NUM, @/
-0, @/
-2, @/
+DATA_IFACE_NUM, @/
+0, /* no alternate settings */
+2, /* two endpoints (IN and OUT) */
 0x0A, @/
 0x00, @/
 0x00, @/

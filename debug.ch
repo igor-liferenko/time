@@ -72,23 +72,23 @@ default:
 }
 @z
 
-@x
+@x address
 UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
 UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='a'; while (!(UCSR1A & _BV(UDRE1))) { } // address
+UDR1='a'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='='; while (!(UCSR1A & _BV(UDRE1))) { }
 hex(wValue);
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
-@x
+@x device
 UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
-UDR1='d'; while (!(UCSR1A & _BV(UDRE1))) { } // device
+UDR1='d'; while (!(UCSR1A & _BV(UDRE1))) { }
 hex(wLength);
 if (UDADDR & _BV(ADDEN)) {
   UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
@@ -100,32 +100,56 @@ else {
 }
 @z
 
-@x
+@x configuration
 UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
-UDR1='c'; while (!(UCSR1A & _BV(UDRE1))) { } // configuration
+UDR1='c'; while (!(UCSR1A & _BV(UDRE1))) { }
 hex(wLength);
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
-@x
+@x dev_desc
+while (size) UEDATX = pgm_read_byte(buf++), size--;
+@y
+if (size >= EP0_SIZE) {
+  cli();
+  UDR1='~'; while (1) { }
+  // while fixing this, consider section 5.5.3 of USB spec
+}
+while (size) UEDATX = pgm_read_byte(buf++), size--;
+@z
+
+@x conf_desc
+while (size) UEDATX = pgm_read_byte(buf++), size--;
+@y
+if (sizeof conf_desc != pgm_read_byte(&conf_desc.wTotalLength)) {
+  cli();
+  UDR1='^'; while (1) { }
+}
+if (size >= EP0_SIZE) {
+  cli();
+  UDR1='$'; while (1) { }
+  // while fixing this, consider section 5.5.3 of USB spec
+}
+while (size) UEDATX = pgm_read_byte(buf++), size--;
+@z
+
+@x set configuration
 UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
-if (wValue == CONFIGURATION_NUM) {
-  UDR1='s'; while (!(UCSR1A & _BV(UDRE1))) { } // set configuration
-  UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
-}
+UDR1 = wValue == CONF_NUM ? 's' : '@@'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
-@x
+@x set control line state
 UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
 UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='x'; while (!(UCSR1A & _BV(UDRE1))) { } // set control line state
+UDR1='x'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='='; while (!(UCSR1A & _BV(UDRE1))) { }
 hex(wValue);
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }

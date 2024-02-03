@@ -66,8 +66,7 @@ and clear them. Finally, configure the rest registers and enable the display.
 MAX7219 is a shift register.
 SPI here is used as a way to push bytes to MAX7219 (data + clock).
 
-For simplicity (not to use timer), we use latch duration of 1{\greek u}s (min.\ is
-50ns---t\lower.25ex\hbox{\the\scriptfont0 CSW} in datasheet).
+We use latch duration of 1 us (t\lower.25ex\hbox{\the\scriptfont0 CSW} in datasheet).
 
 Note, that segments are connected as this: clock and latch are in parallel,
 DIN goes through each segment to DOUT and then to DIN of next segment in the chain.

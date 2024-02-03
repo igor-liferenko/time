@@ -118,6 +118,11 @@ if (size >= EP0_SIZE) {
   // while fixing this, consider section 5.5.3 of USB spec
 }
 while (size) UEDATX = pgm_read_byte(buf++), size--;
+// while (size) {
+//   while (!(UEINTX & _BV(TXINI))) { }
+//   for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
+//   UEINTX &= ~_BV(TXINI);
+// }
 @z
 
 @x conf_desc
@@ -133,6 +138,11 @@ if (size >= EP0_SIZE) {
   // while fixing this, consider section 5.5.3 of USB spec
 }
 while (size) UEDATX = pgm_read_byte(buf++), size--;
+// while (size) {
+//   while (!(UEINTX & _BV(TXINI))) { }
+//   for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
+//   UEINTX &= ~_BV(TXINI);
+// }
 @z
 
 @x set configuration

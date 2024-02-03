@@ -485,15 +485,15 @@ struct {
 } const dev_desc
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   18, @/
-  0x01, @/
-  0x0200, @/
+  1, /* DEVICE */
+  0x0200, /* 2.0 */
   0x02, /* Communication Device class */
   0x00, /* unused */
   0x00, /* unused */
   EP0_SIZE, @/
   0x03EB, @/
   0x2018, @/
-  0x1000, @/
+  0x0100, /* 1.0 */
   0, /* no string */
   0, /* no string */
   0, /* no string */
@@ -534,7 +534,7 @@ struct {
 
 @<Initialize Configuration descriptor@>=
 CONFIGURATION_HEADER_DESCRIPTOR_SIZE, @/
-0x02, @/
+2, /* CONFIGURATION */
 CONFIGURATION_HEADER_DESCRIPTOR_SIZE + @/
 INTERFACE_DESCRIPTOR_SIZE + @/
 HEADER_FUNCTIONAL_DESCRIPTOR_SIZE + @/
@@ -558,7 +558,7 @@ CONF_NUM, @/
 
 @<Initialize Communication Class Interface descriptor@>=
 INTERFACE_DESCRIPTOR_SIZE, @/
-0x04, @/
+4, /* INTERFACE */
 CTRL_IFACE_NUM, @/
 0, /* no alternate settings */
 1, /* one endpoint (notification) */
@@ -575,7 +575,7 @@ CTRL_IFACE_NUM, @/
 HEADER_FUNCTIONAL_DESCRIPTOR_SIZE, @/
 0x24, @/
 0x00, @/
-0x0110
+0x0110 /* 1.1 */
 
 @*3 Abstract Control Management functional descriptor.
 
@@ -604,7 +604,7 @@ DATA_IFACE_NUM
 
 @<Initialize EP3 descriptor@>=
 ENDPOINT_DESCRIPTOR_SIZE, @/
-0x05, @/
+5, /* ENDPOINT */
 3 | 1 << 7, @/
 0x03, @/
 8, @/
@@ -625,7 +625,7 @@ UECFG1X |= _BV(ALLOC);
 
 @<Initialize Data Class Interface descriptor@>=
 INTERFACE_DESCRIPTOR_SIZE, @/
-0x04, @/
+4, /* INTERFACE */
 DATA_IFACE_NUM, @/
 0, /* no alternate settings */
 2, /* two endpoints (IN and OUT) */
@@ -640,7 +640,7 @@ DATA_IFACE_NUM, @/
 
 @<Initialize EP1 descriptor@>=
 ENDPOINT_DESCRIPTOR_SIZE, @/
-0x05, @/
+5, /* ENDPOINT */
 1 | 1 << 7, @/
 0x02, @/
 8, @/
@@ -659,7 +659,7 @@ UECFG1X |= _BV(ALLOC);
 
 @<Initialize EP2 descriptor@>=
 ENDPOINT_DESCRIPTOR_SIZE, @/
-0x05, @/
+5, /* ENDPOINT */
 2 | 0, @/
 0x02, @/
 8, @/

@@ -1,6 +1,7 @@
 According to Table 28 in CDC spec, these two requests must not happen
-because we set bmCapabilities to zero. But they happen.
-We just discard them.
+because we set bmCapabilities to zero in
+@<Initialize Abstract Control Management functional descriptor@>.
+But they do happen - so we have to handle them.
 
 @x
 case 0x0900: @/

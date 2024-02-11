@@ -1,3 +1,24 @@
+try deleting ep3, not forgetting to change
+ 
+    1, /* one endpoint (notification) */
+
+to
+
+    0, /* no endpoints */
+---------
+try deleting ep1 (and changing ep2 into ep1), not forgetting to change
+ 
+    2, /* two endpoints (IN and OUT) */
+
+to
+
+    1, /* one endpoint (OUT) */
+---------
+git reset --hard f18f77c0b70bd3b49da450db49e3b128b01f66f7
+and in @<Initialize Configuration header descriptor@> change
+"2, @/" to "3, @/"
+Will two ttyACM devices appear?
+---------
 re-do time-write as shell script (this is useful if you generate image online where there is no SDK)
 ---------
 check /proc/<pid of time-write>/stat - 7th field must be 0 (controlling terminal - man 5 proc)

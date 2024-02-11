@@ -48,10 +48,6 @@ typedef unsigned short U16;
       for (U8 c = 0; c < 8; c++)
         time[c] = UEDATX;
       UEINTX &= ~_BV(FIFOCON);
-      if (time[0] == 'A') {
-        display_write4(0x0A, time[1]); /* set brightness */
-        continue;
-      }
       time[5] = '\0';
       @<Show |time|@>@;
     }
@@ -76,22 +72,21 @@ DDRB |= _BV(PB0); /* disable SPI slave mode (\.{SS} port) */
 DDRB |= _BV(PB1); /* clock */
 DDRB |= _BV(PB2); /* data */
 DDRB |= _BV(PB6); /* latch */
-SPCR |= _BV(MSTR) | _BV(SPR1) | _BV(SPE); /* \.{SPR1} means 250 kHz
-  FIXME: does native wire work without SPR1? does long wire work without SPR1? */
-display_write4(0x0F, 0x00);
-display_write4(0x0C, 0x00);
-display_write4(0x09, 0x00);
-display_write4(0x01, 0x00);
-display_write4(0x02, 0x00);
-display_write4(0x03, 0x00);
-display_write4(0x04, 0x00);
-display_write4(0x05, 0x00);
-display_write4(0x06, 0x00);
-display_write4(0x07, 0x00);
-display_write4(0x08, 0x00);
-display_write4(0x0A, 0x0F);
-display_write4(0x0B, 0x07);
-display_write4(0x0C, 0x01);
+SPCR |= _BV(MSTR) | _BV(SPR1) | _BV(SPE);
+display_write(0x0F, 0x00);
+display_write(0x0C, 0x00);
+display_write(0x09, 0x00);
+display_write(0x01, 0x00);
+display_write(0x02, 0x00);
+display_write(0x03, 0x00);
+display_write(0x04, 0x00);
+display_write(0x05, 0x00);
+display_write(0x06, 0x00);
+display_write(0x07, 0x00);
+display_write(0x08, 0x00);
+display_write(0x0A, 0x0F);
+display_write(0x0B, 0x07);
+display_write(0x0C, 0x01);
 
 @ @<Global variables@>=
 U8 buffer[8][NUM_DEVICES*8];
@@ -161,12 +156,10 @@ void display_push(U8 address, U8 data)
 }
 
 @ @<Functions@>=
-void display_write4(U8 address, U8 data)
+void display_write(U8 address, U8 data)
 {
-  display_push(address, data);
-  display_push(address, data);
-  display_push(address, data);
-  display_push(address, data);
+  for (U8 c = 0; c < NUM_DEVICES; c++)
+    display_push(address, data);
   PORTB |= _BV(PB6); @+ _delay_us(1); @+ PORTB &= ~_BV(PB6); /* latch */
 }
 
@@ -390,14 +383,6 @@ case 0x0680: @/
 case 0x0900: @/
   @<Handle {\caps set configuration}@>@;
   break;
-case 0x2221: @/
-  @<Handle {\caps set control line state}@>@;
-  break;
-default: @/
-  UEINTX &= ~_BV(RXSTPI);
-  while (!(UEINTX & _BV(RXOUTI))) { }
-  UEINTX &= ~_BV(RXOUTI);
-  UEINTX &= ~_BV(TXINI);
 }
 
 @ @<Handle {\caps set address}@>=
@@ -440,22 +425,6 @@ if (wValue == CONF_NUM) {
   @<Configure EP1@>@;
   @<Configure EP2@>@;
   @<Configure EP3@>@;
-}
-
-@ {\caps set control line state} requests are sent automatically by the driver when
-TTY is opened and closed.
-
-See \S6.2.14 in CDC spec.
-
-@<Handle {\caps set control line state}@>=
-wValue = UEDATX | UEDATX << 8;
-UEINTX &= ~_BV(RXSTPI);
-UEINTX &= ~_BV(TXINI);
-if (wValue == 0) { /* blank the display when TTY is closed */
-  for (U8 row = 0; row < 8; row++)
-    for (U8 col = 0; col < NUM_DEVICES*8; col++)
-      buffer[row][col] = 0x00;
-  @<Display buffer@>@;
 }
 
 @* USB descriptors.
@@ -670,7 +639,7 @@ UECFG0X = _BV(EPTYPE1);
 UECFG1X = 0;
 UECFG1X |= _BV(ALLOC);
 
-@*2 \bf Configuration descriptor headers.
+@*2 \bf Configuration descriptor.
 
 @ Configuration descriptor.
 

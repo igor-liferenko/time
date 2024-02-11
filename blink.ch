@@ -2,25 +2,14 @@
   @<Initialize display@>@;
 @y
   @<Initialize display@>@;
-  int blink = 0;
+  PORTD |= _BV(PD5); /* on pro-micro led is inverted */
+  DDRD |= _BV(PD5); /* set output mode */
 @z
 
 @x
-        display_write4(0x0A, time[1]); /* set brightness */
+      UEINTX &= ~_BV(FIFOCON);
 @y
-        display_write4(0x0A, time[1]); /* set brightness */
-        blink = time[7];
-@z
-
-@x
-@<Fill buffer@>@;
-@y
-if (blink && (time[7] % 2)) {
-  for (U8 row = 0; row < 8; row++)
-    for (U8 col = 0; col < NUM_DEVICES*8; col++)
-      buffer[row][col] = 0x00;
-}
-else {
-  @<Fill buffer@>@;
-}
+      UEINTX &= ~_BV(FIFOCON);
+      if (time[0] == 'A')
+        if (time[7]) PORTD &= ~_BV(PD5); else PORTD |= _BV(PD5);
 @z

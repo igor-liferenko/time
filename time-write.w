@@ -23,8 +23,8 @@ if ((fd = open("/dev/ttyACM0", O_WRONLY)) == -1)
 
 @ @<Write args to serial port@>=
 char args[8] = {'A'};
-args[1] = atoi(argv[1]);
-if (argc == 3) args[7] = 'B';
+if (*argv[1] != '-') args[1] = atoi(argv[1]), args[2] = 1;
+if (argc == 3) args[7] = 'L';
 if (write(fd, args, 8) == -1)
   return 1;
 

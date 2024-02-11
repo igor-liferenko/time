@@ -6,7 +6,7 @@ for i in `uci show system.ntp.server|cut -d= -f2|sed "s/'//g"`; do
   fi
 done
 if [ "$server" ]; then
-  [ -e /tmp/time.blink ] && clock no-blink
+  [ -e /tmp/time.led ] && clock no-led
 else
-  [ -e /tmp/time.blink ] || clock blink
+  [ -e /tmp/time.led ] || clock led
 fi

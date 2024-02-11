@@ -41,19 +41,9 @@ Arduino: ( ) (4) (.) (5) ( ) ( ) ( ) ( ) (1) (.) (3) (2)
 
 ==========================================================
 
-In ConnectBot add entry to show/hide seconds using this for "run on connect":
+In ConnectBot add automatic commands as:
 
-    if [ -e /tmp/time.no-seconds ]; then clock seconds; else clock no-seconds; fi; exit
+    <cmd>; exit
     <empty line>
 
 and enable "close when connection disappears"
-
-For setting brightness analogously add entries using this (N is 0, 1 or 2):
-
-    clock N; exit
-    <empty line>
-
-Name each entry in ConnectBot as 0 1 2 [X] (one server) or
-c0 c1 c2 [cX] k0 k1 k2 [kX] etc. (many servers).
-(X is for show/hide seconds, if this is used)
-Use these colors: *0=grey, *1=blue, *2=green, [*X]=red

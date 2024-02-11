@@ -6,35 +6,29 @@ if mkdir /tmp/time.lock 2>/dev/null; then
     kill $pid
     while pgrep time-write >/dev/null; do true; done
   fi
-  if [ $1 = seconds ] || [ $1 = no-seconds ] || [ $1 = blink ] || [ $1 = no-blink ]; then
+  if [ $1 = led ] || [ $1 = no-led ]; then
     case $1 in
-    seconds)
-      rm -f /tmp/time.no-seconds
+    led)
+      touch /tmp/time.led
       ;;
-    no-seconds)
-      touch /tmp/time.no-seconds
-      ;;
-    blink)
-      touch /tmp/time.blink
-      ;;
-    no-blink)
-      rm -f /tmp/time.blink
+    no-led)
+      rm -f /tmp/time.led
       ;;
     esac
-    if [ "$brightness" ]; then
-      [ -e /tmp/time.no-seconds ] && PATH=/bin/no-seconds:$PATH
-      [ -e /tmp/time.blink ] && blink=B
-      time-write $brightness $blink &
-    fi
+    [ -e /tmp/time.led ] && led=L
+    [ "$brightness" ] || brightness=-
+    time-write $brightness $led &
   else
-    [ -e /tmp/time.no-seconds ] && PATH=/bin/no-seconds:$PATH
-    [ -e /tmp/time.blink ] && blink=B
+    [ -e /tmp/time.led ] && led=L
     case $1 in
+    0)
+      time-write - $led &
+      ;;
     1)
-      time-write 0 $blink &
+      time-write 0 $led &
       ;;
     2)
-      time-write 15 $blink &
+      time-write 15 $led &
       ;;
     esac
   fi

@@ -13,7 +13,6 @@ cu -l /dev/ttyUSB0 -s 57600
   UDINT &= ~_BV(EORSTI);
 @y
   UDINT &= ~_BV(EORSTI);
-  q_c = 0;
   UDR1 = '!'; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
@@ -30,46 +29,33 @@ cu -l /dev/ttyUSB0 -s 57600
 @x
 @* USB connection.
 @y
-@ @<Global...@>=U8 q_c;
 @* USB connection.
 @d HEX(c) UDR1 = ((c)<10 ? (c)+'0' : (c)-10+'A'); while (!(UCSR1A & _BV(UDRE1))) { }
 @d hex(c) HEX((c >> 4) & 0x0f); HEX(c & 0x0f);
 @z
 
 @x
-  default: @/
+    UEINTX &= ~_BV(RXSTPI);
 @y
-  case 0x0600: /* get descriptor device qualifier */
+    UEINTX &= ~_BV(RXSTPI);
+    UDR1='?'; while (!(UCSR1A & _BV(UDRE1))) { }
+    UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
-@x
-  }
+@x set line coding
+  UEINTX &= ~_BV(RXSTPI);
 @y
-    UDR1='.'; while (!(UCSR1A & _BV(UDRE1))) { }
-    if (++q_c == 3) { UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { } }
-    break;
-  default:
-    cli();
-    UDR1='#'; while (1) { }
-  }
-@z
-
-@x
-default: @/
-@y
-case 0x2021: /* set line coding (Table 50 in CDC spec) */
-@z
-
-@x
-}
-@y
+  UEINTX &= ~_BV(RXSTPI);
   UDR1='%'; while (!(UCSR1A & _BV(UDRE1))) { }
   UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
-  break;
-default:
-  cli();
-  UDR1='*'; while (1) { }
-}
+@z
+
+@x set control line state
+  UEINTX &= ~_BV(RXSTPI);
+@y
+  UEINTX &= ~_BV(RXSTPI);
+  UDR1='x'; while (!(UCSR1A & _BV(UDRE1))) { }
+  UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x address
@@ -150,18 +136,6 @@ UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
 UDR1 = wValue == CONF_NUM ? 's' : '@@'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
-@z
-
-@x set control line state
-UEINTX &= ~_BV(RXSTPI);
-@y
-UEINTX &= ~_BV(RXSTPI);
-UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='x'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1='='; while (!(UCSR1A & _BV(UDRE1))) { }
-hex(wValue);
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 

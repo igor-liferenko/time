@@ -1,23 +1,18 @@
 all:
 	@echo NoOp
 
-c1:
-	tie -c time.ch time.w reverse.ch blink.ch >/dev/null
-	ctangle time time
-	@make --no-print-directory time
-
-c2:
-	tie -c time.ch time.w seconds.ch blink.ch >/dev/null
+c:
+	tie -c time.ch time.w capabilities.ch brightness.ch long-display.ch led.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 
 k:
-	tie -c time.ch time.w reverse.ch blink.ch >/dev/null
+	tie -c time.ch time.w capabilities.ch brightness.ch reverse.ch led.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 
 u:
-	tie -c time.ch time.w blink.ch TIME.ch >/dev/null
+	tie -c time.ch time.w capabilities.ch brightness.ch led.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 

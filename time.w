@@ -310,9 +310,6 @@ const U8 chr_colon[8][6]
 
 @ \.{USB\_RESET} signal is sent when device is attached and when USB host reboots.
 
-@d EP0_SIZE 64
-@d EP0_SIZE_CFG (_BV(EPSIZE0) | _BV(EPSIZE1))
-
 @<Create ISR for USB\_RESET@>=
 @.ISR@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=ISR@>
   (@.USB\_GEN\_vect@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=USB_GEN_vect@>)
@@ -326,7 +323,7 @@ const U8 chr_colon[8][6]
   UECFG1X &= ~_BV(ALLOC); /* de-configure */
   UECONX |= _BV(EPEN);
   UECFG0X = 0;
-  UECFG1X = EP0_SIZE_CFG;
+  UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1); /* 64 bytes (max) */
   UECFG1X |= _BV(ALLOC);
   @#
   /* TODO: try to delete the following */
@@ -398,8 +395,7 @@ UDADDR |= _BV(ADDEN);
 wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
 buf = &dev_desc;
-if (wLength > sizeof dev_desc) size = sizeof dev_desc;
-else size = wLength;
+size = wLength > sizeof dev_desc ? sizeof dev_desc : wLength;
 while (size) UEDATX = pgm_read_byte(buf++), size--;
 UEINTX &= ~_BV(TXINI);
 while (!(UEINTX & _BV(RXOUTI))) { }
@@ -410,10 +406,16 @@ UEINTX &= ~_BV(RXOUTI);
 wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
 buf = &conf_desc;
-if (wLength > sizeof conf_desc) size = sizeof conf_desc;
-else size = wLength;
-while (size) UEDATX = pgm_read_byte(buf++), size--;
-UEINTX &= ~_BV(TXINI);
+size = wLength > sizeof conf_desc ? sizeof conf_desc : wLength;
+while (size) {
+  while (!(UEINTX & _BV(TXINI))) { }
+  for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
+  UEINTX &= ~_BV(TXINI);
+}
+if ((wLength > sizeof conf_desc ? sizeof conf_desc : wLength) % EP0_SIZE == 0) { /* USB\S5.5.3 */
+  while (!(UEINTX & _BV(TXINI))) { }
+  UEINTX &= ~_BV(TXINI);
+}
 while (!(UEINTX & _BV(RXOUTI))) { }
 UEINTX &= ~_BV(RXOUTI);
 
@@ -432,6 +434,8 @@ if (wValue == CONF_NUM) {
 @*1 Device descriptor.
 
 \S9.6.1 in USB spec; \S5.1.1 in CDC spec.
+
+@d EP0_SIZE 64 /* the same as in configuration of EP0 */
 
 @<Global variables@>=
 struct {
@@ -500,18 +504,10 @@ struct {
 @d CONF_NUM 1 /* see last parameter in |dev_desc| */
 
 @<Initialize Configuration descriptor@>=
-CONFIGURATION_DESCRIPTOR_SIZE, @/
+SIZEOF_THIS, @/ 
 2, /* CONFIGURATION */
-CONFIGURATION_DESCRIPTOR_SIZE + @/
-INTERFACE_DESCRIPTOR_SIZE + @/
-HEADER_FUNCTIONAL_DESCRIPTOR_SIZE + @/
-ACM_FUNCTIONAL_DESCRIPTOR_SIZE + @/
-UNION_FUNCTIONAL_DESCRIPTOR_SIZE + @/
-ENDPOINT_DESCRIPTOR_SIZE + @/
-INTERFACE_DESCRIPTOR_SIZE + @/
-ENDPOINT_DESCRIPTOR_SIZE + @/
-ENDPOINT_DESCRIPTOR_SIZE, @/
-2, /* two interfaces (Comunication and Data) */
+SIZEOF_CONF_DESC, @/
+1 + 1, /* Communication (master) interface + Data (slave) interface(s) */
 CONF_NUM, @/
 0, @/
 1 << 7, @/
@@ -524,7 +520,7 @@ CONF_NUM, @/
 @d CTRL_IFACE_NUM 0
 
 @<Initialize Communication Class Interface descriptor@>=
-INTERFACE_DESCRIPTOR_SIZE, @/
+SIZEOF_THIS, @/
 4, /* INTERFACE */
 CTRL_IFACE_NUM, @/
 0, /* no alternate settings */
@@ -539,7 +535,7 @@ CTRL_IFACE_NUM, @/
 \S5.2.3.1 in CDC spec.
 
 @<Initialize Header functional descriptor@>=
-HEADER_FUNCTIONAL_DESCRIPTOR_SIZE, @/
+SIZEOF_THIS, @/ 
 0x24, @/
 0x00, @/
 0x0110 /* 1.1 */
@@ -549,7 +545,7 @@ HEADER_FUNCTIONAL_DESCRIPTOR_SIZE, @/
 \S5.2.3.3 in CDC spec.
 
 @<Initialize Abstract Control Management functional descriptor@>=
-ACM_FUNCTIONAL_DESCRIPTOR_SIZE, @/
+SIZEOF_THIS, @/ 
 0x24, @/
 0x02, @/
 0
@@ -559,18 +555,18 @@ ACM_FUNCTIONAL_DESCRIPTOR_SIZE, @/
 \S5.2.3.8 in CDC spec.
 
 @<Initialize Union functional descriptor@>=
-UNION_FUNCTIONAL_DESCRIPTOR_SIZE, @/
+SIZEOF_THIS, @/ 
 0x24, @/
 0x06, @/
 CTRL_IFACE_NUM, @/
-DATA_IFACE_NUM
+DATA_IFACE0_NUM
 
 @*3 EP3 descriptor.
 
 \S9.6.6 in USB spec.
 
 @<Initialize EP3 descriptor@>=
-ENDPOINT_DESCRIPTOR_SIZE, @/
+SIZEOF_THIS, @/ 
 5, /* ENDPOINT */
 3 | 1 << 7, @/
 0x03, @/
@@ -588,12 +584,12 @@ UECFG1X |= _BV(ALLOC);
 
 \S9.6.5 in USB spec; \S5.1.3 in CDC spec.
 
-@d DATA_IFACE_NUM 1
+@d DATA_IFACE0_NUM 1
 
 @<Initialize Data Class Interface descriptor@>=
-INTERFACE_DESCRIPTOR_SIZE, @/
+SIZEOF_THIS, @/ 
 4, /* INTERFACE */
-DATA_IFACE_NUM, @/
+DATA_IFACE0_NUM, @/
 0, /* no alternate settings */
 2, /* two endpoints (IN and OUT) */
 0x0A, /* Data Interface class */
@@ -606,7 +602,7 @@ DATA_IFACE_NUM, @/
 \S9.6.6 in USB spec.
 
 @<Initialize EP1 descriptor@>=
-ENDPOINT_DESCRIPTOR_SIZE, @/
+SIZEOF_THIS, @/ 
 5, /* ENDPOINT */
 1 | 1 << 7, @/
 0x02, @/
@@ -625,7 +621,7 @@ UECFG1X |= _BV(ALLOC);
 \S9.6.6 in USB spec.
 
 @<Initialize EP2 descriptor@>=
-ENDPOINT_DESCRIPTOR_SIZE, @/
+SIZEOF_THIS, @/ 
 5, /* ENDPOINT */
 2 | 0, @/
 0x02, @/
@@ -645,8 +641,6 @@ UECFG1X |= _BV(ALLOC);
 
 \S9.6.3 in USB spec.
 
-@d CONFIGURATION_DESCRIPTOR_SIZE 9
-
 @<Configuration descriptor@>=
 U8 bLength;
 U8 bDescriptorType;
@@ -660,8 +654,6 @@ U8 bMaxPower;
 @ Interface descriptor.
 
 \S9.6.5 in USB spec.
-
-@d INTERFACE_DESCRIPTOR_SIZE 9
 
 @<Interface descriptor@>=
 U8 bLength;
@@ -678,8 +670,6 @@ U8 iInterface;
 
 \S5.2.3.1 in CDC spec.
 
-@d HEADER_FUNCTIONAL_DESCRIPTOR_SIZE 5
-
 @<Header functional descriptor@>=
 U8 bFunctionLength;
 U8 bDescriptorType;
@@ -689,8 +679,6 @@ U16 bcdCDC;
 @ Abstract Control Management functional descriptor.
 
 \S5.2.3.3 in CDC spec.
-
-@d ACM_FUNCTIONAL_DESCRIPTOR_SIZE 4
 
 @<Abstract Control Management functional descriptor@>=
 U8 bFunctionLength;
@@ -702,20 +690,16 @@ U8 bmCapabilities;
 
 \S5.2.3.8 in CDC spec.
 
-@d UNION_FUNCTIONAL_DESCRIPTOR_SIZE 5
-
 @<Union functional descriptor@>=
 U8 bFunctionLength;
 U8 bDescriptorType;
 U8 bDescriptorSubtype;
 U8 bMasterInterface;
-U8 bSlaveInterface;
+U8 bSlaveInterface0;
 
 @ Endpoint descriptor.
 
 \S9.6.6 in USB spec.
-
-@d ENDPOINT_DESCRIPTOR_SIZE 7
 
 @<Endpoint descriptor@>=
 U8 bLength;

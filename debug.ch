@@ -86,22 +86,6 @@ else {
 }
 @z
 
-@x dev_desc
-while (size) UEDATX = pgm_read_byte(buf++), size--;
-@y
-if (size >= EP0_SIZE) {
-  cli();
-  UDR1='~'; while (1) { }
-  // while fixing this, consider section 5.5.3 of USB spec
-}
-while (size) UEDATX = pgm_read_byte(buf++), size--;
-// while (size) {
-//   while (!(UEINTX & _BV(TXINI))) { }
-//   for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
-//   UEINTX &= ~_BV(TXINI);
-// }
-@z
-
 @x configuration
 UEINTX &= ~_BV(RXSTPI);
 @y
@@ -109,26 +93,6 @@ UEINTX &= ~_BV(RXSTPI);
 UDR1='c'; while (!(UCSR1A & _BV(UDRE1))) { }
 hex(wLength);
 UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
-@z
-
-@x conf_desc
-while (size) UEDATX = pgm_read_byte(buf++), size--;
-@y
-if (sizeof conf_desc != pgm_read_byte(&conf_desc.wTotalLength)) {
-  cli();
-  UDR1='^'; while (1) { }
-}
-if (size >= EP0_SIZE) {
-  cli();
-  UDR1='$'; while (1) { }
-  // while fixing this, consider section 5.5.3 of USB spec
-}
-while (size) UEDATX = pgm_read_byte(buf++), size--;
-// while (size) {
-//   while (!(UEINTX & _BV(TXINI))) { }
-//   for (U8 c = EP0_SIZE; c && size; c--) UEDATX = pgm_read_byte(buf++), size--;
-//   UEINTX &= ~_BV(TXINI);
-// }
 @z
 
 @x set configuration

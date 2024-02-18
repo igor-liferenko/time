@@ -1,51 +1,17 @@
 #!/bin/sh
 if mkdir /tmp/time.lock 2>/dev/null; then
-  pid=`pgrep time-write`
-  if [ "$pid" ]; then
-    brightness=`grep -o '[0-9]*' /proc/$pid/cmdline`
-    # if already running with given argument - exit
-    if [ $1 = led ] || [ $1 = no-led ]; then
-      case $1 in
-      led)
-        [ -e /tmp/time.led ] && exit
-        touch /tmp/time.led
-        ;;
-      no-led)
-        [ -e /tmp/time.led ] || exit
-        rm -f /tmp/time.led
-        ;;
-      esac
-    else
-      case $1 in
-      0)
-        [ "$brightness" ] || exit
-        ;;
-      1)
-        [ "$brightness" = 0 ] && exit
-        ;;
-      2)
-        [ "$brightness" = 15 ] && exit
-        ;;
-      esac
-    fi
-    kill $pid
-    while pgrep time-write >/dev/null; do true; done
-  fi
-  [ -e /tmp/time.led ] && led=L
-  if [ $1 = led ] || [ $1 = no-led ]; then
-    time-write ${brightness:=-} $led &
-  else
-    case $1 in
-    0)
-      time-write - $led &
-      ;;
-    1)
-      time-write 0 $led &
-      ;;
-    2)
-      time-write 15 $led &
-      ;;
-    esac
-  fi
+  killall time-write 2>/dev/null
+  while pgrep time-write >/dev/null; do true; done
+  case $1 in
+  off)
+    time-write - &
+    ;;
+  night)
+    time-write 0 &
+    ;;
+  day)
+    time-write 15 &
+    ;;
+  esac
   rmdir /tmp/time.lock
 fi

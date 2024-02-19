@@ -21,12 +21,12 @@ $$\epsfbox{arduino.eps}$$
 
 void main(void)
 {
+  @<Initialize display@>@;
+
   @<Setup USB Controller@>@;
   sei();
   UDCON &= ~_BV(DETACH); /* attach after we enabled interrupts, because
     USB\_RESET arrives after attach */
-
-  @<Initialize display@>@;
 
   while (1) {
     UENUM = 0;

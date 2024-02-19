@@ -1,6 +1,9 @@
 NOTE: disabling display via 0x0C does not seem to work - we fill buffer with zeroes instead
 TODO: use only '@<Initialize display@> while (1) {}' and see if display will be blank and use
 the same method instead
+TODO: revert capabilities.ch and add there last change from brightness.ch and build without
+brightness.ch and then try to do without ep3 and if firmware will not work, move ep3 to brightness.ch
+(but without last change from brightness.ch firmware must work without ep3 - see time/TODO); in any case delete ep3 from time.w
 
 @x
   @<Initialize display@>@;

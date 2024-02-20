@@ -21,7 +21,7 @@ $$\epsfbox{arduino.eps}$$
 
 void main(void)
 {
-  @<Initialize display@>@;
+  @<Initialize MAX7219@>@;
 
   @<Setup USB Controller@>@;
   sei();
@@ -43,14 +43,14 @@ typedef unsigned char U8;
 typedef unsigned short U16;
 
 @ @<Process OUT packet@>= {
-      UEINTX &= ~_BV(RXOUTI);
-      U8 time[8];
-      for (U8 c = 0; c < 8; c++)
-        time[c] = UEDATX;
-      UEINTX &= ~_BV(FIFOCON);
-      time[5] = '\0';
-      @<Show |time|@>@;
-    }
+  UEINTX &= ~_BV(RXOUTI);
+  U8 time[8];
+  for (U8 c = 0; c < 8; c++)
+    time[c] = UEDATX;
+  UEINTX &= ~_BV(FIFOCON);
+  time[5] = '\0';
+  @<Show |time|@>@;
+}
 
 @ MAX7219 is a shift register.
 SPI here is used as a way to push bytes to MAX7219 (data + clock).
@@ -62,7 +62,7 @@ DIN goes through each segment to DOUT and then to DIN of next segment in the cha
 
 Blank the display, then we set maximum brightness and enter normal operation mode.
 
-@<Initialize display@>=
+@<Initialize MAX7219@>=
 PORTB |= _BV(PB0); /* on pro-micro led is inverted */
 DDRB |= _BV(PB0); /* disable SPI slave mode (\.{SS} port) */
 DDRB |= _BV(PB1); /* clock */

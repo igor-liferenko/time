@@ -3,13 +3,6 @@ brightness.ch and then try to do without ep3 and if firmware will not work, move
 (but without last change from brightness.ch firmware must work without ep3 - see time/TODO); in any case delete ep3 from time.w
 
 @x
-  @<Initialize display@>@;
-@y
-  @<Initialize display@>@;
-  U16 speed = 0;
-@z
-
-@x
 case 0x0900: @/
   @<Handle {\caps set configuration}@>@;
   break;
@@ -20,7 +13,7 @@ case 0x0900: @/
 case 0x2021: /* set line coding (Table 50 in CDC spec) */
   UEINTX &= ~_BV(RXSTPI);
   while (!(UEINTX & _BV(RXOUTI))) { }
-  speed = UEDATX | UEDATX << 8;
+  U16 speed = UEDATX | UEDATX << 8;
   UEINTX &= ~_BV(RXOUTI);
   UEINTX &= ~_BV(TXINI);
   if (speed == 1200) {

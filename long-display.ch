@@ -1,7 +1,7 @@
 @x
-  @<Initialize display@>@;
+  @<Initialize MAX7219@>@;
 @y
-  @<Initialize display@>@;
+  @<Initialize MAX7219@>@;
   for (U8 row = 0; row < 8; row++)
     for (U8 col = 51; col < NUM_DEVICES*8; col++)
       buffer[row][col] = 0x00;

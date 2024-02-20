@@ -1,3 +1,5 @@
+TODO: take changes from commit 909990 of time.w and put them here
+
 @x
 case 0x0900: @/
   @<Handle {\caps set configuration}@>@;

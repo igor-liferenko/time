@@ -52,19 +52,16 @@ typedef unsigned short U16;
       @<Show |time|@>@;
     }
 
-@ Initialization of all registers must be done, because they may contain garbage.
-First make sure that test mode is disabled, because it overrides all registers.
-Next, make sure that display is disabled, because there may be random lighting LEDs on it.
-Then set decode mode to properly clear all LEDs,
-and clear them. Finally, configure the rest registers and enable the display.
-
-MAX7219 is a shift register.
+@ MAX7219 is a shift register.
 SPI here is used as a way to push bytes to MAX7219 (data + clock).
 
 We use latch duration of 1 us (t\lower.25ex\hbox{\the\scriptfont0 CSW} in datasheet).
 
 Note, that segments are connected as this: clock and latch are in parallel,
 DIN goes through each segment to DOUT and then to DIN of next segment in the chain.
+
+On initial power-up the display is not blanked (contrary to datasheet), so
+we blank it. Then we set maximum brightness and enter normal operation mode.
 
 @<Initialize display@>=
 PORTB |= _BV(PB0); /* on pro-micro led is inverted */
@@ -73,8 +70,15 @@ DDRB |= _BV(PB1); /* clock */
 DDRB |= _BV(PB2); /* data */
 DDRB |= _BV(PB6); /* latch */
 SPCR |= _BV(MSTR) | _BV(SPR1) | _BV(SPE);
+display_write(0x01, 0x00);
+display_write(0x02, 0x00);
+display_write(0x03, 0x00);
+display_write(0x04, 0x00);
+display_write(0x05, 0x00);
+display_write(0x06, 0x00);
+display_write(0x07, 0x00);
+display_write(0x08, 0x00);
 display_write(0x0A, 0x0F);
-display_write(0x0B, 0x07);
 display_write(0x0C, 0x01);
 
 @ @<Global variables@>=

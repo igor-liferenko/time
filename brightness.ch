@@ -10,13 +10,6 @@ brightness.ch and then try to do without ep3 and if firmware will not work, move
 @z
 
 @x
-      @<Show |time|@>@;
-@y
-      if (speed == 1200) continue;
-      @<Show |time|@>@;
-@z
-
-@x
 case 0x0900: @/
   @<Handle {\caps set configuration}@>@;
   break;
@@ -39,9 +32,10 @@ case 0x2021: /* set line coding (Table 50 in CDC spec) */
     display_write(0x06, 0x00);
     display_write(0x07, 0x00);
     display_write(0x08, 0x00);
+    display_write(0x0C, 0x00);
   }
-  if (speed == 2400) display_write(0x0A, 0);
-  if (speed == 4800) display_write(0x0A, 15);
+  if (speed == 2400) display_write(0x0A, 0), display_write(0x0C, 0x01);
+  if (speed == 4800) display_write(0x0A, 15), display_write(0x0C, 0x01);
   break;
 case 0x2221: /* set control line state */
   UEINTX &= ~_BV(RXSTPI);

@@ -1,7 +1,3 @@
-TODO: revert capabilities.ch and add there last change from brightness.ch and build without
-brightness.ch and then try to do without ep3 and if firmware will not work, move ep3 to brightness.ch
-(but without last change from brightness.ch firmware must work without ep3 - see time/TODO); in any case delete ep3 from time.w
-
 @x
 case 0x0900: @/
   @<Handle {\caps set configuration}@>@;

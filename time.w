@@ -326,10 +326,6 @@ const U8 chr_colon[8][6]
   UENUM = 2;
   UECONX &= ~_BV(EPEN);
   UECFG1X &= ~_BV(ALLOC);
-  @#
-  UENUM = 3;
-  UECONX &= ~_BV(EPEN);
-  UECFG1X &= ~_BV(ALLOC);
 }
 
 @ @<Setup USB Controller@>=
@@ -418,7 +414,6 @@ UEINTX &= ~_BV(TXINI);
 if (wValue == CONF_NUM) {
   @<Configure EP1@>@;
   @<Configure EP2@>@;
-  @<Configure EP3@>@;
 }
 
 @* USB descriptors.
@@ -472,7 +467,6 @@ struct {
   @<Header functional descriptor@>@;
   @<Abstract Control Management functional descriptor@>@;
   @<Union functional descriptor@>@;
-  @<Endpoint descriptor@>@;
   @<Interface descriptor@>@;
   @<Endpoint descriptor@>@;
   @<Endpoint descriptor@>@;
@@ -483,7 +477,6 @@ struct {
   @<Initialize Header functional descriptor@>, @/
   @<Initialize Abstract Control Management functional descriptor@>, @/
   @<Initialize Union functional descriptor@>, @/
-  @<Initialize EP3 descriptor@>, @/
   @<Initialize Data Class Interface descriptor@>, @/
   @<Initialize EP1 descriptor@>, @/
 @t\2@> @<Initialize EP2 descriptor@> @/
@@ -516,7 +509,7 @@ SIZEOF_THIS, @/
 4, /* INTERFACE */
 CTRL_IFACE_NUM, @/
 0, /* no alternate settings */
-1, /* one endpoint (notification) */
+0, /* no endpoints */
 0x02, /* Communication Interface class */
 0x02, /* Abstract Control Model */
 0x00, /* no protocol */
@@ -552,25 +545,6 @@ SIZEOF_THIS, @/
 0x06, @/
 CTRL_IFACE_NUM, @/
 DATA_IFACE0_NUM
-
-@*3 EP3 descriptor.
-
-\S9.6.6 in USB spec.
-
-@<Initialize EP3 descriptor@>=
-SIZEOF_THIS, @/ 
-5, /* ENDPOINT */
-3 | 1 << 7, @/
-0x03, @/
-8, @/
-0xFF
-
-@ @<Configure EP3@>=
-UENUM = 3;
-UECONX |= _BV(EPEN);
-UECFG0X = _BV(EPTYPE0) | _BV(EPTYPE1) | _BV(EPDIR);
-UECFG1X = 0;
-UECFG1X |= _BV(ALLOC);
 
 @*3 Data Class Interface descriptor.
 

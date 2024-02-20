@@ -1,6 +1,5 @@
 *.elf
 *.hex
-time-write
 *.c
 *.dvi
 *.pdf

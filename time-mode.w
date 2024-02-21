@@ -16,8 +16,9 @@ int main(int argc, char **argv)
   struct termios tcattr;
   tcgetattr(fd, &tcattr);
   if (strcmp(argv[1], "off") == 0) cfsetspeed(&tcattr, B1200);
-  if (strcmp(argv[1], "night") == 0) cfsetspeed(&tcattr, B2400);
-  if (strcmp(argv[1], "day") == 0) cfsetspeed(&tcattr, B4800);
+  else if (strcmp(argv[1], "night") == 0) cfsetspeed(&tcattr, B2400);
+  else if (strcmp(argv[1], "day") == 0) cfsetspeed(&tcattr, B4800);
+  else return 1;
   tcsetattr(fd, TCSANOW, &tcattr);
   return 0;
 }

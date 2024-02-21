@@ -54,10 +54,10 @@ case 0x2221: /* set control line state */
 @z
 
 @x
-  @<Interface descriptor@>@;
+  @<Union functional descriptor@>@;
 @y
+  @<Union functional descriptor@>@;
   @<Endpoint descriptor@>@;
-  @<Interface descriptor@>@;
 @z
 
 @x

@@ -302,6 +302,8 @@ const U8 chr_colon[8][6]
 
 @ \.{USB\_RESET} signal is sent when device is attached and when USB host reboots.
 
+TODO: use d40- as event for configuring EP0 and get rid of ISR?
+
 @<Create ISR for USB\_RESET@>=
 @.ISR@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=ISR@>
   (@.USB\_GEN\_vect@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=USB_GEN_vect@>)

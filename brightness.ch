@@ -61,10 +61,10 @@ case 0x2021: /* set line coding (Table 50 in CDC spec) */
   case 57600:
     display_write(0x0A, 0x0D), display_write(0x0C, 0x01);
     break;
-  case 115200:
+  case 49664: /* 115200 */
     display_write(0x0A, 0x0E), display_write(0x0C, 0x01);
     break;
-  case 230400:
+  case 33792: /* 230400 */
     display_write(0x0A, 0x0F), display_write(0x0C, 0x01);
   }
   break;

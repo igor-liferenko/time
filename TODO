@@ -6,13 +6,6 @@ to
 
     1, /* one endpoint (OUT) */
 ---------
-git reset --hard f18f77c0b70bd3b49da450db49e3b128b01f66f7
-and in @<Initialize Configuration header descriptor@> change
-"2, @/" to "3, @/"
-Will two ttyACM devices appear?
----------
-Re-do time-write as shell script (this is useful if you generate image online where there is no SDK).
----------
 Ensure that time-write does not have controlling terminal - the output of this command must be 0:
 
     cut -d' ' -f7 </proc/`pgrep time-write`/stat

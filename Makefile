@@ -2,17 +2,17 @@ all:
 	@echo NoOp
 
 c:
-	tie -c time.ch time.w brightness.ch long-display.ch >/dev/null
+	tie -c time.ch time.w notification.ch brightness.ch long-display.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 
 k:
-	tie -c time.ch time.w brightness.ch reverse.ch >/dev/null
+	tie -c time.ch time.w notification.ch brightness.ch reverse.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 
 u:
-	tie -c time.ch time.w brightness.ch >/dev/null
+	tie -c time.ch time.w notification.ch brightness.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 

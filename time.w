@@ -60,7 +60,7 @@ We use latch duration of 1 us (t\lower.25ex\hbox{\the\scriptfont0 CSW} in datash
 Note, that segments are connected as this: clock and latch are in parallel,
 DIN goes through each segment to DOUT and then to DIN of next segment in the chain.
 
-Blank the display, then we set maximum brightness and enter normal operation mode.
+We clear data registers, then we set maximum brightness and enter normal operation mode.
 
 @<Initialize MAX7219@>=
 PORTB |= _BV(PB0); /* on pro-micro led is inverted */

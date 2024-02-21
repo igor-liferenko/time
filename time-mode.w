@@ -1,8 +1,8 @@
 @* Intro.
-NOTE: if you need to use B9600, ignore it first time in device because it is set
-automatically by driver when device is connected.
 
-@ @c
+NOTE: do not use |B0| and |B9600|
+
+@c
 #include <fcntl.h>
 #include <string.h>
 #include <termios.h>

@@ -1,3 +1,7 @@
+Notification endpoint is optional, but without it driver does not work.
+So we use ch-file to keep notification endpoint out of main
+program - as if it is not used.
+
 @x
   UENUM = 2;
   UECONX &= ~_BV(EPEN);

@@ -84,7 +84,7 @@ SIZEOF_THIS, @/
 SIZEOF_THIS, @/
 0x24, @/
 0x02, @/
-1 << 1
+1 << 1 /* device supports `set line coding' and `set control line state' */
 @z
 
 @x

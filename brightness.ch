@@ -1,15 +1,15 @@
 @x
-   UENUM = 2;
-   UECONX &= ~_BV(EPEN);
-   UECFG1X &= ~_BV(ALLOC);
+  UENUM = 2;
+  UECONX &= ~_BV(EPEN);
+  UECFG1X &= ~_BV(ALLOC);
 @y
-   UENUM = 2;
-   UECONX &= ~_BV(EPEN);
-   UECFG1X &= ~_BV(ALLOC);
-   @#
-   UENUM = 3;
-   UECONX &= ~_BV(EPEN);
-   UECFG1X &= ~_BV(ALLOC);
+  UENUM = 2;
+  UECONX &= ~_BV(EPEN);
+  UECFG1X &= ~_BV(ALLOC);
+  @#
+  UENUM = 3;
+  UECONX &= ~_BV(EPEN);
+  UECFG1X &= ~_BV(ALLOC);
 @z
 
 @x
@@ -47,24 +47,24 @@ case 0x2221: /* set control line state */
 @z
 
 @x
-   @<Configure EP2@>@;
+  @<Configure EP2@>@;
 @y
-   @<Configure EP2@>@;
-   @<Configure EP3@>@;
+  @<Configure EP2@>@;
+  @<Configure EP3@>@;
 @z
 
 @x
-   @<Interface descriptor@>@;
+  @<Interface descriptor@>@;
 @y
-   @<Endpoint descriptor@>@;
-   @<Interface descriptor@>@;
+  @<Endpoint descriptor@>@;
+  @<Interface descriptor@>@;
 @z
 
 @x
-   @<Initialize Data Class Interface descriptor@>, @/
+  @<Initialize Data Class Interface descriptor@>, @/
 @y
-   @<Initialize EP3 descriptor@>, @/
-   @<Initialize Data Class Interface descriptor@>, @/
+  @<Initialize EP3 descriptor@>, @/
+  @<Initialize Data Class Interface descriptor@>, @/
 @z
 
 @x

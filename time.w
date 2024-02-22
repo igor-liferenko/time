@@ -72,6 +72,7 @@ SPCR |= _BV(MSTR) | _BV(SPR1) | _BV(SPE);
 for (U8 c = 1; c <= 8; c++)
   display_write(c, 0x00);
 display_write(0x0A, 0x0F);
+display_write(0x0B, 0x07);
 display_write(0x0C, 0x01);
 
 @ @<Global variables@>=

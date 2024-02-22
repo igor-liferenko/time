@@ -1,9 +1,0 @@
-move ep1 to txin.ch like notification.ch, not forgetting to change
- 
-    2, /* two endpoints (IN and OUT) */
-
-to
-
-    1, /* one endpoint (OUT) */
-
-and to time.w add 'txin.ch' near 'notification.ch'

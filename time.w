@@ -315,11 +315,7 @@ TODO: use d40- as event for configuring EP0 and get rid of ISR?
   UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1); /* 64 bytes (max) */
   UECFG1X |= _BV(ALLOC);
   @#
-  /* TODO: try to delete the following (do not forget about notification.ch) */
-  UENUM = 1;
-  UECONX &= ~_BV(EPEN);
-  UECFG1X &= ~_BV(ALLOC);
-  @#
+  /* TODO: try to delete the following (do not forget about txin.ch and notification.ch) */
   UENUM = 2;
   UECONX &= ~_BV(EPEN);
   UECFG1X &= ~_BV(ALLOC);
@@ -409,7 +405,6 @@ wValue = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
 UEINTX &= ~_BV(TXINI);
 if (wValue == CONF_NUM) {
-  @<Configure EP1@>@;
   @<Configure EP2@>@;
 }
 
@@ -466,7 +461,6 @@ struct {
   @<Union functional descriptor@>@;
   @<Interface descriptor@>@;
   @<Endpoint descriptor@>@;
-  @<Endpoint descriptor@>@;
 } const conf_desc
 @t\hskip2.5pt@> @=PROGMEM@> = { @t\1@> @/
   @<Initialize Configuration descriptor@>, @/
@@ -475,7 +469,6 @@ struct {
   @<Initialize Abstract Control Management functional descriptor@>, @/
   @<Initialize Union functional descriptor@>, @/
   @<Initialize Data Class Interface descriptor@>, @/
-  @<Initialize EP1 descriptor@>, @/
 @t\2@> @<Initialize EP2 descriptor@> @/
 };
 
@@ -554,30 +547,11 @@ SIZEOF_THIS, @/
 4, /* INTERFACE */
 DATA_IFACE0_NUM, @/
 0, /* no alternate settings */
-2, /* two endpoints (IN and OUT) */
+1, /* one endpoint (OUT) */
 0x0A, /* Data Interface class */
 0x00, /* constant */
 0x00, /* no protocol */
 0 /* no string */
-
-@*4 EP1 descriptor.
-
-\S9.6.6 in USB spec.
-
-@<Initialize EP1 descriptor@>=
-SIZEOF_THIS, @/ 
-5, /* ENDPOINT */
-1 | 1 << 7, @/
-0x02, @/
-8, @/
-0
-
-@ @<Configure EP1@>=
-UENUM = 1;
-UECONX |= _BV(EPEN);
-UECFG0X = _BV(EPTYPE1) | _BV(EPDIR);
-UECFG1X = 0;
-UECFG1X |= _BV(ALLOC);
 
 @*4 EP2 descriptor.
 

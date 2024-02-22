@@ -55,6 +55,8 @@ cu -l /dev/ttyUSB0 -s 57600
 @y
   UEINTX &= ~_BV(RXSTPI);
   UDR1='x'; while (!(UCSR1A & _BV(UDRE1))) { }
+  UDR1='='; while (!(UCSR1A & _BV(UDRE1))) { }
+  hex(wValue);
   UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 

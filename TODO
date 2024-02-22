@@ -1,4 +1,4 @@
-move ep1 to in.ch like notification.ch, not forgetting to change
+move ep1 to txin.ch like notification.ch, not forgetting to change
  
     2, /* two endpoints (IN and OUT) */
 

@@ -10,7 +10,7 @@ program - as if it is not used.
   UENUM = 2;
   UECONX &= ~_BV(EPEN);
   UECFG1X &= ~_BV(ALLOC);
-  @#
+
   UENUM = 3;
   UECONX &= ~_BV(EPEN);
   UECFG1X &= ~_BV(ALLOC);

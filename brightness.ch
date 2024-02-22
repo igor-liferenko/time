@@ -23,48 +23,6 @@ case 0x2021: /* set line coding (Table 50 in CDC spec) */
     display_write(0x0A, 0x00), display_write(0x0C, 0x01);
     break;
   case 110:
-    display_write(0x0A, 0x01), display_write(0x0C, 0x01);          
-    break;              
-  case 134:
-    display_write(0x0A, 0x02), display_write(0x0C, 0x01);                       
-    break;                            
-  case 150:
-    display_write(0x0A, 0x03), display_write(0x0C, 0x01);
-    break;
-  case 200:
-    display_write(0x0A, 0x04), display_write(0x0C, 0x01);
-    break;
-  case 300:
-    display_write(0x0A, 0x05), display_write(0x0C, 0x01);
-    break;
-  case 600:
-    display_write(0x0A, 0x06), display_write(0x0C, 0x01);
-    break;
-  case 1200:
-    display_write(0x0A, 0x07), display_write(0x0C, 0x01);
-    break;
-  case 1800:
-    display_write(0x0A, 0x08), display_write(0x0C, 0x01);
-    break;
-  case 2400:
-    display_write(0x0A, 0x09), display_write(0x0C, 0x01);
-    break;
-  case 4800:
-    display_write(0x0A, 0x0A), display_write(0x0C, 0x01);
-    break;
-  case 19200:
-    display_write(0x0A, 0x0B), display_write(0x0C, 0x01);
-    break;
-  case 38400:
-    display_write(0x0A, 0x0C), display_write(0x0C, 0x01);
-    break;
-  case 57600:
-    display_write(0x0A, 0x0D), display_write(0x0C, 0x01);
-    break;
-  case 49664: /* 115200 */
-    display_write(0x0A, 0x0E), display_write(0x0C, 0x01);
-    break;
-  case 33792: /* 230400 */
     display_write(0x0A, 0x0F), display_write(0x0C, 0x01);
   }
   break;

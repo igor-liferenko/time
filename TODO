@@ -1,4 +1,4 @@
-move ep1 to in.ch like notification.ch, not forgetting to change in time.w (and back in in.ch)
+move ep1 to in.ch like notification.ch, not forgetting to change
  
     2, /* two endpoints (IN and OUT) */
 

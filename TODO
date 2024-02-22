@@ -1,4 +1,4 @@
-try deleting ep1 (and changing ep2 into ep1 and ep3 to ep2), not forgetting to change
+try deleting ep1, not forgetting to change
  
     2, /* two endpoints (IN and OUT) */
 

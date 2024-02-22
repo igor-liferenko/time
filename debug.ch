@@ -53,6 +53,7 @@ cu -l /dev/ttyUSB0 -s 57600
 @x set control line state
   UEINTX &= ~_BV(RXSTPI);
 @y
+  wValue = UEDATX | UEDATX << 8;
   UEINTX &= ~_BV(RXSTPI);
   UDR1='x'; while (!(UCSR1A & _BV(UDRE1))) { }
   UDR1='='; while (!(UCSR1A & _BV(UDRE1))) { }

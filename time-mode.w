@@ -1,7 +1,5 @@
 @* Intro.
 
-NOTE: do not use |B0| and |B9600|
-
 @c
 #include <fcntl.h>
 #include <string.h>

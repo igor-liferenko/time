@@ -7,7 +7,3 @@ to
     1, /* one endpoint (OUT) */
 
 and to time.w add 'txin.ch' near 'notification.ch'
------------
-Ensure that time-write does not have controlling terminal - the output of this command must be 0:
-
-    cut -d' ' -f7 </proc/`pgrep time-write`/stat

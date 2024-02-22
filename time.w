@@ -314,7 +314,7 @@ TODO: use d40- as event for configuring EP0 and get rid of ISR?
   UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1); /* 64 bytes (max) */
   UECFG1X |= _BV(ALLOC);
   @#
-  /* TODO: try to delete the following */
+  /* TODO: try to delete the following (do not forget about notification.ch) */
   UENUM = 1;
   UECONX &= ~_BV(EPEN);
   UECFG1X &= ~_BV(ALLOC);

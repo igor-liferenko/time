@@ -1,3 +1,11 @@
+move ep1 to in.ch like notification.ch, not forgetting to change in time.w (and back in in.ch)
+ 
+    2, /* two endpoints (IN and OUT) */
+
+to
+
+    1, /* one endpoint (OUT) */
+-----------
 Ensure that time-write does not have controlling terminal - the output of this command must be 0:
 
     cut -d' ' -f7 </proc/`pgrep time-write`/stat

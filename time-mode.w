@@ -1,5 +1,7 @@
 @* Intro.
 
+Do not use |B0| and |B9600| on host and ignore 9600 on device.
+
 @c
 #include <fcntl.h>
 #include <string.h>

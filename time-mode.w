@@ -14,7 +14,7 @@ int main(int argc, char **argv)
   tcgetattr(fd, &tcattr);
   if (strcmp(argv[1], "off") == 0) cfsetspeed(&tcattr, B50), tcattr.c_cflag &= ~CSTOPB;
   else if (strcmp(argv[1], "night") == 0) cfsetspeed(&tcattr, B75), tcattr.c_cflag &= ~CSTOPB;
-  else if (strcmp(argv[1], "day") == 0) cfsetspeed(&tcattr, B1200), tcattr.c_cflag |= CSTOPB;
+  else if (strcmp(argv[1], "day") == 0) cfsetspeed(&tcattr, B600), tcattr.c_cflag |= CSTOPB;
   else return 1;
   tcsetattr(fd, TCSANOW, &tcattr);
   return 0;

@@ -60,9 +60,6 @@ We use latch duration of 1 us (t\lower.25ex\hbox{\the\scriptfont0 CSW} in datash
 Note, that segments are connected as this: clock and latch are in parallel,
 DIN goes through each segment to DOUT and then to DIN of next segment in the chain.
 
-We clear data registers, then we set maximum brightness, maximum scan-limit,
-enter normal operation mode and disable display-test mode.
-
 @<Initialize MAX7219@>=
 PORTB |= _BV(PB0); /* on pro-micro led is inverted */
 DDRB |= _BV(PB0); /* disable SPI slave mode (\.{SS} port) */
@@ -70,12 +67,14 @@ DDRB |= _BV(PB1); /* clock */
 DDRB |= _BV(PB2); /* data */
 DDRB |= _BV(PB6); /* latch */
 SPCR |= _BV(MSTR) | _BV(SPR1) | _BV(SPE);
+@#
+display_write(0x0F, 0x00);
+display_write(0x0B, 0x07);
+display_write(0x0A, 0x0F);
+display_write(0x09, 0x00);
 for (U8 c = 1; c <= 8; c++)
   display_write(c, 0x00);
-display_write(0x0A, 0x0F);
-display_write(0x0B, 0x07);
 display_write(0x0C, 0x01);
-display_write(0x0F, 0x00);
 
 @ @<Global variables@>=
 U8 buffer[8][NUM_DEVICES*8];

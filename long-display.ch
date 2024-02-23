@@ -8,15 +8,15 @@
 @z
   
 @x
-      U8 time[8];
+  U8 time[8];
 @y
-      U8 time[9];
+  U8 time[9];
 @z
 
 @x
-      time[5] = '\0';
+  time[5] = '\0';
 @y
-      time[8] = '\0';
+  time[8] = '\0';
 @z
   
 @x

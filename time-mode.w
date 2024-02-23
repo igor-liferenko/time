@@ -1,6 +1,6 @@
 @* Intro.
 
-Do not use |B0| and |B9600| on host and ignore 9600 on device.
+Do not use |B0|, |B9600| and above |B57600| on host and ignore 9600 on device.
 
 @c
 #include <fcntl.h>

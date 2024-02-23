@@ -16,7 +16,7 @@ case 0x2021: /* set line coding (Table 50 in CDC spec) */
   UEINTX &= ~_BV(TXINI);
   if (char_format == 0) switch (speed)
   {
-  case 50: 
+  case 50:
     for (U8 c = 1; c <= 8; c++)
       display_write(c, 0x00);
     display_write(0x0C, 0x00);
@@ -25,11 +25,11 @@ case 0x2021: /* set line coding (Table 50 in CDC spec) */
     display_write(0x0A, 0x00), display_write(0x0C, 0x01);
     break;
   case 110:
-    display_write(0x0A, 0x01), display_write(0x0C, 0x01);          
-    break;              
+    display_write(0x0A, 0x01), display_write(0x0C, 0x01);
+    break;
   case 134:
-    display_write(0x0A, 0x02), display_write(0x0C, 0x01);                       
-    break;                            
+    display_write(0x0A, 0x02), display_write(0x0C, 0x01);
+    break;
   case 150:
     display_write(0x0A, 0x03), display_write(0x0C, 0x01);
     break;

@@ -1,7 +1,5 @@
 @* Intro.
 
-Do not use |B0|, |B9600| and above |B57600| on host and ignore 9600 on device.
-
 @c
 #include <fcntl.h>
 #include <string.h>
@@ -15,11 +13,11 @@ int main(int argc, char **argv)
   struct termios tcattr;
   tcgetattr(fd, &tcattr);
   if (strcmp(argv[1], "off") == 0)
-    cfsetspeed(&tcattr, B50), tcattr.c_cflag &= ~CSTOPB; /* blank - see brigtness.ch */
+    cfsetspeed(&tcattr, B50), tcattr.c_cflag &= ~CSTOPB;
   else if (strcmp(argv[1], "night") == 0)
-    cfsetspeed(&tcattr, B75), tcattr.c_cflag &= ~CSTOPB; /* 0x00 - see brigtness.ch */
+    cfsetspeed(&tcattr, B75), tcattr.c_cflag &= ~CSTOPB;
   else if (strcmp(argv[1], "day") == 0)
-    cfsetspeed(&tcattr, B600), tcattr.c_cflag |= CSTOPB; /* 0x0F - see brigtness.ch */
+    cfsetspeed(&tcattr, B75), tcattr.c_cflag |= CSTOPB;
   else return 1;
   tcsetattr(fd, TCSANOW, &tcattr);
   return 0;

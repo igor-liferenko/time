@@ -69,10 +69,10 @@ DDRB |= _BV(PB1); /* clock */
 DDRB |= _BV(PB2); /* data */
 DDRB |= _BV(PB6); /* latch */
 SPCR |= _BV(MSTR) | _BV(SPR1) | _BV(SPE);
+display_write(0x0F, 0x00);
 for (U8 c = 1; c <= 8; c++)
   display_write(c, 0x00);
 display_write(0x0A, 0x0F);
-display_write(0x0B, 0x07); /* FIXME: is it needed? should it be before for loop above? */
 display_write(0x0C, 0x01);
 
 @ @<Global variables@>=

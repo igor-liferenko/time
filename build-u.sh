@@ -15,8 +15,8 @@ tar -Jxf ../$SDK.tar.xz
 cd $SDK/
 ctangle ~/time/time-write.w || exit
 STAGING_DIR=~/lede/u/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/bin/mips-openwrt-linux-gcc time-write.c -o time-write || exit
-ctangle ~/time/time-mode.w || exit
-STAGING_DIR=~/lede/u/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/bin/mips-openwrt-linux-gcc time-mode.c -o time-mode || exit
+ctangle ~/time/time-intensity.w || exit
+STAGING_DIR=~/lede/u/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/bin/mips-openwrt-linux-gcc time-intensity.c -o time-intensity || exit
 cd ../$IMG/
 mkdir -p files/etc/uci-defaults/
 cat <<'EOF' >files/etc/uci-defaults/my
@@ -38,7 +38,7 @@ EOF
 
 mkdir -p files/bin/
 cp ../$SDK/time-write files/bin/
-cp ../$SDK/time-mode files/bin/
+cp ../$SDK/time-intensity files/bin/
 
 mkdir -p files/etc/
 cat <<'EOF' >files/etc/rc.local

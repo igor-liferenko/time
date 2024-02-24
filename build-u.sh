@@ -20,7 +20,6 @@ STAGING_DIR=~/lede/u/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/bin/mi
 cd ../$IMG/
 mkdir -p files/etc/uci-defaults/
 cat <<'EOF' >files/etc/uci-defaults/my
-uci set network.lan.ipaddr=192.168.1.1
 uci set network.wan.proto=pppoe
 uci set network.wan.keepalive=5
 uci set network.wan.username=USERNAME

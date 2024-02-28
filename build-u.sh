@@ -15,8 +15,6 @@ tar -Jxf ../$SDK.tar.xz
 cd $SDK/
 ctangle ~/time/time-write.w || exit
 STAGING_DIR=~/lede/u/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/bin/mips-openwrt-linux-gcc time-write.c -o time-write || exit
-ctangle ~/time/time-intensity.w || exit
-STAGING_DIR=~/lede/u/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/bin/mips-openwrt-linux-gcc time-intensity.c -o time-intensity || exit
 cd ../$IMG/
 mkdir -p files/etc/uci-defaults/
 cat <<'EOF' >files/etc/uci-defaults/my
@@ -37,7 +35,6 @@ EOF
 
 mkdir -p files/bin/
 cp ../$SDK/time-write files/bin/
-cp ../$SDK/time-intensity files/bin/
 
 mkdir -p files/etc/
 cat <<'EOF' >files/etc/rc.local
@@ -45,7 +42,7 @@ time-write &
 exit 0
 EOF
 
-make image PROFILE=tl-wr1043nd-v1 PACKAGES="kmod-usb-acm" FILES=files/
+make image PROFILE=tl-wr1043nd-v1 PACKAGES="kmod-usb-acm coreutils-stty" FILES=files/
 { RET=$?; } 2>/dev/null
 { set +x; } 2>/dev/null
 if [ $RET = 0 ]; then

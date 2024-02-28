@@ -16,9 +16,6 @@ cd $SDK/
 ctangle ~/time/time-write.w || exit
 sed -i 's@/dev/ttyACM0@/dev/serial/by-id/usb-03eb_2018-if00@' time-write.c
 STAGING_DIR=~/openwrt/c/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/bin/aarch64-openwrt-linux-gcc time-write.c -o time-write || exit
-ctangle ~/time/time-intensity.w || exit
-sed -i 's@/dev/ttyACM0@/dev/serial/by-id/usb-03eb_2018-if00@' time-intensity.c
-STAGING_DIR=~/openwrt/c/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/bin/aarch64-openwrt-linux-gcc time-intensity.c -o time-intensity || exit
 cd ../$IMG/
 mkdir -p files/etc/uci-defaults/
 cat <<'EOF' >files/etc/uci-defaults/my
@@ -43,7 +40,6 @@ EOF
 
 mkdir -p files/bin/
 cp ../$SDK/time-write files/bin/
-cp ../$SDK/time-intensity files/bin/
 
 mkdir -p files/etc/
 cat <<'EOF' >files/etc/rc.local
@@ -58,7 +54,7 @@ cat <<'EOF' >files/etc/crontabs/root
 0 4 * * * time-intensity F
 EOF
 
-make image PROFILE=rpi-3 PACKAGES="gpsd-clients gpsd ntpd kmod-usb-acm" FILES=files/
+make image PROFILE=rpi-3 PACKAGES="gpsd-clients gpsd ntpd kmod-usb-acm coreutils-stty" FILES=files/
 { RET=$?; } 2>/dev/null
 { set +x; } 2>/dev/null
 gunzip bin/*/*/*/*-ext4-factory.img.gz

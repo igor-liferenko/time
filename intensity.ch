@@ -9,12 +9,11 @@ case 0x0900: @/
 case 0x2021: /* set line coding (Table 50 in CDC spec) */
   UEINTX &= ~_BV(RXSTPI);
   while (!(UEINTX & _BV(RXOUTI))) { }
-  U16 speed = UEDATX | UEDATX << 8;
-  (void) UEDATX; @+ (void) UEDATX;
-  U8 stop_bit = UEDATX ? 2 : 1;
+  uint32_t speed = UEDATX | (uint32_t) UEDATX << 8 |
+  (uint32_t) UEDATX << 16 | (uint32_t) UEDATX << 24;
   UEINTX &= ~_BV(RXOUTI);
   UEINTX &= ~_BV(TXINI);
-  if (stop_bit == 1) switch (speed)
+  switch (speed)
   {
   case 50:
     for (U8 c = 1; c <= 8; c++)
@@ -62,13 +61,11 @@ case 0x2021: /* set line coding (Table 50 in CDC spec) */
     break;
   case 57600:
     display_write(0x0A, 0x0D), display_write(0x0C, 0x01);
-  }
-  if (stop_bit == 2) switch (speed)
-  {
-  case 50:
+    break;
+  case 115200:
     display_write(0x0A, 0x0E), display_write(0x0C, 0x01);
     break;
-  case 75:
+  case 230400:
     display_write(0x0A, 0x0F), display_write(0x0C, 0x01);
   }
   break;

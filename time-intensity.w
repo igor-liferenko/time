@@ -1,16 +1,5 @@
 @* Intro.
 
-TODO: install coreutils-stty and use `stty </dev/ttyACM0 -cstopb 50'
-      and try to do time-write.w as shell script too
-
-TODO: in arduino try the following and if it works, do not use `cstopb' and use B115200 and B230400
-  unsigned long B115200 = 115200UL;
-  unsigned long speed = UEDATX | UEDATX << 8 | UEDATX << 16 | UEDATX << 24;
-  if (speed == B115200) ...
-  switch (speed)
-  {
-  case B115200: ...
-
 @c
 #include <fcntl.h>
 #include <termios.h>
@@ -22,8 +11,7 @@ int main(int argc, char **argv)
   if ((fd = open("/dev/ttyACM0", O_WRONLY)) == -1) return 1;
   struct termios tcattr;
   tcgetattr(fd, &tcattr);
-  switch (*argv[1]) /* TODO: do starting from B50 (so 'off' will be B75) and change brightness.ch
-                             accordingly */
+  switch (*argv[1])
   {
   case '0':
     cfsetspeed(&tcattr, B75), tcattr.c_cflag &= ~CSTOPB;

@@ -49,9 +49,9 @@ EOF
 
 mkdir -p files/etc/crontabs/
 cat <<'EOF' >files/etc/crontabs/root
-0 0 * * * stty -F /dev/ttyACM0 50
-0 21 * * * stty -F /dev/ttyACM0 75
-0 4 * * * stty -F /dev/ttyACM0 110
+0 0 * * * stty -F /dev/serial/by-id/usb-03eb_2018-if00 50
+0 21 * * * stty -F /dev/serial/by-id/usb-03eb_2018-if00 75
+0 4 * * * stty -F /dev/serial/by-id/usb-03eb_2018-if00 110
 EOF
 
 make image PROFILE=rpi-3 PACKAGES="gpsd-clients gpsd ntpd kmod-usb-acm coreutils-stty" FILES=files/

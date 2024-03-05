@@ -57,9 +57,9 @@ cat <<'EOF' >files/etc/crontabs/root
 0 0 * * * stty -F /dev/ttyACM0 50
 0 21 * * * stty -F /dev/ttyACM0 75
 0 3 * * * stty -F /dev/ttyACM0 75
-0 4 * * * stty -F /dev/ttyACM0 150
+0 4 * * * stty -F /dev/ttyACM0 110
 0 7 * * 1-5 stty -F /dev/ttyACM0 50
-0 16 * * 1-5 stty -F /dev/ttyACM0 150
+0 16 * * 1-5 stty -F /dev/ttyACM0 110
 EOF
 
 make image PROFILE=Broadcom-b43 PACKAGES="kmod-usb-ohci kmod-usb-acm coreutils-stty" FILES=files/

@@ -1,3 +1,10 @@
+There are two things to keep in mind when we use this method:
+
+  1) data is sent only if one of the 4 parameters is changed
+     from its current value
+  2) set_line_coding 9600-8N1 is automatically sent by host
+     after set_configuration request
+
 @x
 case 0x0900: @/
   @<Handle {\caps set configuration}@>@;

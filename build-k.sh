@@ -45,7 +45,8 @@ time-write &
 cat <<'FOE' | sh &
 sleep 10
 while [ 1 ]; do
-  ping -c1 `uci get system.ntp.server` >/dev/null || reboot # to reconnect wifi automatically
+  ### uncomment this manually after you flash the router
+  # ping -c1 `uci get system.ntp.server` >/dev/null || reboot # to reconnect wifi automatically
   sleep 5
 done
 FOE

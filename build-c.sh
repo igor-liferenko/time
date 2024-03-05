@@ -21,9 +21,9 @@ mkdir -p files/etc/uci-defaults/
 cat <<'EOF' >files/etc/uci-defaults/my
 uci set wireless.radio0.disabled=0
 uci set wireless.radio0.txpower=3
-uci set wireless.default_radio0.ssid=MY_LINK2
+uci set wireless.default_radio0.ssid=SSID
 uci set wireless.default_radio0.encryption=psk2
-uci set wireless.default_radio0.key=mirumirmirumirmir
+uci set wireless.default_radio0.key=KEY
 uci commit wireless
 uci set gpsd.core.enabled=1
 uci set gpsd.core.device=usb-u-blox_AG_-_www.u-blox.com_u-blox_7_-_GPS_GNSS_Receiver-if00 # to see if it works, use `gpspipe -r'

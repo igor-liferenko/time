@@ -25,9 +25,9 @@ uci set network.wan.password=PASSWORD
 uci commit network
 uci set wireless.radio0.disabled=0
 uci set wireless.radio0.txpower=5
-uci set wireless.default_radio0.ssid=MY_LINK2
+uci set wireless.default_radio0.ssid=SSID
 uci set wireless.default_radio0.encryption=psk2
-uci set wireless.default_radio0.key=mirumirmirumirmir
+uci set wireless.default_radio0.key=KEY
 uci commit wireless
 uci set system.@system[0].timezone=GMT-7
 uci commit system

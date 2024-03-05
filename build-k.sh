@@ -43,7 +43,7 @@ mkdir -p files/etc/
 cat <<'EOF' >files/etc/rc.local
 time-write &
 cat <<'FOE' | sh &
-sleep 10
+sleep 60
 while [ 1 ]; do
   ### uncomment this manually after you flash the router
   # ping -c1 `uci get system.ntp.server` >/dev/null || reboot # to reconnect wifi automatically

@@ -5,8 +5,7 @@ to cope with this, |open| is attempted in a loop and |write| status
 is checked and if it failed, |close| is called.
 
 TTY device file must not be created if it does not
-already exist. Therefore |open|
-syscall is without |O_CREAT|.
+already exist. To achieve this, we do not use |O_CREAT| in |open|.
 
 @c
 #include <fcntl.h>

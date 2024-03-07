@@ -1,9 +1,7 @@
-cu -l /dev/ttyUSB0 -s 57600
-
 @x
   @<Setup USB Controller@>@;
 @y
-  UBRR1 = 34; // table 18-12 in datasheet
+  UBRR1 = 34; // table 18-12 in datasheet (lowest percentage of errors)
   UCSR1A |= _BV(U2X1);
   UCSR1B |= _BV(TXEN1);
   @<Setup USB Controller@>@;

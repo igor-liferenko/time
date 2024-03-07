@@ -61,7 +61,7 @@ Note, that segments are connected as this: clock and latch are in parallel,
 DIN goes through each segment to DOUT and then to DIN of next segment in the chain.
 
 @<Initialize MAX7219@>=
-PORTB |= _BV(PB0); /* on pro-micro led is inverted */
+PORTB |= _BV(PB0); /* prevent next command from turning on LED (on pro-micro LED is inverted) */
 DDRB |= _BV(PB0); /* disable SPI slave mode (\.{SS} port) */
 DDRB |= _BV(PB1); /* clock */
 DDRB |= _BV(PB2); /* data */

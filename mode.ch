@@ -1,4 +1,4 @@
-There are two things to keep in mind when we use this method:
+NOTE: there are two things to keep in mind when we use this method:
 
   1) data is sent only if one of the 4 parameters is changed
      from its current value

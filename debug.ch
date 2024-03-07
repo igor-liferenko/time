@@ -1,7 +1,7 @@
 @x
   @<Setup USB Controller@>@;
 @y
-  UBRR1 = 34; // table 18-12 in datasheet (lowest percentage of errors)
+  UBRR1 = 34; // table 18-12 in datasheet
   UCSR1A |= _BV(U2X1);
   UCSR1B |= _BV(TXEN1);
   @<Setup USB Controller@>@;

@@ -26,7 +26,7 @@ uci set wireless.default_radio0.encryption=psk2
 uci set wireless.default_radio0.key=KEY
 uci commit wireless
 uci set gpsd.core.enabled=1
-uci set gpsd.core.device=usb-u-blox_AG_-_www.u-blox.com_u-blox_7_-_GPS_GNSS_Receiver-if00 # to see if it works, use `gpspipe -r'
+uci set gpsd.core.device=/dev/serial/by-id/usb-u-blox_AG_-_www.u-blox.com_u-blox_7_-_GPS_GNSS_Receiver-if00 # to see if it works, use `gpspipe -r'
 uci commit gpsd
 # NOTE: ntpd.conf is generated dynamically by /etc/init.d/ntpd
 sed -i '/for i in $server/i\
@@ -49,9 +49,9 @@ EOF
 
 mkdir -p files/etc/crontabs/
 cat <<'EOF' >files/etc/crontabs/root
-0 0 * * * stty -F /dev/serial/by-id/usb-03eb_2018-if00 50
-0 21 * * * stty -F /dev/serial/by-id/usb-03eb_2018-if00 75
-0 4 * * * stty -F /dev/serial/by-id/usb-03eb_2018-if00 110
+0 0 * * * stty -F /dev/serial/by-id/usb-0* 50
+0 21 * * * stty -F /dev/serial/by-id/usb-0* 75
+0 4 * * * stty -F /dev/serial/by-id/usb-0* 110
 EOF
 
 make image PROFILE=rpi-3 PACKAGES="gpsd-clients gpsd ntpd kmod-usb-acm coreutils-stty" FILES=files/

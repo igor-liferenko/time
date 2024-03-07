@@ -1,8 +1,12 @@
 @* Intro.
 
-Serial port is done via USB, so it appears and disappears dynamically;
+TTY device is done via USB, so it appears and disappears dynamically;
 to cope with this, |open| is attempted in a loop and |write| status
 is checked and if it failed, |close| is called.
+
+TTY device file must not be created if it does not
+already exist. Therefore |open|
+syscall is without |O_CREAT|.
 
 @c
 #include <fcntl.h>

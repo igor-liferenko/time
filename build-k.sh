@@ -67,6 +67,5 @@ make image PROFILE=Broadcom-b43 PACKAGES="kmod-usb-ohci kmod-usb-acm coreutils-s
 { RET=$?; } 2>/dev/null
 { set +x; } 2>/dev/null
 if [ $RET = 0 ]; then
-  echo
-  echo 'fw ~/lede/k/*-imagebuilder-*/bin/*/*/*/*-standard-squashfs.trx k'
+  ls ~/lede/k/*-imagebuilder-*/bin/*/*/*/*-standard-squashfs.trx # mtd -r write /tmp/fw.img firmware
 fi

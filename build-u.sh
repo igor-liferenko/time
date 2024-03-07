@@ -46,6 +46,5 @@ make image PROFILE=tl-wr1043nd-v1 PACKAGES="kmod-usb-acm coreutils-stty" FILES=f
 { RET=$?; } 2>/dev/null
 { set +x; } 2>/dev/null
 if [ $RET = 0 ]; then
-  echo
-  echo 'fw ~/lede/u/*/bin/*/*/*/*-sysupgrade.bin u'
+  ls ~/lede/u/*/bin/*/*/*/*-sysupgrade.bin # mtd -r write /tmp/fw.img firmware
 fi

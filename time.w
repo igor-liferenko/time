@@ -399,7 +399,7 @@ for (U8 c = size / EP0_SIZE; c > 0; c--) {
 }
 while (!(UEINTX & _BV(TXINI))) { }
 if (size % EP0_SIZE == 0) {
-  if (size != wLength) UEINTX &= ~_BV(TXINI); /* zero-length packet */
+  if (size != wLength) UEINTX &= ~_BV(TXINI);
 }
 else {
   for (U8 c = size % EP0_SIZE; c > 0; c--) UEDATX = pgm_read_byte(buf++);

@@ -9,11 +9,11 @@ case 0x0900: @/
 case 0x2021: /* set line coding (Table 50 in CDC spec) */
   UEINTX &= ~_BV(RXSTPI);
   while (!(UEINTX & _BV(RXOUTI))) { }
-  uint32_t speed = UEDATX | (uint32_t) UEDATX << 8 |
+  uint32_t dwDTERate = UEDATX | (uint32_t) UEDATX << 8 |
   (uint32_t) UEDATX << 16 | (uint32_t) UEDATX << 24;
   UEINTX &= ~_BV(RXOUTI);
   UEINTX &= ~_BV(TXINI);
-  switch (speed)
+  switch (dwDTERate)
   {
   case 50:
     for (U8 c = 1; c <= 8; c++)

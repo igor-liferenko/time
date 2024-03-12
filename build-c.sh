@@ -9,9 +9,9 @@ mkdir -p ~/lede
 cd ~/lede
 [ -e $IMG.tar.xz ] || wget $URL/$IMG.tar.xz || exit
 [ -e $SDK.tar.xz ] || wget $URL/$SDK.tar.xz || exit
-rm -fr k/
-mkdir k/
-cd k/
+rm -fr c/
+mkdir c/
+cd c/
 tar -Jxf ../$IMG.tar.xz
 tar -Jxf ../$SDK.tar.xz
 cd $SDK/
@@ -66,5 +66,5 @@ make image PROFILE=Broadcom-b43 PACKAGES="kmod-usb-ohci kmod-usb-acm coreutils-s
 { RET=$?; } 2>/dev/null
 { set +x; } 2>/dev/null
 if [ $RET = 0 ]; then
-  ls ~/lede/k/*-imagebuilder-*/bin/*/*/*/*-standard-squashfs.trx # mtd -r write /tmp/fw.img firmware
+  ls ~/lede/c/*-imagebuilder-*/bin/*/*/*/*-standard-squashfs.trx # mtd -r write /tmp/fw.img firmware
 fi

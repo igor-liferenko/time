@@ -40,5 +40,5 @@ gunzip bin/*/*/*/*-ext4-factory.img.gz
 if [ $RET = 0 ]; then
   echo
   echo 'First umount and then do (changing sdX to proper name):'
-  echo '  dd if=`ls ~/openwrt/c/*/bin/*/*/*/*-ext4-factory.img` of=/dev/sdX bs=4M; sync'
+  echo '  dd if=`ls ~/openwrt/gps/*/bin/*/*/*/*-ext4-factory.img` of=/dev/sdX bs=4M; sync'
 fi

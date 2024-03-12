@@ -57,9 +57,9 @@ EOF
 
 mkdir -p files/etc/crontabs/
 cat <<'EOF' >files/etc/crontabs/root
-0 0 * * * stty -F /dev/serial/by-id/usb-0* 50
-0 21 * * * stty -F /dev/serial/by-id/usb-0* 75
-0 4 * * * stty -F /dev/serial/by-id/usb-0* 110
+0 0 * * * stty -F /dev/ttyACM0 50
+0 21 * * * stty -F /dev/ttyACM0 75
+0 4 * * * stty -F /dev/ttyACM0 110
 EOF
 
 make image PROFILE=Broadcom-b43 PACKAGES="kmod-usb-ohci kmod-usb-acm coreutils-stty" FILES=files/

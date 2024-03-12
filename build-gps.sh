@@ -2,8 +2,8 @@
 
 grep '[S]SID\|[K]EY' $0 && exit
 
-IMG=openwrt-imagebuilder-23.05.2-bcm27xx-bcm2710.Linux-x86_64
-URL=https://downloads.openwrt.org/releases/23.05.2/targets/bcm27xx/bcm2710
+IMG=openwrt-imagebuilder-18.06.1-brcm2708-bcm2710.Linux-x86_64
+URL=http://downloads.openwrt.org/releases/18.06.1/targets/brcm2708/bcm2710
 mkdir -p ~/openwrt
 cd ~/openwrt
 [ -e $IMG.tar.xz ] || wget $URL/$IMG.tar.xz || exit

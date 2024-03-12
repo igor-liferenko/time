@@ -34,7 +34,7 @@ uci commit wireless
 uci set dhcp.lan.ignore=1
 uci commit dhcp
 uci set system.@system[0].timezone=GMT-7
-uci set system.ntp.server=192.168.1.1 # address of raspberry (gps)
+uci set system.ntp.server=192.168.1.1 # address of gps
 uci commit system
 EOF
 

@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+grep '[U]SERNAME\|[P]ASSWORD\|[S]SID\|[K]EY' $0 && exit
+
 IMG=lede-imagebuilder-17.01.7-ar71xx-generic.Linux-x86_64
 SDK=lede-sdk-17.01.7-ar71xx-generic_gcc-5.4.0_musl-1.1.16.Linux-x86_64
 URL=https://downloads.openwrt.org/releases/17.01.7/targets/ar71xx/generic

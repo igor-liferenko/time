@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+grep '[S]SID\|[K]EY' $0 && exit
+
 IMG=openwrt-imagebuilder-23.05.2-bcm27xx-bcm2710.Linux-x86_64
 SDK=openwrt-sdk-23.05.2-bcm27xx-bcm2710_gcc-12.3.0_musl.Linux-x86_64
 URL=https://downloads.openwrt.org/releases/23.05.2/targets/bcm27xx/bcm2710

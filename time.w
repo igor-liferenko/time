@@ -46,11 +46,10 @@ typedef unsigned short U16;
 
 @ @<Process OUT packet@>= {
   UEINTX &= ~_BV(RXOUTI);
-  U8 time[8];
-  for (U8 c = 0; c < 8; c++)
+  U8 time[6] = {};
+  for (U8 c = 0; c < 5; c++)
     time[c] = UEDATX;
   UEINTX &= ~_BV(FIFOCON);
-  time[5] = '\0';
   @<Show |time|@>@;
 }
 

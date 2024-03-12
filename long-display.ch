@@ -8,17 +8,13 @@
 @z
   
 @x
-  U8 time[8];
+  U8 time[6] = {};
+  for (U8 c = 0; c < 5; c++)
 @y
-  U8 time[9];
+  U8 time[9] = {};
+  for (U8 c = 0; c < 8; c++)
 @z
 
-@x
-  time[5] = '\0';
-@y
-  time[8] = '\0';
-@z
-  
 @x
 @d NUM_DEVICES 4
 @y

@@ -63,7 +63,6 @@
 UEINTX &= ~_BV(RXSTPI);
 @y
 UEINTX &= ~_BV(RXSTPI);
-UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='a'; while (!(UCSR1A & _BV(UDRE1))) { }
 UDR1='='; while (!(UCSR1A & _BV(UDRE1))) { }
@@ -82,7 +81,6 @@ if (UDADDR & _BV(ADDEN)) {
 }
 else {
   UDR1='-'; while (!(UCSR1A & _BV(UDRE1))) { }
-  UDR1='\r'; while (!(UCSR1A & _BV(UDRE1))) { }
   UDR1='\n'; while (!(UCSR1A & _BV(UDRE1))) { }
 }
 @z

@@ -67,7 +67,7 @@ DDRB |= _BV(PB0); /* disable SPI slave mode (\.{SS} port) */
 DDRB |= _BV(PB1); /* clock */
 DDRB |= _BV(PB2); /* data */
 DDRB |= _BV(PB6); /* latch */
-SPCR |= _BV(MSTR) | _BV(SPR1) | _BV(SPE), _delay_ms(10);
+SPCR |= _BV(MSTR) | _BV(SPR1) | _BV(SPE), _delay_ms(100);
 display_write(0x0F, 0x00);
 display_write(0x0B, 0x07);
 display_write(0x0A, 0x0F);

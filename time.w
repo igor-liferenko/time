@@ -68,7 +68,7 @@ DDRB |= _BV(PB1); /* clock */
 DDRB |= _BV(PB2); /* data */
 DDRB |= _BV(PB6); /* latch */
 SPCR |= _BV(MSTR) | _BV(SPR1) | _BV(SPE);
-@#
+_delay_ms(1000);
 display_write(0x0F, 0x00);
 display_write(0x0B, 0x07);
 display_write(0x0A, 0x0F);
@@ -132,7 +132,7 @@ for (U8 row = 0; row < 8; row++) {
         data |= 1 << 7-i;
     display_push(row+1, data);
   }
-  PORTB |= _BV(PB6); @+ _delay_us(1); @+ PORTB &= ~_BV(PB6); /* latch */
+  PORTB |= _BV(PB6), _delay_us(1), PORTB &= ~_BV(PB6); /* latch */
 }
 
 @ @<Functions@>=
@@ -149,7 +149,7 @@ void display_write(U8 address, U8 data)
 {
   for (U8 c = 0; c < NUM_DEVICES; c++)
     display_push(address, data);
-  PORTB |= _BV(PB6); @+ _delay_us(1); @+ PORTB &= ~_BV(PB6); /* latch */
+  PORTB |= _BV(PB6), _delay_us(1), PORTB &= ~_BV(PB6); /* latch */
 }
 
 @ @<Char...@>=
@@ -306,8 +306,6 @@ TODO: use d40- as event for configuring EP0 and get rid of ISR?
 @.ISR@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=ISR@>
   (@.USB\_GEN\_vect@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=USB_GEN_vect@>)
 {
-  UDINT &= ~_BV(EORSTI);
-  @#
   /* TODO: datasheet section 21.13 says that ep0 can be configured before detach - try to do this
      there instead of in ISR (and/or try to delete `de-configure' lines) */
   UENUM = 0;
@@ -322,6 +320,8 @@ TODO: use d40- as event for configuring EP0 and get rid of ISR?
   UENUM = 2;
   UECONX &= ~_BV(EPEN);
   UECFG1X &= ~_BV(ALLOC);
+  @#
+  UDINT &= ~_BV(EORSTI);
 }
 
 @ @<Setup USB Controller@>=

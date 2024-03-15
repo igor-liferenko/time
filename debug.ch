@@ -8,13 +8,6 @@
 @z
 
 @x
-  UDINT &= ~_BV(EORSTI);
-@y
-  UDINT &= ~_BV(EORSTI);
-  UDR1 = '!'; while (!(UCSR1A & _BV(UDRE1))) { }
-@z
-
-@x
   UECFG1X |= _BV(ALLOC);
 @y
   UECFG1X |= _BV(ALLOC);
@@ -22,6 +15,13 @@
     cli();
     UDR1='0'; while (1) { }
   }
+@z
+
+@x
+  UDINT &= ~_BV(EORSTI);
+@y
+  UDINT &= ~_BV(EORSTI);
+  UDR1 = '!'; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x

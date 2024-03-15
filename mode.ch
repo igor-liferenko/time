@@ -11,8 +11,16 @@ case 0x2021: /* set line coding (Table 50 in CDC spec) */
   while (!(UEINTX & _BV(RXOUTI))) { }
   uint32_t dwDTERate = UEDATX | (uint32_t) UEDATX << 8 |
   (uint32_t) UEDATX << 16 | (uint32_t) UEDATX << 24;
+  U8 a1 = UEDATX;
+  U8 a2 = UEDATX;
+  U8 a3 = UEDATX;
   UEINTX &= ~_BV(RXOUTI);
   UEINTX &= ~_BV(TXINI);
+  UDR1 = '^'; while (!(UCSR1A & _BV(UDRE1))) { }
+  hex(a1);
+  hex(a2);
+  hex(a3);
+  UDR1 = ' '; while (!(UCSR1A & _BV(UDRE1))) { }
   switch (dwDTERate)
   {
   case 50:

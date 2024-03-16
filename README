@@ -25,14 +25,14 @@ If it is not, find a way to disable probe. This may help:
 
 Connect USBasp as:
 
-( ) (G) (O) (.) ( ) ( ) ( ) ( ) (B) (G) (V) (.)
-
-(G) = Gray
-(O) = Orange
-(B) = Brown
-(V) = Violet
-( ) = no pin
-(.) = unused pin
+USBasp: +--------+
+        | (1) ( )|
+          ( ) ( )|
+          (2) ( )|
+          (3) ( )|
+        | (4) (5)|
+        +--------+
+Arduino: ( ) (5) (2) (.) ( ) ( ) ( ) ( ) (3) (4) (1) (.)
 
 Connect display as:
 

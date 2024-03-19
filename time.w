@@ -298,22 +298,18 @@ const U8 chr_colon[8][6]
 
 @ \.{USB\_RESET} signal is sent when device is attached and when USB host reboots.
 
-TODO: see QUIRK in usb repo
-TODO: use d40- as event for configuring EP0 and get rid of ISR?
-
 @<Create ISR for USB\_RESET@>=
 @.ISR@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=ISR@>
   (@.USB\_GEN\_vect@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=USB_GEN_vect@>)
 {
+  UENUM = 0;
   UDR1 = '^'; while (!(UCSR1A & _BV(UDRE1))) { }
+  UDR1 = '0'; while (!(UCSR1A & _BV(UDRE1))) { }
   UENUM = 0;
   UDR1 = (UECONX & _BV(EPEN)) ? '1' : '0'; while (!(UCSR1A & _BV(UDRE1))) { }
   UDR1 = (UECFG1X & _BV(ALLOC)) ? '1' : '0'; while (!(UCSR1A & _BV(UDRE1))) { }
   /* TODO: datasheet section 21.13 says that ep0 can be configured before detach - try to do this
-     there instead of in ISR (and/or try to delete `de-configure' lines) */
-  UENUM = 0;
-  UECONX &= ~_BV(EPEN); /* de-configure */
-  UECFG1X &= ~_BV(ALLOC); /* de-configure */
+     there instead of in ISR */
   UECONX |= _BV(EPEN);
   UECFG0X = 0;
   UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
@@ -568,6 +564,10 @@ SIZEOF_THIS, @/
 
 @ @<Configure EP2@>=
 UENUM = 2;
+UDR1 = '^'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1 = '2'; while (!(UCSR1A & _BV(UDRE1))) { }  
+UDR1 = (UECONX & _BV(EPEN)) ? '1' : '0'; while (!(UCSR1A & _BV(UDRE1))) { }
+UDR1 = (UECFG1X & _BV(ALLOC)) ? '1' : '0'; while (!(UCSR1A & _BV(UDRE1))) { }
 UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1);
 UECFG1X = _BV(ALLOC);

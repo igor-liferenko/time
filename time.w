@@ -564,10 +564,6 @@ SIZEOF_THIS, @/
 
 @ @<Configure EP2@>=
 UENUM = 2;
-UDR1 = '^'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1 = '2'; while (!(UCSR1A & _BV(UDRE1))) { }  
-UDR1 = (UECONX & _BV(EPEN)) ? '1' : '0'; while (!(UCSR1A & _BV(UDRE1))) { }
-UDR1 = (UECFG1X & _BV(ALLOC)) ? '1' : '0'; while (!(UCSR1A & _BV(UDRE1))) { }
 UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1);
 UECFG1X = _BV(ALLOC);

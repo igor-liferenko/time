@@ -1,5 +1,3 @@
-% TODO: do via send_descriptor like hint.w
-
 \datethis
 \input epsf
 
@@ -326,8 +324,23 @@ UDIEN |= _BV(EORSTE);
 U16 wValue;
 U16 wIndex;
 U16 wLength;
-U16 size;
-const void *buf;
+
+@ \S5.5.3 in USB spec.
+
+@<Functions@>=
+void send_descriptor(const void *buf, U16 size)
+{
+  for (U8 c = size / EP0_SIZE; c > 0; c--) {
+    for (U8 c = EP0_SIZE; c > 0; c--) UEDATX = pgm_read_byte(buf++);
+    UEINTX &= ~_BV(TXINI);
+    if (c != 1 || size % EP0_SIZE || size != wLength) while (!(UEINTX & _BV(TXINI))) { }
+  }
+  if (size % EP0_SIZE) {
+    for (U8 c = size % EP0_SIZE; c > 0; c--) UEDATX = pgm_read_byte(buf++);
+    UEINTX &= ~_BV(TXINI);
+  }
+  else if (size != wLength) UEINTX &= ~_BV(TXINI);
+}
 
 @ @<Process CONTROL packet@>=
 switch (UEDATX | UEDATX << 8) { /* Request and Request Type */
@@ -364,10 +377,7 @@ UDADDR |= _BV(ADDEN);
 (void) UEDATX; @+ (void) UEDATX;
 wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
-buf = &dev_desc;
-size = wLength > sizeof dev_desc ? sizeof dev_desc : wLength;
-while (size) UEDATX = pgm_read_byte(buf++), size--;
-UEINTX &= ~_BV(TXINI);
+send_descriptor(&dev_desc, wLength > sizeof dev_desc ? sizeof dev_desc : wLength);
 while (!(UEINTX & _BV(RXOUTI))) { }
 UEINTX &= ~_BV(RXOUTI);
 
@@ -375,18 +385,7 @@ UEINTX &= ~_BV(RXOUTI);
 (void) UEDATX; @+ (void) UEDATX;
 wLength = UEDATX | UEDATX << 8;
 UEINTX &= ~_BV(RXSTPI);
-buf = &conf_desc;
-size = wLength > sizeof conf_desc ? sizeof conf_desc : wLength;
-for (U8 c = size / EP0_SIZE; c > 0; c--) {
-  for (U8 c = EP0_SIZE; c > 0; c--) UEDATX = pgm_read_byte(buf++);
-  UEINTX &= ~_BV(TXINI);
-  if (c != 1 || size % EP0_SIZE || size != wLength) while (!(UEINTX & _BV(TXINI))) { }
-}
-if (size % EP0_SIZE) {
-  for (U8 c = size % EP0_SIZE; c > 0; c--) UEDATX = pgm_read_byte(buf++);
-  UEINTX &= ~_BV(TXINI);
-}
-else if (size != wLength) UEINTX &= ~_BV(TXINI);
+send_descriptor(&conf_desc, wLength > sizeof conf_desc ? sizeof conf_desc : wLength);
 while (!(UEINTX & _BV(RXOUTI))) { }
 UEINTX &= ~_BV(RXOUTI);
 

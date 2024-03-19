@@ -3,6 +3,19 @@ So we use ch-file to keep the endpoint out of main
 program - as if it is not used.
 
 @x
+  UENUM = 2;
+  if (UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
+  if (UECFG1X & _BV(ALLOC)) DDRD |= _BV(PD5);
+@y
+  UENUM = 1;
+  if (UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
+  if (UECFG1X & _BV(ALLOC)) DDRD |= _BV(PD5);
+  UENUM = 2;
+  if (UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
+  if (UECFG1X & _BV(ALLOC)) DDRD |= _BV(PD5);
+@z
+
+@x
   @<Configure EP2@>@;
 @y
   @<Configure EP1@>@;

@@ -306,7 +306,6 @@ TODO: use d40- as event for configuring EP0 and get rid of ISR?
   (@.USB\_GEN\_vect@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=USB_GEN_vect@>)
 {
   UDR1 = '^'; while (!(UCSR1A & _BV(UDRE1))) { }
-  UDR1 = '0'; while (!(UCSR1A & _BV(UDRE1))) { }
   UENUM = 0;
   UDR1 = (UECONX & _BV(EPEN)) ? '1' : '0'; while (!(UCSR1A & _BV(UDRE1))) { }
   UDR1 = (UECFG1X & _BV(ALLOC)) ? '1' : '0'; while (!(UCSR1A & _BV(UDRE1))) { }

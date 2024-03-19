@@ -12,7 +12,7 @@ k:
 	@make --no-print-directory time
 
 u:
-	tie -c time.ch time.w txin.ch notification.ch mode.ch debug.ch >/dev/null
+	tie -c time.ch time.w txin.ch notification.ch mode.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 

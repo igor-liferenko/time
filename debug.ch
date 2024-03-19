@@ -10,7 +10,7 @@
 @x
   UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
 @y
-  UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */  
+  UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
   if (!(UESTA0X & _BV(CFGOK))) {
     cli();
     UDR1='0'; while (1) { }

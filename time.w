@@ -305,6 +305,11 @@ TODO: use d40- as event for configuring EP0 and get rid of ISR?
 @.ISR@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=ISR@>
   (@.USB\_GEN\_vect@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=USB_GEN_vect@>)
 {
+  UDR1 = '^'; while (!(UCSR1A & _BV(UDRE1))) { }
+  UDR1 = '0'; while (!(UCSR1A & _BV(UDRE1))) { }
+  UENUM = 0;
+  UDR1 = (UECONX & _BV(EPEN)) ? '1' : '0'; while (!(UCSR1A & _BV(UDRE1))) { }
+  UDR1 = (UECFG1X & _BV(ALLOC)) ? '1' : '0'; while (!(UCSR1A & _BV(UDRE1))) { }
   /* TODO: datasheet section 21.13 says that ep0 can be configured before detach - try to do this
      there instead of in ISR (and/or try to delete `de-configure' lines) */
   UENUM = 0;
@@ -313,11 +318,6 @@ TODO: use d40- as event for configuring EP0 and get rid of ISR?
   UECONX |= _BV(EPEN);
   UECFG0X = 0;
   UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
-  @#
-  /* TODO: try to delete the following (do not forget about txin.ch and notification.ch) */
-  UENUM = 2;
-  UECONX &= ~_BV(EPEN);
-  UECFG1X &= ~_BV(ALLOC);
   @#
   UDINT &= ~_BV(EORSTI);
 }

@@ -3,20 +3,6 @@ So we use ch-file to keep the endpoint out of main
 program - as if it is not used.
 
 @x
-  UENUM = 2;
-  UECONX &= ~_BV(EPEN);
-  UECFG1X &= ~_BV(ALLOC);
-@y
-  UENUM = 1;
-  UECONX &= ~_BV(EPEN);
-  UECFG1X &= ~_BV(ALLOC);
-
-  UENUM = 2;
-  UECONX &= ~_BV(EPEN);
-  UECFG1X &= ~_BV(ALLOC);
-@z
-
-@x
   @<Configure EP2@>@;
 @y
   @<Configure EP1@>@;

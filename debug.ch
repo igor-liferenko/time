@@ -8,9 +8,9 @@
 @z
 
 @x
-  UECFG1X |= _BV(ALLOC);
+  UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
 @y
-  UECFG1X |= _BV(ALLOC);
+  UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */  
   if (!(UESTA0X & _BV(CFGOK))) {
     cli();
     UDR1='0'; while (1) { }
@@ -103,9 +103,9 @@ UDR1=' '; while (!(UCSR1A & _BV(UDRE1))) { }
 @z
 
 @x
-UECFG1X |= _BV(ALLOC);
+UECFG1X = _BV(ALLOC);
 @y
-UECFG1X |= _BV(ALLOC);
+UECFG1X = _BV(ALLOC);
 if (!(UESTA0X & _BV(CFGOK))) {
   cli();
   UDR1='3'; while (1) { }
@@ -113,9 +113,9 @@ if (!(UESTA0X & _BV(CFGOK))) {
 @z
 
 @x
-UECFG1X |= _BV(ALLOC);
+UECFG1X = _BV(ALLOC);
 @y
-UECFG1X |= _BV(ALLOC);
+UECFG1X = _BV(ALLOC);
 if (!(UESTA0X & _BV(CFGOK))) {
   cli();
   UDR1='1'; while (1) { }
@@ -123,9 +123,9 @@ if (!(UESTA0X & _BV(CFGOK))) {
 @z
 
 @x
-UECFG1X |= _BV(ALLOC);
+UECFG1X = _BV(ALLOC);
 @y
-UECFG1X |= _BV(ALLOC);
+UECFG1X = _BV(ALLOC);
 if (!(UESTA0X & _BV(CFGOK))) {
   cli();
   UDR1='2'; while (1) { }

@@ -312,8 +312,7 @@ TODO: use d40- as event for configuring EP0 and get rid of ISR?
   UECFG1X &= ~_BV(ALLOC); /* de-configure */
   UECONX |= _BV(EPEN);
   UECFG0X = 0;
-  UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1); /* 64 bytes */
-  UECFG1X |= _BV(ALLOC);
+  UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
   @#
   /* TODO: try to delete the following (do not forget about txin.ch and notification.ch) */
   UENUM = 2;
@@ -572,8 +571,7 @@ SIZEOF_THIS, @/
 UENUM = 2;
 UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1);
-UECFG1X = 0;
-UECFG1X |= _BV(ALLOC);
+UECFG1X = _BV(ALLOC);
 
 @*2 \bf Configuration descriptor.
 

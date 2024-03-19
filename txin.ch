@@ -60,8 +60,7 @@ SIZEOF_THIS, @/
 UENUM = 1;
 UECONX |= _BV(EPEN);
 UECFG0X = _BV(EPTYPE1) | _BV(EPDIR);
-UECFG1X = 0;
-UECFG1X |= _BV(ALLOC);
+UECFG1X = _BV(ALLOC);
 
 @*4 EP2 descriptor.
 @z

@@ -26,10 +26,10 @@ If it is not, find a way to disable probe. This may help:
 Connect USBasp as:
 
 USBasp: +--------+
-        | (1) ( )|
-          ( ) ( )|
-          (2) ( )|
-          (3) ( )|
+        | (1) (.)|
+          (X) (.)|
+          (2) (.)|
+          (3) (.)|
         | (4) (5)|
         +--------+
 Arduino: ( ) (5) (2) (.) ( ) ( ) ( ) ( ) (3) (4) (1) (.)

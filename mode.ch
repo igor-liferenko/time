@@ -27,22 +27,4 @@ case 0x2021: /* set line coding (Table 50 in CDC spec) */
     display_write(0x0A, 0x0F), display_write(0x0C, 0x01);
   }
   break;
-case 0x2221: /* set control line state */
-  UEINTX &= ~_BV(RXSTPI);
-  UEINTX &= ~_BV(TXINI);
-  break;
-@z
-
-@x
-@<Initialize Abstract Control Management functional descriptor@>=
-SIZEOF_THIS, @/
-0x24, @/
-0x02, @/
-0
-@y
-@<Initialize Abstract Control Management functional descriptor@>=
-SIZEOF_THIS, @/
-0x24, @/
-0x02, @/
-1 << 1
 @z

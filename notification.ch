@@ -1,19 +1,4 @@
-Notification endpoint is optional, but without it driver does not work.
-So we use ch-file to keep the endpoint out of main
-program - as if it is not used.
-
-@x
-  UENUM = 2;
-  if (UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
-  if (UECFG1X & _BV(ALLOC)) DDRD |= _BV(PD5);
-@y
-  UENUM = 2;
-  if (UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
-  if (UECFG1X & _BV(ALLOC)) DDRD |= _BV(PD5);
-  UENUM = 3;
-  if (UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
-  if (UECFG1X & _BV(ALLOC)) DDRD |= _BV(PD5);
-@z
+Use ch-file to keep notification endpoint out of main program.
 
 @x
   @<Configure EP2@>@;

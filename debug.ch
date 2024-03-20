@@ -78,9 +78,10 @@ tx_char('d');
 hex(wLength);
 if (UDADDR & _BV(ADDEN))
   tx_char(' ');
-else
-  tx_char('-'),
+else {
+  tx_char('-');
   tx_char('\n');
+}
 @z
 
 @x configuration

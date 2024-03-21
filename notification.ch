@@ -50,3 +50,19 @@ UECFG1X = _BV(ALLOC);
 
 @*3 Data Class Interface descriptor.
 @z
+
+  UENUM = EP3;
+  while (!(UEINTX & _BV(TXINI))) { }
+  UEINTX &= ~_BV(TXINI);
+  UEDATX = 0xA1; // ?
+  UEDATX = 0x20; // table 5 in CDC spec?
+  UEDATX = 0x00; @+ UEDATX = 0x00; // ?
+  UEDATX = 0x00; @+ UEDATX = 0x00; // ?
+  UEDATX = 0x02; @+ UEDATX = 0x00; // ?
+  UEDATX = ?;
+  UEDATX = ?;
+  UEINTX &= ~_BV(FIFOCON);
+
+  CDC\S6.3.5
+
+  check via TIOCMGET

@@ -40,7 +40,7 @@ SIZEOF_THIS, @/
 3 | 1 << 7, @/
 0x03, @/
 8, @/
-0xFF
+255
 
 @ @<Configure EP3@>=
 UENUM = 3;

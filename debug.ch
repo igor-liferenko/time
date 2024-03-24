@@ -1,4 +1,4 @@
-stty -F /dev/ttyUSB0 raw 57600; cat /dev/ttyUSB0
+stty -F /dev/ttyUSB0 -icanon 57600; cat /dev/ttyUSB0
 
 @x
   @<Setup USB Controller@>@;

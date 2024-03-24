@@ -7,7 +7,11 @@ It is good that all endpoints (except 0) are destroyed by USB_RESET,
 because we can unconditionally create them in set_configuration.
 
 It is bad that endpoint 0 is destroyed by USB_RESET,
-because we cannot create endpoint 0 before attach.
+because we cannot create endpoint 0 before attach
+(which would make it possible not to use ISR).
+
+This ch-file is tested with attach device,
+with reboot host and with `sudo usbreset 03eb:2018'.
 
 @x
   UENUM = 0;

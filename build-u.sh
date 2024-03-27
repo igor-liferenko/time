@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-grep '[U]SERNAME\|[P]ASSWORD\|[S]SID\|[K]EY' $0 && exit
+grep '[S]SID\|[K]EY' $0 && exit
 
 IMG=lede-imagebuilder-17.01.7-ar71xx-generic.Linux-x86_64
 SDK=lede-sdk-17.01.7-ar71xx-generic_gcc-5.4.0_musl-1.1.16.Linux-x86_64
@@ -20,11 +20,6 @@ STAGING_DIR=~/lede/u/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/bin/mi
 cd ../$IMG/
 mkdir -p files/etc/uci-defaults/
 cat <<'EOF' >files/etc/uci-defaults/my
-uci set network.wan.proto=pppoe
-uci set network.wan.keepalive=5
-uci set network.wan.username=USERNAME
-uci set network.wan.password=PASSWORD
-uci commit network
 uci set wireless.radio0.disabled=0
 uci set wireless.radio0.txpower=5
 uci set wireless.default_radio0.ssid=SSID

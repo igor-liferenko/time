@@ -44,12 +44,19 @@ cp ../$SDK/time-write files/bin/
 mkdir -p files/etc/
 cat <<'EOF' >files/etc/rc.local
 time-write &
-cat <<'FOE' | sh &
-sleep 60
+cat <<'FOE' | sh & # reconnect wifi automatically
+my_fail=0
 while [ 1 ]; do
-  ### uncomment this manually after you flash the router (on first boot after reflashing it needs time for initialization more than the sleep above)
-  # ping -c1 `uci get system.ntp.server` >/dev/null || reboot # to reconnect wifi automatically
-  sleep 5
+  sleep 60
+  if ping -c1 `uci get system.ntp.server` >/dev/null; then
+    my_fail=0
+  else
+    my_fail=$((my_fail+1))
+  fi
+  if [ $my_fail = 3 ]; then
+    wifi reload
+    my_fail=0
+  fi
 done
 FOE
 exit 0

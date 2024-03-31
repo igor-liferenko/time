@@ -20,9 +20,11 @@ STAGING_DIR=~/lede/dir320/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/b
 cd ../$IMG/
 mkdir -p files/etc/uci-defaults/
 cat <<'EOF' >files/etc/uci-defaults/my
-uci set network.lan.proto=dhcp
 uci del network.lan.ifname
 uci del network.lan.type
+uci set network.lan.proto=dhcp
+uci del network.lan.ipaddr
+uci del network.lan.netmask
 uci commit network
 uci set wireless.radio0.disabled=0
 uci set wireless.radio0.txpower=3

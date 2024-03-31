@@ -31,6 +31,22 @@ uci del system.ntp.server # to make $server empty in /etc/init.d/ntpd
 uci set system.ntp.enable_server=1 # to make $enable_server non-zero in /etc/init.d/ntpd
 uci set system.@system[0].timezone=GMT-7
 uci commit system
+#echo MAC 192.168.1.2 >>/etc/ethers
+#echo MAC 192.168.1.3 >>/etc/ethers
+EOF
+
+mkdir -p files/etc/crontabs/
+cat <<'EOF' >files/etc/crontabs/root
+0 0 * * * ssh -y 192.168.1.2 stty -F /dev/ttyACM0 50
+0 21 * * * ssh -y 192.168.1.2 stty -F /dev/ttyACM0 75
+0 3 * * * ssh -y 192.168.1.2 stty -F /dev/ttyACM0 75
+0 4 * * * ssh -y 192.168.1.2 stty -F /dev/ttyACM0 110
+0 7 * * 1-5 ssh -y 192.168.1.2 stty -F /dev/ttyACM0 50
+0 16 * * 1-5 ssh -y 192.168.1.2 stty -F /dev/ttyACM0 110
+#
+0 0 * * * ssh -y 192.168.1.3 stty -F /dev/ttyACM0 50
+0 21 * * * ssh -y 192.168.1.3 stty -F /dev/ttyACM0 75
+0 4 * * * ssh -y 192.168.1.3 stty -F /dev/ttyACM0 110
 EOF
 
 make image PROFILE=rpi-3 PACKAGES="gpsd-clients gpsd ntpd kmod-usb-acm" FILES=files/

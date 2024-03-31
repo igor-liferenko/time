@@ -9,14 +9,14 @@ mkdir -p ~/lede
 cd ~/lede
 [ -e $IMG.tar.xz ] || wget $URL/$IMG.tar.xz || exit
 [ -e $SDK.tar.xz ] || wget $URL/$SDK.tar.xz || exit
-rm -fr c/
-mkdir c/
-cd c/
+rm -fr dir320/
+mkdir dir320/
+cd dir320/
 tar -Jxf ../$IMG.tar.xz
 tar -Jxf ../$SDK.tar.xz
 cd $SDK/
 ctangle ~/time/time-write.w || exit
-STAGING_DIR=~/lede/k/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/bin/mipsel-openwrt-linux-gcc time-write.c -o time-write || exit
+STAGING_DIR=~/lede/dir320/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/bin/mipsel-openwrt-linux-gcc time-write.c -o time-write || exit
 cd ../$IMG/
 mkdir -p files/etc/uci-defaults/
 cat <<'EOF' >files/etc/uci-defaults/my
@@ -59,5 +59,5 @@ make image PROFILE=Broadcom-b43 PACKAGES="kmod-usb-ohci kmod-usb-acm coreutils-s
 { RET=$?; } 2>/dev/null
 { set +x; } 2>/dev/null
 if [ $RET = 0 ]; then
-  ls ~/lede/c/*-imagebuilder-*/bin/*/*/*/*-standard-squashfs.trx # mtd -r write /tmp/fw.img firmware
+  ls ~/lede/dir320/*-imagebuilder-*/bin/*/*/*/*-standard-squashfs.trx # mtd -r write /tmp/fw.img firmware
 fi

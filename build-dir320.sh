@@ -20,7 +20,7 @@ STAGING_DIR=~/lede/k/$SDK/staging_dir/toolchain* ./staging_dir/toolchain*/bin/mi
 cd ../$IMG/
 mkdir -p files/etc/uci-defaults/
 cat <<'EOF' >files/etc/uci-defaults/my
-uci set network.lan.ipaddr=192.168.1.3
+uci set network.lan.proto=dhcp
 uci del network.lan.ifname
 uci del network.lan.type
 uci commit network
@@ -53,13 +53,6 @@ while [ 1 ]; do
 done
 FOE
 exit 0
-EOF
-
-mkdir -p files/etc/crontabs/
-cat <<'EOF' >files/etc/crontabs/root
-0 0 * * * stty -F /dev/ttyACM0 50
-0 21 * * * stty -F /dev/ttyACM0 75
-0 4 * * * stty -F /dev/ttyACM0 110
 EOF
 
 make image PROFILE=Broadcom-b43 PACKAGES="kmod-usb-ohci kmod-usb-acm coreutils-stty" FILES=files/

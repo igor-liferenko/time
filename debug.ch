@@ -28,7 +28,7 @@
 @y
 @* USB connection.
 @d tx_char(c) UDR1 = c; while (!(UCSR1A & _BV(UDRE1)))
-@d HEX(c) tx_char((c)<10 ? (c)+'0' : (c)-10+'A')
+@d HEX(c) tx_char((c)<10 ? (c)+'0' : (c)-10+'a')
 @d hex(c) HEX((c >> 4) & 0x0f); HEX(c & 0x0f)
 @z
 

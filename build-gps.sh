@@ -32,7 +32,7 @@ uci set system.ntp.enable_server=1 # to make $enable_server non-zero in /etc/ini
 uci set system.@system[0].timezone=GMT-7
 uci commit system
 #echo MAC 192.168.1.2 >>/etc/ethers
-#echo MAC 192.168.1.3 >>/etc/ethers
+echo 14:d6:4d:70:35:3d 192.168.1.3 >>/etc/ethers
 EOF
 
 mkdir -p files/etc/crontabs/

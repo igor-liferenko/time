@@ -47,11 +47,10 @@ mkdir -p files/etc/
 cat <<'EOF' >files/etc/rc.local
 time-write &
 cat <<'FOE' | sh &
-sleep 60
+sleep 100
 while [ 1 ]; do
-  ### uncomment this manually after you flash the router (on first boot after reflashing it needs time for initialization more than the sleep above)
-  # ping -c1 `uci get system.ntp.server` >/dev/null || reboot # to reconnect wifi automatically
-  sleep 5
+  iw dev wlan0 station dump | grep wlan0 >/dev/null || wifi reload # to reconnect wifi automatically
+  sleep 10
 done
 FOE
 exit 0

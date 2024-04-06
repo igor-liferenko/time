@@ -27,7 +27,6 @@ uci del network.lan.ipaddr
 uci del network.lan.netmask
 uci commit network
 uci set wireless.radio0.disabled=0
-uci set wireless.radio0.txpower=3
 uci set wireless.default_radio0.mode=sta
 uci set wireless.default_radio0.ssid=SSID
 uci set wireless.default_radio0.encryption=psk2
@@ -36,7 +35,6 @@ uci commit wireless
 uci set dhcp.lan.ignore=1
 uci commit dhcp
 uci set system.@system[0].timezone=GMT-7
-uci set system.ntp.server=192.168.1.1 # address of gps
 uci commit system
 EOF
 

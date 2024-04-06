@@ -31,8 +31,12 @@ uci del system.ntp.server # to make $server empty in /etc/init.d/ntpd
 uci set system.ntp.enable_server=1 # to make $enable_server non-zero in /etc/init.d/ntpd
 uci set system.@system[0].timezone=GMT-7
 uci commit system
-#echo MAC 192.168.1.2 >>/etc/ethers
-echo 14:d6:4d:70:35:3d 192.168.1.3 >>/etc/ethers
+echo 5c:d9:98:1b:81:27 192.168.1.2 >>/etc/ethers
+#echo MAC 192.168.1.3 >>/etc/ethers
+echo 192.168.1.1 0.lede.pool.ntp.org >>/etc/hosts
+echo 192.168.1.1 1.lede.pool.ntp.org >>/etc/hosts
+echo 192.168.1.1 2.lede.pool.ntp.org >>/etc/hosts
+echo 192.168.1.1 3.lede.pool.ntp.org >>/etc/hosts
 EOF
 
 mkdir -p files/etc/crontabs/

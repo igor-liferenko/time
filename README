@@ -1,7 +1,8 @@
-Run this on dir320, used with GPS:
+Run this on dir320:
 
-    uci set system.ntp.server=192.168.1.1
-    uci commit system
+    uci set wireless.radio0.txpower=[same as on AP]
+    uci commit wireless
+    wifi reload
 
 =========================================================
 

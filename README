@@ -1,6 +1,6 @@
-Run this on dir320:
+Run the following on dir320 after flashing:
 
-    uci set wireless.radio0.txpower=[same as on AP]
+    uci set wireless.radio0.txpower=SAME_AS_ON_CORRESPONDING_ACCESS_POINT
     uci commit wireless
     wifi reload
 

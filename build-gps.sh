@@ -2,8 +2,8 @@
 
 grep '[S]SID\|[K]EY' $0 && exit
 
-IMG=openwrt-imagebuilder-18.06.1-brcm2708-bcm2710.Linux-x86_64
-URL=http://downloads.openwrt.org/releases/18.06.1/targets/brcm2708/bcm2710
+IMG=openwrt-imagebuilder-18.06.4-ramips-mt76x8.Linux-x86_64
+URL=https://downloads.openwrt.org/releases/18.06.4/targets/ramips/mt76x8
 mkdir -p ~/openwrt
 cd ~/openwrt
 [ -e $IMG.tar.xz ] || wget $URL/$IMG.tar.xz || exit
@@ -49,12 +49,9 @@ cat <<'EOF' >files/etc/crontabs/root
 0 4 * * * ssh -y 192.168.1.3 stty -F /dev/ttyACM0 110
 EOF
 
-make image PROFILE=rpi-3 PACKAGES="gpsd-clients gpsd ntpd kmod-usb-acm" FILES=files/
+make image PROFILE=tplink_tl-wr842n-v5 PACKAGES="gpsd-clients gpsd ntpd kmod-usb-acm" FILES=files/
 { RET=$?; } 2>/dev/null
 { set +x; } 2>/dev/null
-gunzip bin/*/*/*/*-ext4-factory.img.gz
 if [ $RET = 0 ]; then
-  echo
-  echo 'First umount and then do (changing sdX to proper name):'
-  echo '  dd if=`ls ~/openwrt/gps/*/bin/*/*/*/*-ext4-factory.img` of=/dev/sdX bs=4M; sync'
+  ls ~/openwrt/y/*/bin/*/*/*/*-sysupgrade.bin # mtd -r write /tmp/fw.img firmware
 fi

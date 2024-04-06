@@ -2,8 +2,8 @@
 
 grep '[S]SID\|[K]EY' $0 && exit
 
-IMG=openwrt-imagebuilder-18.06.4-ramips-mt76x8.Linux-x86_64
-URL=https://downloads.openwrt.org/releases/18.06.4/targets/ramips/mt76x8
+IMG=openwrt-imagebuilder-18.06.1-ramips-mt76x8.Linux-x86_64
+URL=https://downloads.openwrt.org/releases/18.06.1/targets/ramips/mt76x8
 mkdir -p ~/openwrt
 cd ~/openwrt
 [ -e $IMG.tar.xz ] || wget $URL/$IMG.tar.xz || exit

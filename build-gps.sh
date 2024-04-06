@@ -57,5 +57,5 @@ make image PROFILE=tplink_tl-wr842n-v5 PACKAGES="gpsd-clients gpsd ntpd kmod-usb
 { RET=$?; } 2>/dev/null
 { set +x; } 2>/dev/null
 if [ $RET = 0 ]; then
-  ls ~/openwrt/y/*/bin/*/*/*/*-sysupgrade.bin # mtd -r write /tmp/fw.img firmware
+  ls ~/openwrt/gps/*/bin/*/*/*/*-sysupgrade.bin # mtd -r write /tmp/fw.img firmware
 fi

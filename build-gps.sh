@@ -33,6 +33,7 @@ uci set system.@system[0].timezone=GMT-7
 uci commit system
 echo 5c:d9:98:1b:81:27 192.168.1.2 >>/etc/ethers
 echo f0:7d:68:83:16:eb 192.168.1.3 >>/etc/ethers
+# We can't use "uci set system.ntp.server=192.168.1.1" in build-dir320.sh because it is used for all devices:
 echo 192.168.1.1 0.lede.pool.ntp.org >>/etc/hosts
 echo 192.168.1.1 1.lede.pool.ntp.org >>/etc/hosts
 echo 192.168.1.1 2.lede.pool.ntp.org >>/etc/hosts

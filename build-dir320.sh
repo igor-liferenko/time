@@ -44,13 +44,6 @@ cp ../$SDK/time-write files/bin/
 mkdir -p files/etc/
 cat <<'EOF' >files/etc/rc.local
 time-write &
-cat <<'FOE' | sh &
-sleep 100
-while [ 1 ]; do
-  iw dev wlan0 station dump | grep wlan0 >/dev/null || wifi reload # to reconnect wifi automatically
-  sleep 10
-done
-FOE
 exit 0
 EOF
 

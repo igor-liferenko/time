@@ -16,6 +16,11 @@ u:
 	ctangle time time
 	@make --no-print-directory time
 
+e:
+	tie -c time.ch time.w control.ch txin.ch notification.ch mode.ch minutes-seconds.ch >/dev/null
+	ctangle time time
+	@make --no-print-directory time
+
 time:
 	avr-gcc -mmcu=atmega32u4 -DF_CPU=16000000UL -g -Os -o fw.elf time.c
 

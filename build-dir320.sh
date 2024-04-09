@@ -33,7 +33,6 @@ uci set wireless.default_radio0.encryption=psk2
 uci set wireless.default_radio0.key=KEY
 uci commit wireless
 uci set dhcp.lan.ignore=1
-uci set dhcp.@dnsmasq[0].rebind_protection=0 # make dns work in all cases (including /etc/hosts trick in build-gps.sh)
 uci commit dhcp
 uci set system.@system[0].timezone=GMT-7
 uci commit system

@@ -47,7 +47,20 @@ cat <<'EOF' >files/etc/crontabs/root
 0 0 * * * ssh -y 192.168.1.3 stty -F /dev/ttyACM0 50
 0 21 * * * ssh -y 192.168.1.3 stty -F /dev/ttyACM0 75
 0 4 * * * ssh -y 192.168.1.3 stty -F /dev/ttyACM0 110
+#
+*/10 * * * * check-dir320
 EOF
+
+mkdir -p files/bin/
+cat <<'EOF' >files/bin/check-dir320
+#!/bin/sh
+for i in `cat /etc/ethers | cut -d' ' -f2`; do
+  if [ "$(ssh -y $i uci get system.ntp.server)" != 192.168.1.1 ]; then
+    ssh -y $i '[ -e /tmp/blink.running ] && exit; touch /tmp/blink.running; sh -c "speed=50; while [ 1 ]; do stty -F /dev/ttyACM0 $speed; sleep 1; if [ $speed = 50 ]; then speed=110; else speed=50; fi; done" &'
+  fi
+done
+EOF
+chmod +x files/bin/check-dir320
 
 make image PROFILE=tplink_tl-wr842n-v5 PACKAGES="gpsd-clients gpsd ntpd kmod-usb-acm" FILES=files/
 { RET=$?; } 2>/dev/null

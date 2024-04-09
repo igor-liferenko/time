@@ -60,7 +60,7 @@ cat <<'EOF' >files/bin/check-dir320
 #   reboot
 for i in `cat /etc/ethers | cut -d' ' -f2`; do
   if [ "$(ssh -y $i uci get system.ntp.server)" != 192.168.1.1 ]; then
-    ssh -y $i '[ -e /tmp/blink.running ] && exit; touch /tmp/blink.running; sh -c "speed=50; while [ 1 ]; do stty -F /dev/ttyACM0 $speed; sleep 1; if [ $speed = 50 ]; then speed=110; else speed=50; fi; done" &'
+    ssh -y $i '[ -e /tmp/blink.running ] && exit; touch /tmp/blink.running; sh -c "speed=50; while [ 1 ]; do stty -F /dev/ttyACM0 \$speed; sleep 1; if [ \$speed = 50 ]; then speed=110; else speed=50; fi; done" &'
   fi
 done
 EOF

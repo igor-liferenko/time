@@ -48,20 +48,21 @@ cat <<'EOF' >files/etc/crontabs/root
 0 21 * * * ssh -y 192.168.1.3 stty -F /dev/ttyACM0 75
 0 4 * * * ssh -y 192.168.1.3 stty -F /dev/ttyACM0 110
 #
-*/10 * * * * check-dir320 # ensure that we do not forget to set address of this device as ntp server (it cannot be done in build-dir320.sh because it is used for all devices)
+*/10 * * * * check-dir320
 EOF
 
 mkdir -p files/bin/
 cat <<'EOF' >files/bin/check-dir320
 #!/bin/sh
-# Run the following:
+# Setting ntp server address to gps cannot be done in build-dir320.sh (it is universal).
+# Setting ntp server address via dhcp does not work.
+# Therefore just warn if it is not set.
+# To set it, run the following:
 #   uci set system.ntp.server=192.168.1.1
 #   uci commit system
 #   reboot
 for i in `cat /etc/ethers | cut -d' ' -f2`; do
-  if [ "$(ssh -y $i uci get system.ntp.server)" != 192.168.1.1 ]; then
-    ssh -y $i '[ -e /tmp/blink.running ] && exit; touch /tmp/blink.running; sh -c "speed=50; while [ 1 ]; do stty -F /dev/ttyACM0 \$speed; sleep 1; if [ \$speed = 50 ]; then speed=110; else speed=50; fi; done" &'
-  fi
+  ssh -y $i '[ "$(uci get system.ntp.server)" = 192.168.1.1 ] && exit; mkdir /tmp/blink || exit; sh -c "speed=50; while [ 1 ]; do stty -F /dev/ttyACM0 \$speed; sleep 1; [ \$speed = 50 ] && speed=110 || speed=50; done" &'
 done
 EOF
 chmod +x files/bin/check-dir320

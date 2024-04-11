@@ -40,7 +40,7 @@ uci commit system
 EOF
 sed -i s/SSID/$1/ files/etc/uci-defaults/my
 sed -i s/KEY/$2/ files/etc/uci-defaults/my
-sed -i s/TXPOWER/$3/ files/etc/uci-defaults/my
+sed -i s/TXPOWER/$3/ files/etc/uci-defaults/my # same as txpower of corresponding access point
 
 mkdir -p files/bin/
 cp ../$SDK/time-write files/bin/

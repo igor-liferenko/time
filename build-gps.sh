@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-grep '[S]SID\|[K]EY' $0 && exit
+[ $# = 2 ] || exit
 
 IMG=openwrt-imagebuilder-18.06.1-ramips-mt76x8.Linux-x86_64
 URL=https://downloads.openwrt.org/releases/18.06.1/targets/ramips/mt76x8
@@ -34,6 +34,8 @@ uci commit system
 echo 5c:d9:98:1b:81:27 192.168.1.2 >>/etc/ethers
 echo f0:7d:68:83:16:eb 192.168.1.3 >>/etc/ethers
 EOF
+sed -i s/SSID/$1/ files/etc/uci-defaults/my
+sed -i s/KEY/$2/ files/etc/uci-defaults/my
 
 mkdir -p files/etc/crontabs/
 cat <<'EOF' >files/etc/crontabs/root

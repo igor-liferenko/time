@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-grep '[S]SID\|[K]EY' $0 && exit
+[ $# = 2 ] || exit
 
 IMG=lede-imagebuilder-17.01.7-ar71xx-generic.Linux-x86_64
 SDK=lede-sdk-17.01.7-ar71xx-generic_gcc-5.4.0_musl-1.1.16.Linux-x86_64
@@ -30,6 +30,8 @@ uci set system.@system[0].timezone=GMT-7
 uci commit system
 echo f0:7d:68:82:e1:4e 192.168.1.4 >>/etc/ethers
 EOF
+sed -i s/SSID/$1/ files/etc/uci-defaults/my
+sed -i s/KEY/$2/ files/etc/uci-defaults/my
 
 mkdir -p files/bin/
 cp ../$SDK/time-write files/bin/

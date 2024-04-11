@@ -1,13 +1,3 @@
-Run the following on dir320 after flashing:
-
-    uci set wireless.radio0.txpower=SAME_AS_ON_CORRESPONDING_ACCESS_POINT
-    uci commit wireless
-    wifi reload
-
-(build-dir320.sh is used for all devices)
-
-=========================================================
-
 The microcontroller is ATmega32U4
 
 To set fuses on new arduino:

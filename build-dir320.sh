@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-grep '[S]SID\|[K]EY' $0 && exit
+[ $# = 3 ] || exit
 
 IMG=lede-imagebuilder-17.01.7-brcm47xx-legacy.Linux-x86_64
 SDK=lede-sdk-17.01.7-brcm47xx-legacy_gcc-5.4.0_musl-1.1.16.Linux-x86_64
@@ -27,6 +27,7 @@ uci del network.lan.ipaddr
 uci del network.lan.netmask
 uci commit network
 uci set wireless.radio0.disabled=0
+uci set wireless.radio0.txpower=TXPOWER
 uci set wireless.default_radio0.mode=sta
 uci set wireless.default_radio0.ssid=SSID
 uci set wireless.default_radio0.encryption=psk2
@@ -37,6 +38,9 @@ uci commit dhcp
 uci set system.@system[0].timezone=GMT-7
 uci commit system
 EOF
+sed -i s/SSID/$1/ files/etc/uci-defaults/my
+sed -i s/KEY/$2/ files/etc/uci-defaults/my
+sed -i s/TXPOWER/$3/ files/etc/uci-defaults/my
 
 mkdir -p files/bin/
 cp ../$SDK/time-write files/bin/

@@ -11,7 +11,7 @@ because we cannot create endpoint 0 before attach
 (which would make it possible not to use ISR).
 
 This ch-file is tested with attach device,
-with reboot host and with `sudo usbreset 03eb:2018'.
+with reboot host and with `sudo usbreset 03eb:2018' (lsusb).
 
 @x
   UENUM = 0;

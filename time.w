@@ -24,9 +24,9 @@ void main(void)
   @<Initialize MAX7219@>@;
 
   @<Setup USB Controller@>@;
+  UDIEN |= _BV(EORSTE);
   sei();
-  UDCON &= ~_BV(DETACH); /* attach after we enabled interrupts, because
-    USB\_RESET arrives after attach */
+  UDCON &= ~_BV(DETACH);
 
   while (1) {
     UENUM = 0;
@@ -306,15 +306,15 @@ const U8 chr_colon[8][6]
   UDINT &= ~_BV(EORSTI);
 }
 
-@ @<Setup USB Controller@>=
+@ Datasheet \S21.13.
+
+@<Setup USB Controller@>=
 UHWCON |= _BV(UVREGE);
-USBCON |= _BV(USBE);
-PLLCSR = _BV(PINDIV);
-PLLCSR |= _BV(PLLE);
+PLLCSR = _BV(PINDIV) | _BV(PLLE);
 while (!(PLLCSR & _BV(PLOCK))) { }
+USBCON |= _BV(USBE);
 USBCON &= ~_BV(FRZCLK);
 USBCON |= _BV(OTGPADE);
-UDIEN |= _BV(EORSTE);
 
 @* USB connection.
 
@@ -639,9 +639,13 @@ U8 bInterval;
 %
 EORSTE  & End Of Reset Interrupt Enable \cr
 EORSTI  & End Of Reset Interrupt \cr
+EPTYPE  & Endpoint Type \cr
 \noalign{\medskip}
 FIFOCON & FIFO Control \cr
+PINDIV  & PLL Input Prescaler \cr
 PLLCSR  & PLL Control and Status Register \cr
+PLLE    & PLL Enable \cr
+PLOCK   & PLL Lock Detector \cr
 RXOUTI  & Received OUT Interrupt \cr
 RXSTPI  & Received SETUP Interrupt \cr
 \noalign{\medskip}
@@ -651,12 +655,11 @@ UDINT   & USB Device Interrupt \cr
 UECFG1X & USB Endpoint-X Configuration 1 \cr
 UEDATX  & USB Endpoint-X Data \cr
 \noalign{\medskip}
-UEIENX  & USB Endpoint-X Interrupt Enable \cr
 UEINTX  & USB Endpoint-X Interrupt \cr
 \noalign{\medskip}
-UENUM   & USB endpoint number \cr
-USBCON  & USB Control \cr
-USBINT  & USB General Interrupt \cr
+UENUM   & USB Endpoint Number \cr
+UHWCON  & USB Hardware Configuration \cr
+USBCON  & USB Configuration \cr
 %
 \noalign{\kern10pt}}
 

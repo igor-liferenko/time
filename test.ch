@@ -1,9 +1,7 @@
 All endpoints are destroyed by USB_RESET.
-This fact was determined by checking that EPEN
-and ALLOC are disabled, before setting them for each endpoint
-(LED would be on if either of them was enabled).
+This fact was determined by the fact that PD5 is never on.
 
-It is good that all endpoints (except 0) are destroyed by USB_RESET,
+It is good that all endpoints are destroyed by USB_RESET,
 because we can unconditionally create them in set_configuration.
 
 It is bad that endpoint 0 is destroyed by USB_RESET,
@@ -16,35 +14,58 @@ with reboot host and with `sudo usbreset 03eb:2018' (lsusb).
 @x
   UENUM = 0;
   UECONX |= _BV(EPEN);
+  UECFG0X = 0;
+  UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
 @y
   UENUM = 0;
-  if (UECONX & _BV(EPEN) || UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
+  if (UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
   UECONX |= _BV(EPEN);
+  UECFG0X = 0; // initial value
+  if (UECFG1X & _BV(EPSIZE0) || UECFG1X & _BV(EPSIZE1) || UECFG1X & _BV(ALLOC)) DDRD |= _BV(PD5);
+  UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
 @z
 
 @x
 UENUM = 3;
 UECONX |= _BV(EPEN);
+UECFG0X = _BV(EPTYPE0) | _BV(EPTYPE1) | _BV(EPDIR);
+UECFG1X = _BV(ALLOC);
 @y
 UENUM = 3;
-if (UECONX & _BV(EPEN) || UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
+if (UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
 UECONX |= _BV(EPEN);
+if (UECFG0X & _BV(EPTYPE0) || UECFG0X & _BV(EPTYPE1) || UECFG0X & _BV(EPDIR)) DDRD |= _BV(PD5);
+UECFG0X = _BV(EPTYPE0) | _BV(EPTYPE1) | _BV(EPDIR);
+if (UECFG1X & _BV(ALLOC)) DDRD |= _BV(PD5);
+UECFG1X = _BV(ALLOC);
 @z
 
 @x
 UENUM = 1;
 UECONX |= _BV(EPEN);
+UECFG0X = _BV(EPTYPE1) | _BV(EPDIR);
+UECFG1X = _BV(ALLOC);
 @y
 UENUM = 1;
-if (UECONX & _BV(EPEN) || UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
+if (UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
 UECONX |= _BV(EPEN);
+if (UECFG0X & _BV(EPTYPE1)) DDRD |= _BV(PD5);
+UECFG0X = _BV(EPTYPE1) | _BV(EPDIR);
+if (UECFG1X & _BV(ALLOC)) DDRD |= _BV(PD5);
+UECFG1X = _BV(ALLOC);
 @z
 
 @x
 UENUM = 2;
 UECONX |= _BV(EPEN);
+UECFG0X = _BV(EPTYPE1);
+UECFG1X = _BV(ALLOC);
 @y
 UENUM = 2;
-if (UECONX & _BV(EPEN) || UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
+if (UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
 UECONX |= _BV(EPEN);
+if (UECFG0X & _BV(EPTYPE1)) DDRD |= _BV(PD5);
+UECFG0X = _BV(EPTYPE1);
+if (UECFG1X & _BV(ALLOC)) DDRD |= _BV(PD5);
+UECFG1X = _BV(ALLOC);
 @z

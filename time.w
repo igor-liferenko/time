@@ -310,7 +310,8 @@ const U8 chr_colon[8][6]
 
 @<Setup USB Controller@>=
 UHWCON |= _BV(UVREGE);
-PLLCSR = _BV(PINDIV) | _BV(PLLE);
+PLLCSR |= _BV(PINDIV);
+PLLCSR |= _BV(PLLE);
 while (!(PLLCSR & _BV(PLOCK))) { }
 USBCON |= _BV(USBE);
 USBCON &= ~_BV(FRZCLK);

@@ -294,19 +294,20 @@ const U8 chr_colon[8][6]
 
 @* USB setup.
 
-@ @<Create ISR for USB\_RESET@>=
+@ \S22.6 in datasheet.
+
+@<Create ISR for USB\_RESET@>=
 @.ISR@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=ISR@>
   (@.USB\_GEN\_vect@>@t}\begingroup\def\vb#1{\.{#1}\endgroup@>@=USB_GEN_vect@>)
 {
   UENUM = 0;
   UECONX |= _BV(EPEN);
-  UECFG0X = 0;
-  UECFG1X = _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
+  UECFG1X |= _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
   @#
   UDINT &= ~_BV(EORSTI);
 }
 
-@ Datasheet \S21.13.
+@ \S21.13 in datasheet.
 
 @<Setup USB Controller@>=
 UHWCON |= _BV(UVREGE);
@@ -553,11 +554,13 @@ SIZEOF_THIS, @/
 8, @/
 0
 
-@ @<Configure EP2@>=
+@ \S22.6 in datasheet.
+
+@<Configure EP2@>=
 UENUM = 2;
 UECONX |= _BV(EPEN);
-UECFG0X = _BV(EPTYPE1);
-UECFG1X = _BV(ALLOC);
+UECFG0X |= _BV(EPTYPE1);
+UECFG1X |= _BV(ALLOC);
 
 @*2 \bf Configuration descriptor.
 

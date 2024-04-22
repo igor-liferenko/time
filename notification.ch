@@ -42,11 +42,13 @@ SIZEOF_THIS, @/
 8, @/
 255
 
-@ @<Configure EP3@>=
+@ \S22.6 in datasheet.
+
+@<Configure EP3@>=
 UENUM = 3;
 UECONX |= _BV(EPEN);
-UECFG0X = _BV(EPTYPE0) | _BV(EPTYPE1) | _BV(EPDIR);
-UECFG1X = _BV(ALLOC);
+UECFG0X |= _BV(EPTYPE0) | _BV(EPTYPE1) | _BV(EPDIR);
+UECFG1X |= _BV(ALLOC);
 
 @*3 Data Class Interface descriptor.
 @z

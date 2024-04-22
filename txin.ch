@@ -40,11 +40,13 @@ SIZEOF_THIS, @/
 8, @/
 0
 
-@ @<Configure EP1@>=
+@ \S22.6 in datasheet.
+
+@<Configure EP1@>=
 UENUM = 1;
 UECONX |= _BV(EPEN);
-UECFG0X = _BV(EPTYPE1) | _BV(EPDIR);
-UECFG1X = _BV(ALLOC);
+UECFG0X |= _BV(EPTYPE1) | _BV(EPDIR);
+UECFG1X |= _BV(ALLOC);
 
 @*4 EP2 descriptor.
 @z

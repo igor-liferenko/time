@@ -14,13 +14,13 @@ with reboot host and with `sudo usbreset 03eb:2018' (lsusb).
 @x
   UENUM = 0;
   UECONX |= _BV(EPEN);
-  UECFG1X |= _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
+  UECFG1X |= _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* the same as |EP0_SIZE| */
 @y
   UENUM = 0;
   if (UECONX & _BV(EPEN)) DDRD |= _BV(PD5);
   UECONX |= _BV(EPEN);
   if (UECFG1X & _BV(EPSIZE0) || UECFG1X & _BV(EPSIZE1) || UECFG1X & _BV(ALLOC)) DDRD |= _BV(PD5);
-  UECFG1X |= _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
+  UECFG1X |= _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* the same as |EP0_SIZE| */
 @z
 
 @x

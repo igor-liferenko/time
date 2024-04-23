@@ -302,7 +302,7 @@ const U8 chr_colon[8][6]
 {
   UENUM = 0;
   UECONX |= _BV(EPEN);
-  UECFG1X |= _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* 64 bytes */
+  UECFG1X |= _BV(EPSIZE0) | _BV(EPSIZE1) | _BV(ALLOC); /* the same as |EP0_SIZE| */
   @#
   UDINT &= ~_BV(EORSTI);
 }

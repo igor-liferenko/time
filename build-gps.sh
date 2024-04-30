@@ -23,7 +23,7 @@ uci commit wireless
 uci set gpsd.core.enabled=1
 uci set gpsd.core.device=/dev/ttyACM0 # to see if it works, use `gpspipe -r'
 uci commit gpsd
-# NOTE: ntpd.conf is generated dynamically by /etc/init.d/ntpd
+# NOTE: ntpd.conf is generated dynamically by /etc/init.d/ntpd - this is why we change /etc/init.d/ntpd instead of /etc/ntpd.conf
 sed -i '/for i in $server/i\
 emit "server 127.127.28.0"\
 emit "fudge 127.127.28.0 flag1 1"' /etc/init.d/ntpd

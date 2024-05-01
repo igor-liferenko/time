@@ -24,6 +24,20 @@ uci set gpsd.core.enabled=1
 uci set gpsd.core.device=/dev/ttyACM0 # to see if it works, use `gpspipe -r'
 uci commit gpsd
 # NOTE: ntpd config is generated dynamically by /etc/init.d/ntpd - this is why we change /etc/init.d/ntpd instead of the config itself
+# We need to delete existing 'server' entries and add new 'server' entry.
+# This is the effect of settings used here on ntpd config:
+# -restrict -4 default noserve
+# -restrict -6 default noserve
+# +restrict default limited kod nomodify notrap nopeer
+# +restrict -6 default limited kod nomodify notrap nopeer
+# ...
+# -server 0.openwrt.pool.ntp.org iburst
+# -server 1.openwrt.pool.ntp.org iburst
+# -server 2.openwrt.pool.ntp.org iburst
+# -server 3.openwrt.pool.ntp.org iburst
+# +server 127.127.28.0
+# +fudge 127.127.28.0 flag1 1
+# NOTE: the fudge setting is needed that system time is set to gps time no matter how big is the gap between these two times
 sed -i '/for i in $server/i\
 emit "server 127.127.28.0"\
 emit "fudge 127.127.28.0 flag1 1"' /etc/init.d/ntpd

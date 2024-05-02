@@ -23,26 +23,28 @@ uci commit wireless
 uci set gpsd.core.enabled=1
 uci set gpsd.core.device=/dev/ttyACM0 # to see if it works, use `gpspipe -r'
 uci commit gpsd
-# NOTE: ntpd config is generated dynamically by /etc/init.d/ntpd - this is why we change /etc/init.d/ntpd instead of the config itself
-# We need to delete existing 'server' entries and add new 'server' entry.
-# This is the effect of settings used here on ntpd config:
+# ===== ntpd config is generated dynamically by /etc/init.d/ntpd =====
+# ========== therefore we do not change the config directly ==========
+uci set system.ntp.enable_server=1 # to make $enable_server non-zero in /etc/init.d/ntpd
 # -restrict -4 default noserve
 # -restrict -6 default noserve
 # +restrict default limited kod nomodify notrap nopeer
 # +restrict -6 default limited kod nomodify notrap nopeer
-# ...
+uci del system.ntp.server # to make $server empty in /etc/init.d/ntpd
 # -server 0.openwrt.pool.ntp.org iburst
 # -server 1.openwrt.pool.ntp.org iburst
 # -server 2.openwrt.pool.ntp.org iburst
 # -server 3.openwrt.pool.ntp.org iburst
-# +server 127.127.28.0
-# +fudge 127.127.28.0 flag1 1
-# NOTE: the fudge setting is needed that system time is set to gps time no matter how big is the gap between these two times
 sed -i '/for i in $server/i\
 emit "server 127.127.28.0"\
 emit "fudge 127.127.28.0 flag1 1"' /etc/init.d/ntpd
-uci del system.ntp.server # to make $server empty in /etc/init.d/ntpd
-uci set system.ntp.enable_server=1 # to make $enable_server non-zero in /etc/init.d/ntpd
+# +server 127.127.28.0
+# +fudge 127.127.28.0 flag1 1
+# NOTE: the fudge setting is needed in order that system time is set to gps time
+#       no matter how big is the gap between these two time stamps
+# TODO: instead of previous two commands ('uci del...' and 'sed...') try 
+# uci set system.ntp.server=127.127.28.0                                       
+# =======================================================================
 uci set system.@system[0].timezone=GMT-7
 uci commit system
 echo 5c:d9:98:1b:81:27 192.168.1.2 >>/etc/ethers

@@ -42,8 +42,8 @@ emit "fudge 127.127.28.0 flag1 1"' /etc/init.d/ntpd
 # +fudge 127.127.28.0 flag1 1
 # NOTE: the fudge setting is needed in order that system time is set to gps time
 #       no matter how big is the gap between these two time stamps
-# TODO: instead of previous two commands ('uci del...' and 'sed...') try 
-# uci set system.ntp.server=127.127.28.0                                       
+# TODO: instead of previous two commands ('uci del...' and 'sed...') try
+# uci set system.ntp.server=127.127.28.0
 # =======================================================================
 uci set system.@system[0].timezone=GMT-7
 uci commit system

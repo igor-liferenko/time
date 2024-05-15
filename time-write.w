@@ -17,7 +17,7 @@ void main(void)
   int fd = -1;
   while (1) {
     if (fd == -1)
-      fd = open("/dev/ttyACM0", O_WRONLY);
+      fd = open("/dev/ttyACM0", O_WRONLY | O_NOCTTY);
     if (fd != -1) {
       time_t $ = time(NULL);
       if (write(fd, ctime(&$) + 11, 8) == -1)

@@ -28,7 +28,7 @@ uci set wireless.default_radio0.key=KEY
 uci commit wireless
 uci set system.@system[0].timezone=GMT-7
 uci commit system
-echo f0:7d:68:82:e1:4e 192.168.1.4 >>/etc/ethers
+echo f0:7d:68:82:e1:4e 192.168.1.5 >>/etc/ethers
 EOF
 sed -i s/SSID/$1/ files/etc/uci-defaults/my
 sed -i s/KEY/$2/ files/etc/uci-defaults/my

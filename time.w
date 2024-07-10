@@ -468,7 +468,7 @@ struct {
 @d CONF_NUM 1 /* see last parameter in |dev_desc| */
 
 @<Initialize Configuration descriptor@>=
-SIZEOF_THIS, @/ 
+SIZEOF_THIS, @/
 2, /* CONFIGURATION */
 SIZEOF_CONF_DESC, @/
 1 + 1, /* Communication (master) interface + Data (slave) interface(s) */
@@ -499,7 +499,7 @@ CTRL_IFACE_NUM, @/
 \S5.2.3.1 in CDC spec.
 
 @<Initialize Header functional descriptor@>=
-SIZEOF_THIS, @/ 
+SIZEOF_THIS, @/
 0x24, @/
 0x00, @/
 0x0110 /* 1.1 */
@@ -509,7 +509,7 @@ SIZEOF_THIS, @/
 \S5.2.3.3 in CDC spec.
 
 @<Initialize Abstract Control Management functional descriptor@>=
-SIZEOF_THIS, @/ 
+SIZEOF_THIS, @/
 0x24, @/
 0x02, @/
 0
@@ -519,7 +519,7 @@ SIZEOF_THIS, @/
 \S5.2.3.8 in CDC spec.
 
 @<Initialize Union functional descriptor@>=
-SIZEOF_THIS, @/ 
+SIZEOF_THIS, @/
 0x24, @/
 0x06, @/
 CTRL_IFACE_NUM, @/
@@ -532,7 +532,7 @@ DATA_IFACE0_NUM
 @d DATA_IFACE0_NUM 1
 
 @<Initialize Data Class Interface descriptor@>=
-SIZEOF_THIS, @/ 
+SIZEOF_THIS, @/
 4, /* INTERFACE */
 DATA_IFACE0_NUM, @/
 0, /* no alternate settings */
@@ -547,7 +547,7 @@ DATA_IFACE0_NUM, @/
 \S9.6.6 in USB spec.
 
 @<Initialize EP2 descriptor@>=
-SIZEOF_THIS, @/ 
+SIZEOF_THIS, @/
 5, /* ENDPOINT */
 2 | 0, @/
 0x02, @/

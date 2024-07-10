@@ -21,8 +21,13 @@ e:
 	ctangle time time
 	@make --no-print-directory time
 
+s:
+	tie -c time.ch time.w control.ch txin.ch notification.ch 74HC595.ch >/dev/null
+	ctangle time time
+	@make --no-print-directory time
+
 time:
-	avr-gcc -mmcu=atmega32u4 -DF_CPU=16000000UL -g -Os -o fw.elf time.c
+	avr-gcc -std=c99 -mmcu=atmega32u4 -DF_CPU=16000000UL -g -Os -o fw.elf time.c
 
 flash:
 	avr-objcopy -O ihex fw.elf fw.hex

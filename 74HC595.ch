@@ -46,7 +46,7 @@ U8 buffer[NUM_DEVICES];
 @<Fill buffer@>@;
 @y
 U8 n = 0;
-for (U8 *c = time; *c != '\0'; c++) {
+for (U8 *c = time; *c != '\0'; c++)
   if (*c != ':')
     buffer[n++] = chr[*c-'0'];
 @z
@@ -57,11 +57,11 @@ for (U8 *c = time; *c != '\0'; c++) {
 PORTB &= ~_BV(PB6); /* latch */
 for (U8 n = 0; n < NUM_DEVICES; n++)
   if (glowing) {
-    display_push(buffer[n]);
+    display_push(0, buffer[n]);
     // TODO: add here turning on `:'
   }
   else {
-    display_push(0x00);
+    display_push(0, 0x00);
     // TODO: add here turning off `:'
   }
 PORTB |= _BV(PB6); /* latch */
@@ -73,7 +73,7 @@ void display_push(U8 address, U8 data)
   SPDR = address;
   while (!(SPSR & _BV(SPIF))) { }
 @y
-void display_push(U8 data)
+void display_push(U8 address, U8 data)
 {
 @z
 
@@ -89,7 +89,7 @@ case 0x2021: /* set line coding (Table 50 in CDC spec) */
   UEINTX &= ~_BV(RXSTPI);
   while (!(UEINTX & _BV(RXOUTI))) { }
   uint32_t dwDTERate = UEDATX | (uint32_t) UEDATX << 8 |
-  (uint32_t) UEDATX << 16 | (uint32_t) UEDATX << 24;
+    (uint32_t) UEDATX << 16 | (uint32_t) UEDATX << 24;
   UEINTX &= ~_BV(RXOUTI);
   UEINTX &= ~_BV(TXINI);
   glowing = dwDTERate == 50 ? 0 : 1;

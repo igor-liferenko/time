@@ -21,6 +21,10 @@ If it is not, find a way to disable probe. This may help:
 
 (or simply run: sudo systemctl stop ModemManager)
 
+NOTE: on Ubuntu 14 the mmcli command says no modems were found, but
+probing is done anyway, so run
+    sudo stop modemmanager
+
 ==========================================================
 
 Connect USBasp as:

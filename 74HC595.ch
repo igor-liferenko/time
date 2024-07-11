@@ -41,7 +41,6 @@ for (U8 i = 0; i < NUM_DEVICES; i++) {
   SPDR = glowing ? buffer[i] : 0;
   while (!(SPSR & _BV(SPIF))) { }
 }
-_delay_ms(1);
 PORTB |= _BV(PB6), _delay_ms(1), PORTB &= ~_BV(PB6); /* latch */
 @z
 

@@ -1,7 +1,8 @@
 @x
 @<Character images@>@;
 @y
-const U8 chr[10] PROGMEM = { 126, 48, 109, 121, 51, 91, 95, 112, 127, 123 };
+const U8 chr[10] PROGMEM = { 128+126, 128+48, 128+109, 128+121, 128+51,
+                             128+91,  128+95, 128+112, 128+127, 128+123 };
 @z
 
 @x
@@ -37,10 +38,6 @@ for (U8 *c = time; *c != '\0'; c++)
 @<Display buffer@>@;
 @y
 for (U8 n = 0; n < NUM_DEVICES; n++) {
-  // if (glowing)
-    // TODO: add here turning on `:'
-  // else
-    // TODO: add here turning off `:'
   SPDR = glowing ? buffer[n] : 0;
   while (!(SPSR & _BV(SPIF))) { }
 }

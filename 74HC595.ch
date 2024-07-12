@@ -1,3 +1,5 @@
+NOTE: pins 1-7 on 74HC595 correspond to segments 1-7 (clockwise from top)
+
 @x
 @<Character images@>@;
 @y

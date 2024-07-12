@@ -37,11 +37,12 @@ for (U8 *c = time; *c != '\0'; c++)
 @x
 @<Display buffer@>@;
 @y
-for (U8 i = 0; i < NUM_DEVICES; i++) {
-  SPDR = glowing ? buffer[i] : 0;
+PORTB &= ~_BV(PB6); /* latch */
+for (U8 n = 0; n < NUM_DEVICES; n++) {
+  SPDR = glowing ? buffer[n] : 0;
   while (!(SPSR & _BV(SPIF))) { }
 }
-PORTB |= _BV(PB6), _delay_ms(1), PORTB &= ~_BV(PB6); /* latch */
+PORTB |= _BV(PB6); /* latch */
 @z
 
 @x

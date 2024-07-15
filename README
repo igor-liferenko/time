@@ -10,14 +10,6 @@ To check fuses:
 
 ==========================================================
 
-Disable probe of the device by ModemManager:
-
-    /etc/udev/rules.d/80-mm.rules
-
-    ATTRS{idVendor}=="03EB", ATTRS{idProduct}=="2018", ENV{ID_MM_DEVICE_IGNORE}="1"
-
-==========================================================
-
 Connect USBasp as:
          +-------       -------+
 USBasp:  | (4) (3) (2) (X) (1) |

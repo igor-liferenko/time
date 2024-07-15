@@ -27,7 +27,7 @@ s:
 	@make --no-print-directory time
 
 time:
-	avr-gcc -std=c99 -mmcu=atmega32u4 -DF_CPU=16000000UL -g -Os -o fw.elf time.c
+	avr-gcc -mmcu=atmega32u4 -DF_CPU=16000000UL -g -Os -o fw.elf time.c
 
 flash:
 	avr-objcopy -O ihex fw.elf fw.hex

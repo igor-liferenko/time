@@ -8,11 +8,9 @@
 @z
   
 @x
-  U8 time[6] = {};
-  for (U8 c = 0; c < 5; c++)
+  U8 time[5];
 @y
-  U8 time[9] = {};
-  for (U8 c = 0; c < 8; c++)
+  U8 time[8];
 @z
 
 @x

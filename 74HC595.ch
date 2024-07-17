@@ -1,4 +1,6 @@
-NOTE: pins 1-7 on 74HC595 correspond to segments 1-7 (clockwise from top)
+NOTE: pins 1-7 of 74HC595 must be connected to inputs of ULN2003APG,
+      and corresponding outputs of ULN2003APG - to segments 1-7 of a
+      digit (counting clockwise from top segment)
 
 @x
 @<Character images@>@;
@@ -8,17 +10,16 @@ const U8 chr[10] = { 126+1,  12+1, 182+1, 158+1, 204+1,
 @z
 
 @x
-  U8 time[6] = @[{}@];
-  for (U8 c = 0; c < 5; c++)
+  U8 time[5];
 @y
-  U8 time[9] = @[{}@];
-  for (U8 c = 0; c < 8; c++)
+  U8 time[8];
 @z
 
 @x
 U8 buffer[8][NUM_DEVICES*8];
 @y
 U8 buffer[NUM_DEVICES];
+U8 glowing;
 @z
 
 @x
@@ -30,10 +31,9 @@ U8 buffer[NUM_DEVICES];
 @x
 @<Fill buffer@>@;
 @y
-U8 n = 0;
-for (U8 *c = time; *c != '\0'; c++)
-  if (*c != ':')
-    buffer[n++] = chr[*c-'0'];
+for (U8 c = 0, n = sizeof buffer; c < sizeof time; c++)
+  if (time[c] != ':')
+    buffer[--n] = chr[time[c]-'0'];
 @z
 
 @x
@@ -55,7 +55,6 @@ void display_write(U8 address, U8 data)
   PORTB |= _BV(PB6), _delay_us(1), PORTB &= ~_BV(PB6); /* latch */
 }
 @y
-U8 glowing;
 void display_write(U8 address, U8 data)
 {
   if (address == 0x0C) glowing = data;

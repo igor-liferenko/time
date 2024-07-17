@@ -44,8 +44,8 @@ typedef unsigned short U16;
 
 @ @<Process OUT packet@>= {
   UEINTX &= ~_BV(RXOUTI);
-  U8 time[6] = @[{}@];
-  for (U8 c = 0; c < 5; c++)
+  U8 time[5];
+  for (U8 c = 0; c < sizeof time; c++)
     time[c] = UEDATX;
   UEINTX &= ~_BV(FIFOCON);
   @<Show |time|@>@;
@@ -86,17 +86,17 @@ of buffer corresponding to each device.
 @<Fill buffer@>@;
 @<Display buffer@>@;
 
-@ @d app(c) /* append image of specified character to buffer */
+@ @d app(X) /* append image of specified character to buffer */
 for (U8 i = 0; i < sizeof
-                               @t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##c / 8; i++)
-  buffer[row][col++] = pgm_read_byte(&@t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##c[row][i])
+                         @t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##X / 8; i++)
+  buffer[row][col++] = pgm_read_byte(&@t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##X[row][i])
 
 @<Fill buffer@>=
 for (U8 row = 0; row < 8; row++) {
   U8 col = 0;
   buffer[row][col++] = 0x00;
-  for (U8 *c = time; *c != '\0'; c++) {
-    switch (*c)
+  for (U8 c = 0; c < sizeof time; c++) {
+    switch (time[c])
     {
     case '0': app(0); @+ break;
     case '1': app(1); @+ break;

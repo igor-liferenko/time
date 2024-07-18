@@ -22,7 +22,7 @@ e:
 	@make --no-print-directory time
 
 s:
-	tie -c time.ch time.w control.ch txin.ch notification.ch mode.ch segment.ch >/dev/null
+	tie -c time.ch time.w control.ch txin.ch notification.ch mode.ch seg.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 

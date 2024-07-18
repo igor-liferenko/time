@@ -125,9 +125,9 @@ for (U8 row = 0; row < 8; row++) {
   for (U8 n = 0; n < NUM_DEVICES; n++) {
     data = 0x00;
     for (U8 c = 0; c < 8; c++)
-      if (buffer[row][n*8+c])
-        data |= 1 << 7-c;
-    display_push(row+1, data);
+      if (buffer[row][n * 8 + c])
+        data |= 1 << 7 - c;
+    display_push(row + 1, data);
   }
   PORTB |= _BV(PB6), _delay_us(1), PORTB &= ~_BV(PB6);
 }

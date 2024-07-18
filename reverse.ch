@@ -5,9 +5,9 @@
 @z
 
 @x
-        data |= 1 << 7-i;
-    display_push(row+1, data);
+        data |= 1 << 7 - c;
+    display_push(row + 1, data);
 @y
-        data |= 1 << i;
-    display_push(7-row+1, data);
+        data |= 1 << c;
+    display_push(7 - row + 1, data);
 @z

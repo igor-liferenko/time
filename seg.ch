@@ -20,13 +20,12 @@ U8 glowing;
 @<Fill buffer@>@;
 @<Display buffer@>@;
 @y
-PORTB &= ~_BV(PB6);
 for (int8_t i = sizeof time - 1; i >= 0; i--) {
   if (time[i] == ':') continue;
   SPDR = glowing ? segments[time[i] - '0'] : 0x00;
   while (!(SPSR & _BV(SPIF))) { }
 }
-PORTB |= _BV(PB6);
+PORTB &= ~_BV(PB6), PORTB |= _BV(PB6);
 @z
 
 @x

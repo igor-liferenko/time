@@ -45,8 +45,8 @@ typedef unsigned short U16;
 @ @<Process OUT packet@>= {
   UEINTX &= ~_BV(RXOUTI);
   U8 time[5];
-  for (U8 c = 0; c < sizeof time; c++)
-    time[c] = UEDATX;
+  for (U8 i = 0; i < sizeof time; i++)
+    time[i] = UEDATX;
   UEINTX &= ~_BV(FIFOCON);
   @<Show |time|@>@;
 }
@@ -70,8 +70,8 @@ display_write(0x0F, 0x00);
 display_write(0x0B, 0x07);
 display_write(0x0A, 0x0F);
 display_write(0x09, 0x00);
-for (U8 c = 1; c <= 8; c++)
-  display_write(c, 0x00);
+for (U8 a = 0x01; a <= 0x08; a++)
+  display_write(a, 0x00);
 display_write(0x0C, 0x01);
 
 @ @<Global variables@>=
@@ -86,17 +86,17 @@ of buffer corresponding to each device.
 @<Fill buffer@>@;
 @<Display buffer@>@;
 
-@ @d app(X) /* append image of specified character to buffer */
-for (U8 i = 0; i < sizeof
-                         @t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##X / 8; i++)
-  buffer[row][col++] = pgm_read_byte(&@t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##X[row][i])
+@ @d app(X) /* append row of specified character image to buffer */
+for (U8 c = 0; c < sizeof
+                         @t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##X / 8; c++)
+  buffer[row][col++] = pgm_read_byte(&@t}\begingroup\def\vb#1{\\{#1}\endgroup@>@=chr_@>##X[row][c])
 
 @<Fill buffer@>=
 for (U8 row = 0; row < 8; row++) {
   U8 col = 0;
   buffer[row][col++] = 0x00;
-  for (U8 c = 0; c < sizeof time; c++) {
-    switch (time[c])
+  for (U8 i = 0; i < sizeof time; i++) {
+    switch (time[i])
     {
     case '0': app(0); @+ break;
     case '1': app(1); @+ break;
@@ -124,12 +124,12 @@ for (U8 row = 0; row < 8; row++) {
   U8 data;
   for (U8 n = 0; n < NUM_DEVICES; n++) {
     data = 0x00;
-    for (U8 i = 0; i < 8; i++)
-      if (buffer[row][n*8+i])
-        data |= 1 << 7-i;
+    for (U8 c = 0; c < 8; c++)
+      if (buffer[row][n*8+c])
+        data |= 1 << 7-c;
     display_push(row+1, data);
   }
-  PORTB |= _BV(PB6), _delay_us(1), PORTB &= ~_BV(PB6); /* latch */
+  PORTB |= _BV(PB6), _delay_us(1), PORTB &= ~_BV(PB6);
 }
 
 @ @<Functions@>=
@@ -144,9 +144,9 @@ void display_push(U8 address, U8 data)
 @ @<Functions@>=
 void display_write(U8 address, U8 data)
 {
-  for (U8 c = 0; c < NUM_DEVICES; c++)
+  for (U8 n = 0; n < NUM_DEVICES; n++)
     display_push(address, data);
-  PORTB |= _BV(PB6), _delay_us(1), PORTB &= ~_BV(PB6); /* latch */
+  PORTB |= _BV(PB6), _delay_us(1), PORTB &= ~_BV(PB6);
 }
 
 @ @<Char...@>=

@@ -33,7 +33,7 @@ void display_write(U8 address, U8 data)
 {
   for (U8 n = 0; n < NUM_DEVICES; n++)
     display_push(address, data);
-  PORTB |= _BV(PB6), _delay_us(1), PORTB &= ~_BV(PB6);
+  PORTB &= ~_BV(PB6), PORTB |= _BV(PB6);
 }
 @y
 void display_write(U8 address, U8 data)

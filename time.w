@@ -54,11 +54,6 @@ typedef unsigned short U16;
 @ MAX7219 is a shift register.
 SPI here is used as a way to push bytes to MAX7219 (data + clock).
 
-We use latch duration of 1 us (t\lower.25ex\hbox{\the\scriptfont0 CSW} in datasheet).
-
-Note, that segments are connected as this: clock and latch are in parallel,
-DIN goes through each segment to DOUT and then to DIN of next segment in the chain.
-
 @<Initialize MAX7219@>=
 PORTB |= _BV(PB0); /* prevent the next assignment from turning on LED (on pro-micro LED is inverted) */
 DDRB |= _BV(PB0); /* disable SPI slave mode (\.{SS} port) */
@@ -129,7 +124,7 @@ for (U8 row = 0; row < 8; row++) {
         data |= 1 << 7 - c;
     display_push(row + 1, data);
   }
-  PORTB |= _BV(PB6), _delay_us(1), PORTB &= ~_BV(PB6);
+  PORTB &= ~_BV(PB6), PORTB |= _BV(PB6);
 }
 
 @ @<Functions@>=
@@ -146,7 +141,7 @@ void display_write(U8 address, U8 data)
 {
   for (U8 n = 0; n < NUM_DEVICES; n++)
     display_push(address, data);
-  PORTB |= _BV(PB6), _delay_us(1), PORTB &= ~_BV(PB6);
+  PORTB &= ~_BV(PB6), PORTB |= _BV(PB6);
 }
 
 @ @<Char...@>=

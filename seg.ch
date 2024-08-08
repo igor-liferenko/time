@@ -5,9 +5,7 @@ NOTE: pins 1-7 of SN74HC595 must be connected to inputs of ULN2003APG,
 @x
 @<Character images@>@;
 @y
-const U8 segments[10] = { 126+1,  12+1, 182+1, 158+1, 204+1,
-                          218+1, 250+1,  14+1, 254+1, 222+1 };
-U8 glowing;
+const U8 segments[10] = { 126, 12, 182, 158, 204, 218, 250, 14, 254, 222 };
 @z
 
 @x
@@ -17,12 +15,19 @@ U8 glowing;
 @z
 
 @x
+DDRB |= _BV(PB6); /* latch */
+@y
+DDRB |= _BV(PB6); /* latch */
+DDRB |= _BV(PB5), PORTB |= _BV(PB5);
+@z
+
+@x
 @<Fill buffer@>@;
 @<Display buffer@>@;
 @y
 for (int8_t i = sizeof time - 1; i >= 0; i--) {
   if (time[i] == ':') continue;
-  SPDR = glowing ? segments[time[i] - '0'] : 0x00;
+  SPDR = PORTB & _BV(PB5) ? segments[time[i] - '0'] : 0x00;
   while (!(SPSR & _BV(SPIF))) { }
 }
 PORTB &= ~_BV(PB6), PORTB |= _BV(PB6);
@@ -38,6 +43,8 @@ void display_write(U8 address, U8 data)
 @y
 void display_write(U8 address, U8 data)
 {
-  if (address == 0x0C) glowing = data;
+  if (address != 0x0C) return;
+  if (data == 0x00) PORTB &= ~_BV(PB5);
+  else PORTB |= _BV(PB5);
 }
 @z

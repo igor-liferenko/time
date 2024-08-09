@@ -1,7 +1,3 @@
-NOTE: pins 1-7 of SN74HC595 must be connected to inputs of ULN2003APG,
-      and corresponding outputs of ULN2003APG - to segments 1-7 of a
-      digit (counting clockwise from top segment)
-
 @x
 @<Character images@>@;
 @y

@@ -311,7 +311,7 @@ PLLCSR |= _BV(PLLE);
 while (!(PLLCSR & _BV(PLOCK))) { }
 USBCON |= _BV(USBE);
 USBCON &= ~_BV(FRZCLK);
-USBCON |= _BV(OTGPADE);
+USBCON |= _BV(OTGPADE); /* VBUS */
 
 @* USB connection.
 

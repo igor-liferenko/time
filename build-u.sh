@@ -21,7 +21,7 @@ cd ../$IMG/
 mkdir -p files/etc/uci-defaults/
 cat <<'EOF' >files/etc/uci-defaults/my
 uci set wireless.radio0.disabled=0
-uci set wireless.radio0.txpower=5
+uci set wireless.radio0.txpower=10
 uci set wireless.default_radio0.ssid=SSID
 uci set wireless.default_radio0.encryption=psk2
 uci set wireless.default_radio0.key=KEY

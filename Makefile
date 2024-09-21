@@ -7,7 +7,7 @@ c:
 	@make --no-print-directory time
 
 k:
-	tie -c time.ch time.w control.ch txin.ch notification.ch mode.ch reverse.ch >/dev/null
+	tie -c time.ch time.w control.ch txin.ch notification.ch mode.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 

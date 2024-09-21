@@ -1,3 +1,5 @@
+Use this when you need pins of MAX7219 to be on the left side.
+
 @x
   for (U8 n = 0; n < NUM_DEVICES; n++) {
 @y

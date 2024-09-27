@@ -1,32 +1,17 @@
 all:
 	@echo NoOp
 
-c:
+default:
 	tie -c time.ch time.w control.ch txin.ch notification.ch mode.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 
-e:
+long-display:
 	tie -c time.ch time.w control.ch txin.ch notification.ch mode.ch long-display.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time
 
-u:
-	tie -c time.ch time.w control.ch txin.ch notification.ch mode.ch >/dev/null
-	ctangle time time
-	@make --no-print-directory time
-
-b:
-	tie -c time.ch time.w control.ch txin.ch notification.ch mode.ch >/dev/null
-	ctangle time time
-	@make --no-print-directory time
-
-k:
-	tie -c time.ch time.w control.ch txin.ch notification.ch mode.ch >/dev/null
-	ctangle time time
-	@make --no-print-directory time
-
-s:
+seg:
 	tie -c time.ch time.w control.ch txin.ch notification.ch mode.ch seg.ch >/dev/null
 	ctangle time time
 	@make --no-print-directory time

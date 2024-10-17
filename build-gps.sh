@@ -40,7 +40,6 @@ sed -i s/KEY/$2/ files/etc/uci-defaults/my
 mkdir -p files/etc/crontabs/
 cat <<'EOF' >files/etc/crontabs/root
 */10 * * * * check-dir320
-# * * * * * if ...; then alarm-on; else alarm-off; fi
 EOF
 
 mkdir -p files/bin/
@@ -58,19 +57,6 @@ for i in `cat /etc/ethers | cut -d' ' -f2`; do
 done
 EOF
 chmod +x files/bin/check-dir320
-cat <<'EOF' >files/bin/alarm-on
-#!/bin/sh
-echo timer >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
-echo 70 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_on
-echo 30 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_off
-EOF
-chmod +x files/bin/alarm-on
-cat <<'EOF' >files/bin/alarm-off
-#!/bin/sh
-echo none >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
-echo 0 >/sys/class/leds/tl-wr842n-v5:amber:wan/brightness
-EOF
-chmod +x files/bin/alarm-off
 
 make image PROFILE=tplink_tl-wr842n-v5 PACKAGES="gpsd-clients gpsd ntpd kmod-usb-acm" FILES=files/
 { RET=$?; } 2>/dev/null

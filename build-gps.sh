@@ -58,6 +58,25 @@ done
 EOF
 chmod +x files/bin/check-dir320
 
+mkdir -p files/etc/
+cat <<'EOF' >files/etc/rc.local
+cat <<'FOE' | sh &
+sleep 120
+while true; do
+  if ntpq -np | grep '^*' >/dev/null; then
+    echo none >/sys/class/leds/tl-wr842n-v5:amber:wan/trigge
+    echo 0 >/sys/class/leds/tl-wr842n-v5:amber:wan/brightness
+  else
+    echo timer >/sys/class/leds/tl-wr842n-v5:amber:wan/trigg
+    echo 100 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_on
+    echo 100 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_off
+  fi
+  sleep 60
+done
+FOE
+exit 0
+EOF
+
 make image PROFILE=tplink_tl-wr842n-v5 PACKAGES="gpsd-clients gpsd ntpd kmod-usb-acm" FILES=files/ # NOTE: led settings depend on router model
 { RET=$?; } 2>/dev/null
 { set +x; } 2>/dev/null

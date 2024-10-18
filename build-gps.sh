@@ -64,10 +64,10 @@ cat <<'FOE' | sh &
 sleep 120
 while true; do
   if ntpq -np | grep '^*' >/dev/null; then
-    echo none >/sys/class/leds/tl-wr842n-v5:amber:wan/trigge
+    echo none >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
     echo 0 >/sys/class/leds/tl-wr842n-v5:amber:wan/brightness
   else
-    echo timer >/sys/class/leds/tl-wr842n-v5:amber:wan/trigg
+    echo timer >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
     echo 100 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_on
     echo 100 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_off
   fi

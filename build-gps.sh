@@ -56,22 +56,36 @@ for i in `cat /etc/ethers | cut -d' ' -f2`; do
   ssh -y $i '[ "$(uci get system.ntp.server)" = 192.168.1.1 ] && exit; mkdir /tmp/blink || exit; sh -c "speed=50; while [ 1 ]; do stty -F /dev/ttyACM0 \$speed; sleep 1; [ \$speed = 50 ] && speed=110 || speed=50; done" &'
 done
 EOF
-chmod +x files/bin/check-dir320
+chmod +x files/bin/check-gps
+cat <<'EOF' >files/bin/check-gps
+#!/bin/sh
+while read -t 5; do
+  echo $REPLY | grep VERSION && continue;
+  echo $REPLY | grep DEVICES && continue;
+  echo $REPLY | grep WATCH && continue;
+  if [ "$alarm" = 1 ]; then
+    echo none >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
+    echo 0 >/sys/class/leds/tl-wr842n-v5:amber:wan/brightness
+    alarm=0
+  fi
+done
+if [ "$alarm" != 1 ]; then
+  echo timer >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
+  echo 100 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_on
+  echo 100 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_off
+fi
+kill $1
+EOF
+chmod +x files/bin/check-gps
 
 mkdir -p files/etc/
 cat <<'EOF' >files/etc/rc.local
 cat <<'FOE' | sh &
-sleep 120
+sleep 20
 while true; do
-  if ntpq -np | grep '^*' >/dev/null; then
-    echo none >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
-    echo 0 >/sys/class/leds/tl-wr842n-v5:amber:wan/brightness
-  else
-    echo timer >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
-    echo 100 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_on
-    echo 100 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_off
-  fi
-  sleep 60
+  gpspipe -r | check-gps `pgrep -P $$`
+  export alarm=1
+  sleep 1
 done
 FOE
 exit 0

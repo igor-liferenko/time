@@ -21,7 +21,7 @@ uci set wireless.default_radio0.encryption=psk2
 uci set wireless.default_radio0.key=KEY
 uci commit wireless
 uci set gpsd.core.enabled=1
-uci set gpsd.core.device=/dev/ttyACM0 # to see if it works, use `gpspipe -r'
+uci set gpsd.core.device=/dev/ttyACM0
 uci commit gpsd
 uci set system.ntp.enable_server=1
 uci set system.ntp.server=127.127.28.0
@@ -63,10 +63,12 @@ cat <<'EOF' >files/etc/rc.local
 cat <<'FOE' | sh &
 sleep 120
 while true; do
-  if ntpq -p | grep -q '^*'; then
+  if ntpq -p | grep -q '^*'; then # use 'gpspipe -r' when adjusting placement of device
     echo none >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
     echo 0 >/sys/class/leds/tl-wr842n-v5:amber:wan/brightness
   else
+    # this means that time signal can't be perceived by gps device - see data via 'gpspipe -r' and
+    # adjust placement of gps device until data pattern starts to contain more data
     echo timer >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
     echo 100 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_on
     echo 100 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_off

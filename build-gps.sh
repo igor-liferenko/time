@@ -63,7 +63,7 @@ cat <<'EOF' >files/etc/rc.local
 cat <<'FOE' | sh &
 sleep 120
 while true; do
-  if ntpq -p | grep -q '^*'; then # use 'gpspipe -r' when adjusting placement of device
+  if ntpq -p | grep -q '^*'; then
     echo none >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
     echo 0 >/sys/class/leds/tl-wr842n-v5:amber:wan/brightness
   else

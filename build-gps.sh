@@ -61,14 +61,16 @@ chmod +x files/bin/check-dir320
 mkdir -p files/etc/
 cat <<'EOF' >files/etc/rc.local
 cat <<'FOE' | sh &
+# If led is blinking, then the problem is one of the following:
+# 1) 'gpspipe -r' exits immediately (the reason of error is printed on terminal)
+# 2) output of 'gpspipe -r' is empty (not counting banner)
+# 3) output of 'gpspipe -r' does not contain enough data (GPS signal is too weak)
 sleep 120
 while true; do
   if ntpq -p | grep -q '^*'; then
     echo none >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
     echo 0 >/sys/class/leds/tl-wr842n-v5:amber:wan/brightness
   else
-    # this means that time signal can't be perceived by gps device - see data via 'gpspipe -r' and
-    # adjust placement of gps device until data pattern starts to contain more data
     echo timer >/sys/class/leds/tl-wr842n-v5:amber:wan/trigger
     echo 100 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_on
     echo 100 >/sys/class/leds/tl-wr842n-v5:amber:wan/delay_off

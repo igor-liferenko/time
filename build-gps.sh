@@ -45,10 +45,9 @@ EOF
 mkdir -p files/bin/
 cat <<'EOF' >files/bin/check-dir320
 #!/bin/sh
-# Setting ntp server address to gps cannot be done in build-dir320.sh (it is universal).
-# Setting ntp server address via dhcp does not work.
-# Therefore just warn if it is not set.
-# To set it, run the following on each blinking device:
+# Setting ntp server address to gps cannot be done in build-dir320.sh (build-dir320.sh is universal).
+# Therefore just warn by blinking if ntp server address is not set to gps.
+# To set ntp server address to gps, run the following on each blinking device:
 #   uci set system.ntp.server=192.168.1.1
 #   uci commit system
 #   reboot
